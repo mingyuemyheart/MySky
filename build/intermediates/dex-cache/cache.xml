@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/okhttp-3.8.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="4d060ca3190df0eda4dc13415532a12e15ca5f11">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/okhttp-3.8.1_8ced05f8f48cbf963a6b75664fb9e9eba0c8942d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/SocialSDK_QQ_Simplify.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="0872b5d9028b4abe5502fdf6808cbe328400a387">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/SocialSDK_QQ_Simplify_c570307ffe751e004518559fa4dc21a7871d12a8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng_social_shareboard.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c698121d485cc1cd502ff8fad5e4e71f72ad1e9b">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/umeng_social_shareboard_f9faba48fc077db3b074620296e60500b7f3ae82.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/SocialSDK_WeChat_Simplify.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="bb1c4e9db2e6c4b41a50bcd7f4f6f1375f783121">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/SocialSDK_WeChat_Simplify_116a20ce1a37ea50e829fe127a90e4a719c7d36e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng_social_api.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="b746609643403fd41d57014af6606db06a39fdb0">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/umeng_social_api_41119151e7600d007c90c4ebb73666668792caa3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/scene-final.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f83bea50820e42e7d186ff9650a299adab7a26ec">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/scene-final_0b192698b5a3407104044a6ab28e567e97eb7f47.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng_social_tool.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="87ef211d4ef0c257c7d040fbaa411832330eb9aa">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/umeng_social_tool_ff01981ac175484e6d8d3542172e6bfaaba43861.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/httpmime-4.1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="e70d34d98f7f7f3b2b92105b9f2fe2a7a7184461">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/httpmime-4.1.3_26a33b2f269ee4b89167a6585b6d2548335db7c5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/uk-co-senab-photoview.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="3746c6e7e5faa897fd6689bfbf19d39b9a4fc0c5">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/uk-co-senab-photoview_b59275f8eb325be8bde3c76402e7b14632867099.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/txrtmpsdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="ca03fd85885abefd0b6f9250c0bd6ef66b50a3e9">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/txrtmpsdk_68616ad1c69da659963e343e88c46fe925537190.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/AMap_Location_V3.4.1_20170629.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="ebe380d6da0d59db86ff68c843b3b8467ab26506">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/AMap_Location_V3.4.1_20170629_3fde08d87a6bbc8adf60aeeeded5286dafb1b3cd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng_shareboard_widget.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="4b1a59e4c996ee354c2db160f4b1ad3b0e94aab5">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/umeng_shareboard_widget_7f3e917c041be259804d8df1de5b813bf3dc2ed5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/zxing.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="e88c14e6e7daa0fa65172a62b54ee6a16ff4162d">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/zxing_8d8311650cad6d6856d39076573d392500b59d01.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/SocialSDK_sms.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="c3ee14771576fa59d86d12096c2f568a05ab76ab">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/SocialSDK_sms_aa46440f074a9770f66e8b2bc6c3c504c4379104.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/Android_Map3D_SDK_V5.2.1_20170630.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="031c03ab465147953d1d9282887e5df2d17768b8">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/Android_Map3D_SDK_V5.2.1_20170630_b3f2089afca728cbf2995b74d6bc91b751ddc55e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng_social_net.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="7dc09846075b535576671188dda46b968a466dd4">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/umeng_social_net_97320e34e98215c3d9cfdc4729786f65383ff8d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/okio-1.13.0_3cc4322def8b70f6bc95fb239f4dd9b4b196b5e2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/AMap_Search_V5.2.1_20170630.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="d724566d4793345f4de3654286ca47492a8b4398">
+        <dex dex="/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/pre-dexed/release/AMap_Search_V5.2.1_20170630_73ee137de0cfaaed8fc73ab37a704312c11ea178.jar" />
+    </item>
+
+</items>

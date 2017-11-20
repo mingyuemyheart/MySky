@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/res/merged/debug/raw/realm_properties",
+        "source": "/Users/shawn/AndroidStudioProjects/WeatherEye/app/src/main/res/raw/realm_properties"
+    },
+    {
+        "merged": "/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/res/merged/debug/raw/welcome.mp4",
+        "source": "/Users/shawn/AndroidStudioProjects/WeatherEye/app/src/main/res/raw/welcome.mp4"
+    },
+    {
+        "merged": "/Users/shawn/AndroidStudioProjects/WeatherEye/app/build/intermediates/res/merged/debug/raw/beep.ogg",
+        "source": "/Users/shawn/AndroidStudioProjects/WeatherEye/app/src/main/res/raw/beep.ogg"
+    }
+]
