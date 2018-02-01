@@ -1,8 +1,5 @@
 package com.cxwl.weather.eye.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,11 +11,18 @@ import android.widget.TextView;
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 设置预位置
+ */
+
 public class ForePositionAdapter extends BaseAdapter{
 	
 	private Context mContext = null;
 	private LayoutInflater mInflater = null;
-	private List<EyeDto> mArrayList = new ArrayList<EyeDto>();
+	private List<EyeDto> mArrayList = new ArrayList<>();
 	
 	private final class ViewHolder{
 		TextView tvForePosition;

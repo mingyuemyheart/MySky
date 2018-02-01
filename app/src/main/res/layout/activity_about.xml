@@ -18,7 +18,7 @@
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="3dp"
         android:text="产品简介
 \n实景天气采集软硬件解决方案: 集天气要素、图片、视频采集、存储、加工、夜彩功能于一体的实景天气软硬件整体解决方案。
 \n\n全新升级

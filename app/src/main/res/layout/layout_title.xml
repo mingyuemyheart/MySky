@@ -6,33 +6,25 @@
                 android:background="@color/title_bg"
                 android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvBlank"
-        android:layout_width="fill_parent"
-        android:layout_height="24dp"/>
-
     <RelativeLayout
         android:id="@+id/re"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:layout_below="@+id/tvBlank">
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <LinearLayout
             android:id="@+id/llBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:padding="5dp">
+            android:gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/ivBack"
-                android:layout_width="@dimen/level_1"
-                android:layout_height="@dimen/level_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
                 android:src="@drawable/eye_iv_back"/>
         </LinearLayout>
 
@@ -41,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:padding="10dp"
             android:textColor="@android:color/white"
             android:textSize="@dimen/level_3"/>
 
@@ -52,17 +45,18 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="center"
+            android:padding="10dp"
             android:textColor="@android:color/white"
             android:textSize="@dimen/level_4" />
 
         <ImageView
             android:visibility="gone"
-            android:padding="5dp"
+            android:padding="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:id="@+id/ivControl"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/eye_btn_tolist" />
     </RelativeLayout>
 

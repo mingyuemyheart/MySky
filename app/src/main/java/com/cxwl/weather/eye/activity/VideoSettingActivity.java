@@ -1,19 +1,9 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 /**
  * 视频操作
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,18 +40,34 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.ForePositionAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
-import com.cxwl.weather.eye.utils.CustomHttpClient;
 import com.cxwl.weather.eye.utils.CustomHttpClient2;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.RoundMenuView;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-@SuppressLint("SimpleDateFormat")
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class VideoSettingActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext = null;
@@ -190,7 +196,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 				if (!TextUtils.isEmpty(data.StatusUrl)) {
 					asyncQueryNetState(data.StatusUrl);
 				}
-				asyncQueryParameter("https://tqwy.tianqi.cn/tianqixy/userInfo/obtain");
+				OkHttpParameter("https://tqwy.tianqi.cn/tianqixy/userInfo/obtain");
 			}
 		}
 	}
@@ -278,124 +284,82 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 获取摄像头移动速度、亮度、饱和度、对比度、色度
 	 */
-	private void asyncQueryParameter(String requestUrl) {
-		HttpAsyncTaskParameter task = new HttpAsyncTaskParameter();
-		task.setMethod("POST");
-		task.setTimeOut(CustomHttpClient.TIME_OUT);
-		task.execute(requestUrl);
-	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskParameter extends AsyncTask<String, Void, String> {
-		private String method = "POST";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		
-		public HttpAsyncTaskParameter() {
-			transParams();
-		}
-		
-		/**
-		 * 传参数
-		 */
-		private void transParams() {
-			NameValuePair pair1 = new BasicNameValuePair("FID", data.fId);//设备id
-	        
-			nvpList.add(pair1);
-		}
-
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient.get(url[0]);
+	private void OkHttpParameter(String url) {
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("FID", data.fId);//设备id
+		RequestBody body = builder.build();
+		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				
 			}
-			return result;
-		}
 
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			if (requestResult != null) {
-				try {
-					JSONObject object = new JSONObject(requestResult);
-					if (object != null) {
-						if (!object.isNull("code")) {
-							String code  = object.getString("code");
-							if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-								if (!object.isNull("list")) {
-									JSONArray array = object.getJSONArray("list");
-									JSONObject obj = array.getJSONObject(0);
-									if (!obj.isNull("speed")) {
-										speed = obj.getInt("speed");
-										tvValue1.setText(speed+"");
-									}
-									if (!obj.isNull("brightness")) {
-										brightness = obj.getInt("brightness");
-										tvSeekBar1.setText(brightness+"");
-										seekBar1.setProgress(brightness);
-									}
-									if (!obj.isNull("contrast")) {
-										contrast = obj.getInt("contrast");
-										tvSeekBar2.setText(contrast+"");
-										seekBar2.setProgress(contrast);
-									}
-									if (!obj.isNull("saturation")) {
-										saturation = obj.getInt("saturation");
-										tvSeekBar3.setText(saturation+"");
-										seekBar3.setProgress(saturation);
-									}
-									if (!obj.isNull("chroma")) {
-										chroma = obj.getInt("chroma");
-										tvSeekBar4.setText(chroma+"");
-										seekBar4.setProgress(chroma);
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+
+				if (!response.isSuccessful()) {
+					return;
+				}
+				final String result = response.body().string();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONObject object = new JSONObject(result);
+								if (object != null) {
+									if (!object.isNull("code")) {
+										String code  = object.getString("code");
+										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+											if (!object.isNull("list")) {
+												JSONArray array = object.getJSONArray("list");
+												JSONObject obj = array.getJSONObject(0);
+												if (!obj.isNull("speed")) {
+													speed = obj.getInt("speed");
+													tvValue1.setText(speed+"");
+												}
+												if (!obj.isNull("brightness")) {
+													brightness = obj.getInt("brightness");
+													tvSeekBar1.setText(brightness+"");
+													seekBar1.setProgress(brightness);
+												}
+												if (!obj.isNull("contrast")) {
+													contrast = obj.getInt("contrast");
+													tvSeekBar2.setText(contrast+"");
+													seekBar2.setProgress(contrast);
+												}
+												if (!obj.isNull("saturation")) {
+													saturation = obj.getInt("saturation");
+													tvSeekBar3.setText(saturation+"");
+													seekBar3.setProgress(saturation);
+												}
+												if (!obj.isNull("chroma")) {
+													chroma = obj.getInt("chroma");
+													tvSeekBar4.setText(chroma+"");
+													seekBar4.setProgress(chroma);
+												}
+											}
+										}
 									}
 								}
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
 						}
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				});
 			}
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
-			this.cancel(true);
-		}
+		});
 	}
 	
 	/**
 	 * 获取内网是否可用，不可用切换位外网
 	 */
-	private void asyncQueryNetState(String requestUrl) {
+	private void asyncQueryNetState(String url) {
 		HttpAsyncTaskNetState task = new HttpAsyncTaskNetState();
 		task.setMethod("GET");
 		task.setTimeOut(CustomHttpClient2.TIME_OUT);
-		task.execute(requestUrl);
+		task.execute(url);
 	}
 	
 	/**
@@ -405,7 +369,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	 */
 	private class HttpAsyncTaskNetState extends AsyncTask<String, Void, String> {
 		private String method = "GET";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
+		private List<NameValuePair> nvpList = new ArrayList<>();
 		
 		public HttpAsyncTaskNetState() {
 		}
@@ -431,7 +395,6 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			}
 		}
 
-		@SuppressWarnings("unused")
 		private void setParams(NameValuePair nvp) {
 			nvpList.add(nvp);
 		}
@@ -441,7 +404,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 		}
 
 		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
+			CustomHttpClient2.TIME_OUT = timeOut;
 		}
 
 		/**
@@ -449,7 +412,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 		 */
 		@SuppressWarnings("unused")
 		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
+			CustomHttpClient2.shuttdownRequest();
 			this.cancel(true);
 		}
 	}
@@ -635,7 +598,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 					rotateMenu(ivMenuDir, startDegree-45, clickDegree-45);
 				}
 				startDegree = clickDegree;
-				asyncQueryPostCommand(commandBaseUrl);
+				OkHttpCommand(commandBaseUrl);
 			}
 		}
 	}
@@ -655,7 +618,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			OrederValue1 = brightness+"";
 			tvSeekBar1.setText(brightness+"");
 			orderType = "30";//亮度
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 		}
 	};
 	
@@ -675,7 +638,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			OrederValue1 = contrast+"";
 			tvSeekBar2.setText(contrast+"");
 			orderType = "32";//对比度
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 		}
 	};
 	
@@ -695,7 +658,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			OrederValue1 = saturation+"";
 			tvSeekBar3.setText(saturation+"");
 			orderType = "33";//饱和度
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 		}
 	};
 	
@@ -715,115 +678,70 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			OrederValue1 = chroma+"";
 			tvSeekBar4.setText(chroma+"");
 			orderType = "31";//色度
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 		}
 	};
 	
 	/**
-	 * 异步请求
+	 * 发送指令
 	 */
-	private void asyncQueryPostCommand(String requestUrl) {
-		HttpAsyncTaskCommand task = new HttpAsyncTaskCommand();
-		task.setMethod("POST");
-		task.setTimeOut(CustomHttpClient.TIME_OUT);
-		task.execute(requestUrl);
-	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskCommand extends AsyncTask<String, Void, String> {
-		private String method = "POST";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		
-		public HttpAsyncTaskCommand() {
-			transParams();
-		}
-		
-		/**
-		 * 传参数
-		 */
-		private void transParams() {
-			NameValuePair pair1 = new BasicNameValuePair("FID", data.fId);//设备id
-	        NameValuePair pair2 = new BasicNameValuePair("FacilityZid", data.fGroupId);//设备组id
-	        NameValuePair pair3 = new BasicNameValuePair("FacilityIP", data.fGroupIp);//设备组ip
-	        NameValuePair pair4 = new BasicNameValuePair("OrederType", orderType);//命令类型
-	        NameValuePair pair5 = new BasicNameValuePair("OrederValue1", OrederValue1);//水平速度
-	        NameValuePair pair6 = new BasicNameValuePair("OrederValue2", OrederValue1);//垂直速度
-	        
-			nvpList.add(pair1);
-			nvpList.add(pair2);
-			nvpList.add(pair3);
-			nvpList.add(pair4);
-			nvpList.add(pair5);
-			nvpList.add(pair6);
-		}
+	private void OkHttpCommand(String url) {
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("FID", data.fId);//设备id
+		builder.add("FacilityZid", data.fGroupId);//设备组id
+		builder.add("FacilityIP", data.fGroupIp);//设备组ip
+		builder.add("OrederType", orderType);//命令类型
+		builder.add("OrederValue1", OrederValue1);//水平速度
+		builder.add("OrederValue2", OrederValue1);//垂直速度
+		RequestBody body = builder.build();
+		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
 
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient.get(url[0]);
 			}
-			return result;
-		}
 
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			if (requestResult != null) {
-				try {
-					JSONObject object = new JSONObject(requestResult);
-					if (object != null) {
-						if (!object.isNull("code")) {
-							String code  = object.getString("code");
-							if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-								//success
-							}else if (TextUtils.equals(code, "701")) {
-								if (!object.isNull("reason")) {
-									String reason = object.getString("reason");
-									if (!TextUtils.isEmpty(reason)) {
-										Toast toast = Toast.makeText(mContext, reason, 2000);
-										toast.setGravity(Gravity.TOP, 0, 300);
-										toast.show();
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) {
+					return;
+				}
+				final String result = response.body().string();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONObject object = new JSONObject(result);
+								if (object != null) {
+									if (!object.isNull("code")) {
+										String code  = object.getString("code");
+										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+											//success
+										}else if (TextUtils.equals(code, "701")) {
+											if (!object.isNull("reason")) {
+												String reason = object.getString("reason");
+												if (!TextUtils.isEmpty(reason)) {
+													Toast toast = Toast.makeText(mContext, reason, Toast.LENGTH_LONG);
+													toast.setGravity(Gravity.TOP, 0, 300);
+													toast.show();
+												}
+											}
+										}
 									}
 								}
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
 						}
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				});
 			}
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
-			this.cancel(true);
-		}
+		});
 	}
-	
+
+	/**
+	 * 设置预位置
+	 */
 	private void foreDialog() {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_fore_position, null);
@@ -831,7 +749,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 		tvMessage.setText("设置预位置");
 		TextView tvNegtive = (TextView) view.findViewById(R.id.tvNegtive);
 		
-		final List<EyeDto> foreList = new ArrayList<EyeDto>();
+		final List<EyeDto> foreList = new ArrayList<>();
 		foreList.clear();
 		for (int i = 0; i < 10; i++) {
 			EyeDto dto = new EyeDto();
@@ -857,7 +775,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 					OrederValue1 = "0";
 				}
 				orderType = "25";//查看预位置
-				asyncQueryPostCommand(commandBaseUrl);
+				OkHttpCommand(commandBaseUrl);
 			}
 		});
 		
@@ -930,42 +848,42 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 		case R.id.ivMinuse2:
 			OrederValue1 = speed+"";
 			orderType = "11";//变倍小
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivPlus2:
 			OrederValue1 = speed+"";
 			orderType = "10";//变倍大
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivMinuse3:
 			OrederValue1 = speed+"";
 			orderType = "14";//聚焦近
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivPlus3:
 			OrederValue1 = speed+"";
 			orderType = "13";//聚焦远
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivMinuse4:
 			OrederValue1 = speed+"";
 			orderType = "18";//关闭光圈
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivPlus4:
 			OrederValue1 = speed+"";
 			orderType = "17";//打开光圈
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivMinuse5:
 			OrederValue1 = speed+"";
 			orderType = "20";//关闭雨刷
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ivPlus5:
 			OrederValue1 = speed+"";
 			orderType = "19";//打开雨刷
-			asyncQueryPostCommand(commandBaseUrl);
+			OkHttpCommand(commandBaseUrl);
 			break;
 		case R.id.ll8://设置预位置
 			foreDialog();

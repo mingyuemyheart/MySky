@@ -1,4 +1,4 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cxwl.weather.eye.common.CONST;
+import com.cxwl.weather.eye.R;
 
 /**
  * 个人信息

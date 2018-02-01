@@ -1,18 +1,8 @@
-package com.cxwl.weather.eye;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+package com.cxwl.weather.eye.activity;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -25,12 +15,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.fragment.SelectWeatherFragment;
 import com.cxwl.weather.eye.utils.CommonUtil;
-import com.cxwl.weather.eye.utils.CustomHttpClient;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.MainViewPager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 数据采集
@@ -46,11 +54,11 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 	private ImageView ivBack = null;
 	private EyeDto data = null;
 	private TextView tvTemp, tvHumidity, tvRain, tvRainLevel, tvQuality, tvWindSpeed, tvWindDir, tvPressure, tvUltraviolet;
-	private List<EyeDto> weatherList = new ArrayList<EyeDto>();
+	private List<EyeDto> weatherList = new ArrayList<>();
 	private TextView tvBar1, tvBar2, tvBar3, tvBar4, tvBar5, tvBar6, tvBar7, tvBar8;
 	private MainViewPager viewPager = null;
 	private MyPagerAdapter pagerAdapter = null;
-	private List<Fragment> fragments = new ArrayList<Fragment>();
+	private List<Fragment> fragments = new ArrayList<>();
 	private LinearLayout llContent = null;
 	
 	@Override
@@ -98,14 +106,13 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 		
 		data = getIntent().getExtras().getParcelable("data");
 		if (!TextUtils.isEmpty(data.fNumber)) {
-			asyncQueryWeather("https://tqwy.tianqi.cn/tianqixy/userInfo/tqys", data.fNumber);
+			OkHttpWeather("https://tqwy.tianqi.cn/tianqixy/userInfo/tqys", data.fNumber);
 		}
 	}
 	
 	/**
 	 * 初始化viewPager
 	 */
-	@SuppressWarnings("unchecked")
 	private void initViewPager(List<EyeDto> weatherList) {
 		for (int i = 0; i < 8; i++) {
 			Fragment fragment = new SelectWeatherFragment();
@@ -230,175 +237,131 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 	}
 	
 	/**
-	 * 异步请求
+	 * 获取天气要素数据
 	 */
-	private void asyncQueryWeather(String requestUrl, String fNumber) {
-		HttpAsyncTaskWeather task = new HttpAsyncTaskWeather(fNumber);
-		task.setMethod("POST");
-		task.setTimeOut(CustomHttpClient.TIME_OUT);
-		task.execute(requestUrl);
-	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskWeather extends AsyncTask<String, Void, String> {
-		private String method = "POST";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		private String fNumber;
-		
-		public HttpAsyncTaskWeather(String fNumber) {
-			this.fNumber = fNumber;
-			transParams();
-		}
-		
-		/**
-		 * 传参数
-		 */
-		private void transParams() {
-			NameValuePair pair1 = new BasicNameValuePair("FacilityNumber", fNumber);
-			nvpList.add(pair1);
-		}
+	private void OkHttpWeather(String url, String fNumber) {
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("FacilityNumber", fNumber);
+		RequestBody body = builder.build();
+		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
 
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient.get(url[0]);
 			}
-			return result;
-		}
 
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			cancelDialog();
-			if (requestResult != null) {
-				try {
-					JSONObject object = new JSONObject(requestResult);
-					if (object != null) {
-						if (!object.isNull("code")) {
-							String code  = object.getString("code");
-							if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-								if (!object.isNull("at")) {//实况
-									JSONObject atObj = object.getJSONObject("at");
-									if (!atObj.isNull("temperature")) {
-										tvTemp.setText(atObj.getString("temperature")+"");
-									}
-									if (!atObj.isNull("humidity")) {
-										tvHumidity.setText(atObj.getString("humidity")+"");
-									}
-									if (!atObj.isNull("precipitation")) {
-										tvRain.setText(atObj.getString("precipitation")+"");
-									}
-									if (!atObj.isNull("precipitationLevel")) {
-										tvRainLevel.setText(atObj.getString("precipitationLevel")+"");
-									}
-									if (!atObj.isNull("quality")) {
-										tvQuality.setText(atObj.getString("quality")+"");
-									}
-									if (!atObj.isNull("wind")) {
-										tvWindSpeed.setText(atObj.getString("wind")+"");
-									}
-									if (!atObj.isNull("direction")) {
-										String windDir = atObj.getString("direction");
-										if (!TextUtils.isEmpty(windDir)) {
-											tvWindDir.setText(CommonUtil.getWindDir(windDir));
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) {
+					return;
+				}
+				final String result = response.body().string();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONObject object = new JSONObject(result);
+								if (object != null) {
+									if (!object.isNull("code")) {
+										String code  = object.getString("code");
+										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+											if (!object.isNull("at")) {//实况
+												JSONObject atObj = object.getJSONObject("at");
+												if (!atObj.isNull("temperature")) {
+													tvTemp.setText(atObj.getString("temperature")+"");
+												}
+												if (!atObj.isNull("humidity")) {
+													tvHumidity.setText(atObj.getString("humidity")+"");
+												}
+												if (!atObj.isNull("precipitation")) {
+													tvRain.setText(atObj.getString("precipitation")+"");
+												}
+												if (!atObj.isNull("precipitationLevel")) {
+													tvRainLevel.setText(atObj.getString("precipitationLevel")+"");
+												}
+												if (!atObj.isNull("quality")) {
+													tvQuality.setText(atObj.getString("quality")+"");
+												}
+												if (!atObj.isNull("wind")) {
+													tvWindSpeed.setText(atObj.getString("wind")+"");
+												}
+												if (!atObj.isNull("direction")) {
+													String windDir = atObj.getString("direction");
+													if (!TextUtils.isEmpty(windDir)) {
+														tvWindDir.setText(CommonUtil.getWindDir(windDir));
+													}
+												}
+												if (!atObj.isNull("pressure")) {
+													tvPressure.setText(atObj.getString("pressure")+"");
+												}
+												if (!atObj.isNull("Ultraviolet")) {
+													tvUltraviolet.setText(atObj.getString("Ultraviolet")+"");
+												}
+											}
+
+											if (!object.isNull("list")) {
+												weatherList.clear();
+												JSONArray array = object.getJSONArray("list");
+												for (int i = 0; i < array.length(); i++) {
+													EyeDto dto = new EyeDto();
+													JSONObject itemObj = array.getJSONObject(i);
+													if (!itemObj.isNull("Datetime")) {
+														dto.time = itemObj.getString("Datetime");
+													}
+													if (!itemObj.isNull("temperature")) {
+														dto.temperature = Float.parseFloat(itemObj.getString("temperature"));
+													}
+													if (!itemObj.isNull("humidity")) {
+														dto.humidity = Float.parseFloat(itemObj.getString("humidity"));
+													}
+													if (!itemObj.isNull("precipitation")) {
+														dto.precipitation = Float.parseFloat(itemObj.getString("precipitation"));
+													}
+													if (!itemObj.isNull("precipitationLevel")) {
+														dto.precipitationLevel = Float.parseFloat(itemObj.getString("precipitationLevel"));
+													}
+													if (!itemObj.isNull("quality")) {
+														dto.quality = Float.parseFloat(itemObj.getString("quality"));
+													}
+													if (!itemObj.isNull("wind")) {
+														dto.windSpeed = Float.parseFloat(itemObj.getString("wind"));
+													}
+													if (!itemObj.isNull("direction")) {
+														dto.windDir = itemObj.getString("direction");
+													}
+													if (!itemObj.isNull("pressure")) {
+														dto.pressure = Float.parseFloat(itemObj.getString("pressure"));
+													}
+													if (!itemObj.isNull("Ultraviolet")) {
+														dto.ultraviolet = Float.parseFloat(itemObj.getString("Ultraviolet"));
+													}
+													weatherList.add(dto);
+												}
+
+												initViewPager(weatherList);
+											}
+
+											llContent.setVisibility(View.VISIBLE);
+										}else {
+											//失败
+											if (!object.isNull("reason")) {
+												String reason = object.getString("reason");
+												if (!TextUtils.isEmpty(reason)) {
+													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+												}
+											}
 										}
-									}
-									if (!atObj.isNull("pressure")) {
-										tvPressure.setText(atObj.getString("pressure")+"");
-									}
-									if (!atObj.isNull("Ultraviolet")) {
-										tvUltraviolet.setText(atObj.getString("Ultraviolet")+"");
 									}
 								}
-								
-								if (!object.isNull("list")) {
-									weatherList.clear();
-									JSONArray array = object.getJSONArray("list");
-									for (int i = 0; i < array.length(); i++) {
-										EyeDto dto = new EyeDto();
-										JSONObject itemObj = array.getJSONObject(i);
-										if (!itemObj.isNull("Datetime")) {
-											dto.time = itemObj.getString("Datetime");
-										}
-										if (!itemObj.isNull("temperature")) {
-											dto.temperature = Float.parseFloat(itemObj.getString("temperature"));
-										}
-										if (!itemObj.isNull("humidity")) {
-											dto.humidity = Float.parseFloat(itemObj.getString("humidity"));
-										}
-										if (!itemObj.isNull("precipitation")) {
-											dto.precipitation = Float.parseFloat(itemObj.getString("precipitation"));
-										}
-										if (!itemObj.isNull("precipitationLevel")) {
-											dto.precipitationLevel = Float.parseFloat(itemObj.getString("precipitationLevel"));
-										}
-										if (!itemObj.isNull("quality")) {
-											dto.quality = Float.parseFloat(itemObj.getString("quality"));
-										}
-										if (!itemObj.isNull("wind")) {
-											dto.windSpeed = Float.parseFloat(itemObj.getString("wind"));
-										}
-										if (!itemObj.isNull("direction")) {
-											dto.windDir = itemObj.getString("direction");
-										}
-										if (!itemObj.isNull("pressure")) {
-											dto.pressure = Float.parseFloat(itemObj.getString("pressure"));
-										}
-										if (!itemObj.isNull("Ultraviolet")) {
-											dto.ultraviolet = Float.parseFloat(itemObj.getString("Ultraviolet"));
-										}
-										weatherList.add(dto);
-									}
-									
-									initViewPager(weatherList);
-								}
-								
-								llContent.setVisibility(View.VISIBLE);
-							}else {
-								//失败
-								if (!object.isNull("reason")) {
-									String reason = object.getString("reason");
-									if (!TextUtils.isEmpty(reason)) {
-										Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
-									}
-								}
+								cancelDialog();
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
 						}
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				});
 			}
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
-			this.cancel(true);
-		}
+		});
 	}
 	
 	@Override

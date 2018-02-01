@@ -1,16 +1,7 @@
-package com.cxwl.weather.eye;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
+package com.cxwl.weather.eye.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,7 +18,20 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationClientOption.AMapLocationMode;
 import com.amap.api.location.AMapLocationListener;
-import com.cxwl.weather.eye.utils.CustomHttpClient;
+import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 摄像头参数录入
@@ -99,7 +103,6 @@ public class WriteParametersActivity extends BaseActivity implements OnClickList
         mLocationClient.startLocation();//启动定位
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onLocationChanged(AMapLocation amapLocation) {
 		cancelDialog();
@@ -123,128 +126,83 @@ public class WriteParametersActivity extends BaseActivity implements OnClickList
 	/**
 	 * post序列号给后台确认信息
 	 */
-	private void asyncPostSeriesNumber(String requestUrl, String seriesNo) {
-		HttpAsyncTaskSeries task = new HttpAsyncTaskSeries(seriesNo);
-		task.setMethod("POST");
-		task.setTimeOut(CustomHttpClient.TIME_OUT);
-		task.execute(requestUrl);
-	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskSeries extends AsyncTask<String, Void, String> {
-		private String method = "POST";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		private String seriesNo = null;
-		
-		public HttpAsyncTaskSeries(String seriesNo) {
-			this.seriesNo = seriesNo;
-			transParams();
-		}
-		
-		/**
-		 * 传参数
-		 */
-		private void transParams() {
-			NameValuePair pair1 = new BasicNameValuePair("FacilityNumber", seriesNo);
-	        
-			nvpList.add(pair1);
-		}
+	private void OkHttpSeriesNo(String url, String seriesNo) {
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("FacilityNumber", seriesNo);
+		RequestBody body = builder.build();
+		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
 
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient.get(url[0]);
 			}
-			return result;
-		}
 
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			cancelDialog();
-			if (requestResult != null) {
-				try {
-					JSONObject object = new JSONObject(requestResult);
-					if (object != null) {
-						if (!object.isNull("code")) {
-							String code  = object.getString("code");
-							if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-								if (!object.isNull("list")) {
-									JSONObject obj = new JSONObject(object.getString("list"));
-									if (!obj.isNull("Longitude")) {
-										tvLng.setText(obj.getString("Longitude"));
-									}
-									
-									if (!obj.isNull("Dimensionality")) {
-										tvLat.setText(obj.getString("Dimensionality"));
-									}
-									
-									if (!obj.isNull("Province")) {
-										etPro.setText(obj.getString("Province"));
-										if (!TextUtils.isEmpty(etPro.getText().toString())) {
-											etPro.setSelection(etPro.getText().toString().length());
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) {
+					return;
+				}
+				final String result = response.body().string();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONObject object = new JSONObject(result);
+								if (object != null) {
+									if (!object.isNull("code")) {
+										String code  = object.getString("code");
+										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+											if (!object.isNull("list")) {
+												JSONObject obj = new JSONObject(object.getString("list"));
+												if (!obj.isNull("Longitude")) {
+													tvLng.setText(obj.getString("Longitude"));
+												}
+
+												if (!obj.isNull("Dimensionality")) {
+													tvLat.setText(obj.getString("Dimensionality"));
+												}
+
+												if (!obj.isNull("Province")) {
+													etPro.setText(obj.getString("Province"));
+													if (!TextUtils.isEmpty(etPro.getText().toString())) {
+														etPro.setSelection(etPro.getText().toString().length());
+													}
+												}
+
+												if (!obj.isNull("City")) {
+													etCity.setText(obj.getString("City"));
+												}
+
+												if (!obj.isNull("County")) {
+													etArea.setText(obj.getString("County"));
+												}
+
+												if (!obj.isNull("Location")) {
+													etAddr.setText(obj.getString("Location"));
+												}
+
+												scrollView.setVisibility(View.VISIBLE);
+											}
+										}else {
+											//失败
+											if (!object.isNull("reason")) {
+												String reason = object.getString("reason");
+												if (!TextUtils.isEmpty(reason)) {
+													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+												}
+											}
 										}
 									}
-									
-									if (!obj.isNull("City")) {
-										etCity.setText(obj.getString("City"));
-									}
-									
-									if (!obj.isNull("County")) {
-										etArea.setText(obj.getString("County"));
-									}
-									
-									if (!obj.isNull("Location")) {
-										etAddr.setText(obj.getString("Location"));
-									}
-									
-									scrollView.setVisibility(View.VISIBLE);
 								}
-							}else {
-								//失败
-								if (!object.isNull("reason")) {
-									String reason = object.getString("reason");
-									if (!TextUtils.isEmpty(reason)) {
-										Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
-									}
-								}
+								cancelDialog();
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
 						}
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				});
 			}
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
-			this.cancel(true);
-		}
+		});
 	}
 	
 	/**
@@ -281,92 +239,42 @@ public class WriteParametersActivity extends BaseActivity implements OnClickList
 	/**
 	 * post上传信息给后台
 	 */
-	private void asyncPostInfo(String requestUrl) {
-		HttpAsyncTaskInfo task = new HttpAsyncTaskInfo();
-		task.setMethod("POST");
-		task.setTimeOut(CustomHttpClient.TIME_OUT);
-		task.execute(requestUrl);
+	private void OkHttpInfo(String url) {
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("FacilityNumber", tvSeries.getText().toString());
+		builder.add("Longitude", tvLng.getText().toString());
+		builder.add("Dimensionality", tvLat.getText().toString());
+		builder.add("Province", etPro.getText().toString());
+		builder.add("City", etCity.getText().toString());
+		builder.add("County", etArea.getText().toString());
+		builder.add("Location", etAddr.getText().toString());
+		builder.add("FacilityIP", etIp.getText().toString());
+		RequestBody body = builder.build();
+		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) {
+					return;
+				}
+				final String result = response.body().string();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						cancelDialog();
+						Intent intent = new Intent(mContext, ReadParametersActivity.class);
+						intent.putExtra("result", result);
+						startActivity(intent);
+					}
+				});
+			}
+		});
 	}
 	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskInfo extends AsyncTask<String, Void, String> {
-		private String method = "POST";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		
-		public HttpAsyncTaskInfo() {
-			transParams();
-		}
-		
-		/**
-		 * 传参数
-		 */
-		private void transParams() {
-			NameValuePair pair1 = new BasicNameValuePair("FacilityNumber", tvSeries.getText().toString());
-			NameValuePair pair2 = new BasicNameValuePair("Longitude", tvLng.getText().toString());
-			NameValuePair pair3 = new BasicNameValuePair("Dimensionality", tvLat.getText().toString());
-			NameValuePair pair4 = new BasicNameValuePair("Province", etPro.getText().toString());
-			NameValuePair pair5 = new BasicNameValuePair("City", etCity.getText().toString());
-			NameValuePair pair6 = new BasicNameValuePair("County", etArea.getText().toString());
-			NameValuePair pair7 = new BasicNameValuePair("Location", etAddr.getText().toString());
-			NameValuePair pair8 = new BasicNameValuePair("FacilityIP", etIp.getText().toString());
-	        
-			nvpList.add(pair1);
-			nvpList.add(pair2);
-			nvpList.add(pair3);
-			nvpList.add(pair4);
-			nvpList.add(pair5);
-			nvpList.add(pair6);
-			nvpList.add(pair7);
-			nvpList.add(pair8);
-		}
-
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient.get(url[0]);
-			}
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			cancelDialog();
-			Intent intent = new Intent(mContext, ReadParametersActivity.class);
-			intent.putExtra("result", requestResult);
-			startActivity(intent);
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
-			this.cancel(true);
-		}
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -383,7 +291,7 @@ public class WriteParametersActivity extends BaseActivity implements OnClickList
 		case R.id.tvPost:
 			if (checkInfo()) {
 				showDialog();
-				asyncPostInfo("https://tqwy.tianqi.cn/tianqixy/userInfo/faciliupapp");
+				OkHttpInfo("https://tqwy.tianqi.cn/tianqixy/userInfo/faciliupapp");
 			}
 			break;
 
@@ -404,7 +312,7 @@ public class WriteParametersActivity extends BaseActivity implements OnClickList
         			if (!TextUtils.isEmpty(result)) {
         				tvSeries.setText(result);
         				showDialog();
-        				asyncPostSeriesNumber("https://tqwy.tianqi.cn/tianqixy/userInfo/faciliisnull", result);
+						OkHttpSeriesNo("https://tqwy.tianqi.cn/tianqixy/userInfo/faciliisnull", result);
         			}
         		}
         		break;

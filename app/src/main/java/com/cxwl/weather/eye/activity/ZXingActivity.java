@@ -1,4 +1,4 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 /**
  * zxing扫描二维码
@@ -22,6 +22,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import com.cxwl.weather.eye.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mining.app.zxing.camera.CameraManager;

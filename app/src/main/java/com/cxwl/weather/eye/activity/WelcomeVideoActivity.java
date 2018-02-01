@@ -1,4 +1,4 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.view.MyVideoView;
 
 /**

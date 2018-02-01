@@ -1,11 +1,5 @@
 package com.cxwl.weather.eye.view;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,17 +18,21 @@ import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.CommonUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 风向风速曲线
  * @author shawn_sun
  *
  */
 
-@SuppressLint("SimpleDateFormat")
 public class WindView extends View{
 	
 	private Context mContext = null;
-	private List<EyeDto> tempList = new ArrayList<EyeDto>();
+	private List<EyeDto> tempList = new ArrayList<>();
 	private float maxValue = 0;
 	private float minValue = 0;
 	private Paint lineP = null;//画线画笔
@@ -42,6 +40,8 @@ public class WindView extends View{
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
 	private Bitmap bitmap = null;//风向标
+	private float totalDivider = 0;
+	private float itemDivider = 1;
 	
 	public WindView(Context context) {
 		super(context);
@@ -101,8 +101,7 @@ public class WindView extends View{
 				maxValue = 5;
 				minValue = 0;
 			}else {
-				int totalDivider = (int) Math.ceil(maxValue);
-				int itemDivider = 1;
+				totalDivider = maxValue + minValue;
 				if (totalDivider > 0 && totalDivider <= 5) {
 					itemDivider = 1;
 				}else if (totalDivider > 5 && totalDivider <= 10) {
@@ -114,16 +113,13 @@ public class WindView extends View{
 				}else {
 					itemDivider = 5;
 				}
-				maxValue = (float) (Math.ceil(maxValue)+itemDivider);
-				minValue = (float) (Math.floor(minValue)-itemDivider);
-				if (minValue <= 0) {
-					minValue = 0;
-				}
+				maxValue = maxValue + itemDivider - (maxValue % itemDivider) + itemDivider/2;
+				minValue = 0;
 			}
+			totalDivider = maxValue + minValue;
 		}
 	}
 	
-	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -135,11 +131,10 @@ public class WindView extends View{
 		float w = canvas.getWidth();
 		float h = canvas.getHeight();
 		float chartW = w-CommonUtil.dip2px(mContext, 50);
-		float chartH = h-CommonUtil.dip2px(mContext, 50);
+		float chartH = h-CommonUtil.dip2px(mContext, 30);
 		float leftMargin = CommonUtil.dip2px(mContext, 30);
 		float rightMargin = CommonUtil.dip2px(mContext, 20);
-		float topMargin = CommonUtil.dip2px(mContext, 25);
-		float bottomMargin = CommonUtil.dip2px(mContext, 25);
+		float bottomMargin = CommonUtil.dip2px(mContext, 30);
 
 		int size = tempList.size();
 		float columnWidth = chartW/(size-1);
@@ -150,27 +145,12 @@ public class WindView extends View{
 			dto.y = 0;
 			
 			float value = dto.windSpeed;
-			dto.y = chartH - chartH*value/maxValue + topMargin;
+			dto.y = chartH*(maxValue-value)/totalDivider;
 			tempList.set(i, dto);
 		}
 		
-		//绘制刻度线，每间隔为20
-		int totalDivider = (int) Math.ceil(maxValue);
-		int itemDivider = 1;
-		if (totalDivider > 0 && totalDivider <= 5) {
-			itemDivider = 1;
-		}else if (totalDivider > 5 && totalDivider <= 10) {
-			itemDivider = 2;
-		}else if (totalDivider > 10 && totalDivider <= 15) {
-			itemDivider = 3;
-		}else if (totalDivider > 15 && totalDivider <= 20) {
-			itemDivider = 4;
-		}else {
-			itemDivider = 5;
-		}
 		for (int i = (int) minValue; i <= totalDivider; i+=itemDivider) {
-			int value = i;
-			float dividerY = chartH - chartH*value/maxValue + topMargin;
+			float dividerY = chartH*(maxValue-i)/totalDivider;
 			lineP.setColor(0xff999999);
 			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 			canvas.drawLine(leftMargin, dividerY, w-rightMargin, dividerY, lineP);
@@ -189,19 +169,13 @@ public class WindView extends View{
 				rectPath.lineTo(dto.x+columnWidth, h-bottomMargin);
 				rectPath.lineTo(dto.x, h-bottomMargin);
 				rectPath.close();
-				lineP.setColor(0xffe73540);
+				lineP.setColor(0x90e73540);
 				lineP.setStyle(Style.FILL_AND_STROKE);
-				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1));
+				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 				if (dto.windSpeed > 0) {
 					canvas.drawPath(rectPath, lineP);
 				}
 			}
-			
-			//绘制纵向线
-			lineP.setColor(0xc0ffffff);
-			lineP.setStyle(Style.STROKE);
-			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
-			canvas.drawLine(dto.x, dto.y, dto.x, h-bottomMargin, lineP);
 			
 			//绘制风向标
 			Matrix matrix = new Matrix();

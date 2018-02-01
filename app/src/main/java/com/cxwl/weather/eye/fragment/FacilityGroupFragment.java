@@ -1,17 +1,7 @@
 package com.cxwl.weather.eye.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,14 +13,29 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.VideoListActivity;
+import com.cxwl.weather.eye.activity.VideoListActivity;
 import com.cxwl.weather.eye.adapter.FacilityGroupAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
-import com.cxwl.weather.eye.utils.CustomHttpClient;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.RefreshLayout;
 import com.cxwl.weather.eye.view.RefreshLayout.OnLoadListener;
 import com.cxwl.weather.eye.view.RefreshLayout.OnRefreshListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 天气网眼设备组
@@ -42,7 +47,7 @@ public class FacilityGroupFragment extends Fragment {
 	
 	private ListView listView = null;
 	private FacilityGroupAdapter groupAdapter = null;
-	private List<EyeDto> groupList = new ArrayList<EyeDto>();
+	private List<EyeDto> groupList = new ArrayList<>();
 	private int page = 1;
 	private int pageCount = 20;
 	private RefreshLayout refreshLayout = null;//下拉刷新布局
@@ -79,7 +84,7 @@ public class FacilityGroupFragment extends Fragment {
 			@Override
 			public void onLoad() {
 				page++;
-				asyncQueryGroup("https://tqwy.tianqi.cn/tianqixy/userInfo/selectlist");
+				OkHttList("https://tqwy.tianqi.cn/tianqixy/userInfo/selectlist");
 			}
 		});
 	}
@@ -87,7 +92,7 @@ public class FacilityGroupFragment extends Fragment {
 	private void refresh() {
 		page = 1;
 		groupList.clear();
-		asyncQueryGroup("https://tqwy.tianqi.cn/tianqixy/userInfo/selectlist");
+		OkHttList("https://tqwy.tianqi.cn/tianqixy/userInfo/selectlist");
 	}
 	
 	private void initWidget() {
@@ -113,115 +118,71 @@ public class FacilityGroupFragment extends Fragment {
 	/**
 	 * 获取设备组
 	 */
-	private void asyncQueryGroup(String requestUrl) {
-		HttpAsyncTaskGroup task = new HttpAsyncTaskGroup();
-		task.setMethod("POST");
-		task.setTimeOut(CustomHttpClient.TIME_OUT);
-		task.execute(requestUrl);
-	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskGroup extends AsyncTask<String, Void, String> {
-		private String method = "POST";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		
-		public HttpAsyncTaskGroup() {
-			transParams();
-		}
-		
-		/**
-		 * 传参数
-		 */
-		private void transParams() {
-			NameValuePair pair1 = new BasicNameValuePair("intpage", page+"");
-	        NameValuePair pair2 = new BasicNameValuePair("pagerow", pageCount+"");
-	        
-			nvpList.add(pair1);
-			nvpList.add(pair2);
-		}
-		
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient.get(url[0]);
-			}
-			return result;
-		}
+	private void OkHttList(String url) {
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("intpage", page+"");
+		builder.add("pagerow", pageCount+"");
+		RequestBody body = builder.build();
+		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
 
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			refreshLayout.setRefreshing(false);
-			refreshLayout.setLoading(false);
-			if (requestResult != null) {
-				try {
-					JSONObject object = new JSONObject(requestResult);
-					if (object != null) {
-						if (!object.isNull("code")) {
-							String code  = object.getString("code");
-							if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-								if (!object.isNull("list")) {
-									JSONArray array = new JSONArray(object.getString("list"));
-									for (int i = 0; i < array.length(); i++) {
-										JSONObject itemObj = array.getJSONObject(i);
-										EyeDto dto = new EyeDto();
-										if (!itemObj.isNull("fzid")) {
-											dto.fGroupId = itemObj.getString("fzid");
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) {
+					return;
+				}
+				final String result = response.body().string();
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONObject object = new JSONObject(result);
+								if (object != null) {
+									if (!object.isNull("code")) {
+										String code  = object.getString("code");
+										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+											if (!object.isNull("list")) {
+												JSONArray array = new JSONArray(object.getString("list"));
+												for (int i = 0; i < array.length(); i++) {
+													JSONObject itemObj = array.getJSONObject(i);
+													EyeDto dto = new EyeDto();
+													if (!itemObj.isNull("fzid")) {
+														dto.fGroupId = itemObj.getString("fzid");
+													}
+													if (!itemObj.isNull("fzname")) {
+														dto.fGroupName = itemObj.getString("fzname");
+													}
+													groupList.add(dto);
+												}
+												if (groupAdapter != null) {
+													groupAdapter.notifyDataSetChanged();
+												}
+											}
+										}else {
+											//失败
+											if (!object.isNull("reason")) {
+												String reason = object.getString("reason");
+												if (!TextUtils.isEmpty(reason)) {
+													Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
+												}
+											}
 										}
-										if (!itemObj.isNull("fzname")) {
-											dto.fGroupName = itemObj.getString("fzname");
-										}
-										groupList.add(dto);
-									}
-									if (groupAdapter != null) {
-										groupAdapter.notifyDataSetChanged();
 									}
 								}
-							}else {
-								//失败
-								if (!object.isNull("reason")) {
-									String reason = object.getString("reason");
-									if (!TextUtils.isEmpty(reason)) {
-										Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
-									}
-								}
+								refreshLayout.setRefreshing(false);
+								refreshLayout.setLoading(false);
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
 						}
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				});
 			}
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
-			this.cancel(true);
-		}
+		});
 	}
-
+	
 }

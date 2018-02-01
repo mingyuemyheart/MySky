@@ -1,10 +1,16 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.cxwl.weather.eye.R;
+
+/**
+ * 关于我们
+ */
 
 public class AboutActivity extends BaseActivity implements OnClickListener{
 	

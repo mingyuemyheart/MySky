@@ -11,11 +11,15 @@ android {
 
     defaultConfig {
         applicationId "com.cxwl.weather.eye"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 22
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'armeabi', 'x86'
+        }
     }
 
     buildTypes {
@@ -23,6 +27,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+
+    //打包，自动追加版本号、名称
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.each {
+                output -> output.outputFile = new File(output.outputFile.parent, "WeatherEye" + "_" + defaultConfig.versionCode + "_V" + defaultConfig.versionName + "_" + buildType.name + ".apk");
+            }
     }
 }
 
@@ -33,11 +45,6 @@ dependencies {
     compile files('libs/txrtmpsdk.jar')
     compile files('libs/uk-co-senab-photoview.jar')
     compile files('libs/zxing.jar')
-    compile files('libs/okhttp-3.8.1.jar')
-    compile files('libs/okio-1.13.0.jar')
-    compile files('libs/AMap_Location_V3.4.1_20170629.jar')
-    compile files('libs/AMap_Search_V5.2.1_20170630.jar')
-    compile files('libs/Android_Map3D_SDK_V5.2.1_20170630.jar')
     compile files('libs/SocialSDK_QQ_Simplify.jar')
     compile files('libs/SocialSDK_sms.jar')
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
@@ -46,4 +53,7 @@ dependencies {
     compile files('libs/umeng_social_net.jar')
     compile files('libs/umeng_social_shareboard.jar')
     compile files('libs/umeng_social_tool.jar')
+    compile files('libs/okhttp-3.8.1.jar')
+    compile files('libs/okio-1.13.0.jar')
+    compile files('libs/AMap3DMap_5.7.0_AMapSearch_5.7.0_AMapLocation_3.7.0_20171229.jar')
 }

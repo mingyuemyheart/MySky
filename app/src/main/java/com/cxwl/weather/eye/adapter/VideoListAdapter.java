@@ -21,12 +21,15 @@ import android.widget.TextView;
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
 
-@SuppressLint("SimpleDateFormat")
+/**
+ * 视频列表
+ */
+
 public class VideoListAdapter extends BaseAdapter{
 	
 	private Context mContext = null;
 	private LayoutInflater mInflater = null;
-	private List<EyeDto> mArrayList = new ArrayList<EyeDto>();
+	private List<EyeDto> mArrayList = new ArrayList<>();
 	private int width = 0;
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmm");
@@ -39,7 +42,6 @@ public class VideoListAdapter extends BaseAdapter{
 	
 	private ViewHolder mHolder = null;
 	
-	@SuppressWarnings("deprecation")
 	public VideoListAdapter(Context context, List<EyeDto> mArrayList) {
 		mContext = context;
 		this.mArrayList = mArrayList;

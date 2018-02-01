@@ -41,16 +41,16 @@
         android:allowBackup="true"
         android:icon="@drawable/eye_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@style/AppTheme" >
 
         <!-- 自动更新下载完成广播 -->
         <receiver android:name="com.cxwl.weather.eye.utils.AutoUpdateBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-                <!-- <action android:name="android.intent.action.PACKAGE_INSTALL" /> -->
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
             </intent-filter>
         </receiver>
-        
+
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
         
@@ -60,7 +60,8 @@
             android:value="125c80dec4c619ff00f18c9e32724b3b" />
         
         <activity
-            android:name="com.cxwl.weather.eye.WelcomeActivity" >
+            android:name="com.cxwl.weather.eye.activity.WelcomeActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,85 +70,85 @@
         </activity>
         
         <activity 
-            android:name="com.cxwl.weather.eye.WelcomeVideoActivity"
+            android:name="com.cxwl.weather.eye.activity.WelcomeVideoActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.LoginActivity"
+            android:name="com.cxwl.weather.eye.activity.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.WeatherEyeActivity"
+            android:name="com.cxwl.weather.eye.activity.WeatherEyeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.VideoListActivity"
+            android:name="com.cxwl.weather.eye.activity.VideoListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.VideoDetailActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="sensor"
-            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize" />
-        
-        <activity 
-            android:name="com.cxwl.weather.eye.VideoSettingActivity"
+            android:name="com.cxwl.weather.eye.activity.VideoDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensor"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.PictureWallActivity"
+            android:name="com.cxwl.weather.eye.activity.VideoSettingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensor"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize" />
+        
+        <activity 
+            android:name="com.cxwl.weather.eye.activity.PictureWallActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.SettingActivity"
+            android:name="com.cxwl.weather.eye.activity.SettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.AboutActivity"
+            android:name="com.cxwl.weather.eye.activity.AboutActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.FacilityInfoActivity"
+            android:name="com.cxwl.weather.eye.activity.FacilityInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.PersonInfoActivity"
+            android:name="com.cxwl.weather.eye.activity.PersonInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.ModifyPersonInfoActivity"
+            android:name="com.cxwl.weather.eye.activity.ModifyPersonInfoActivity"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.ZXingActivity"
+            android:name="com.cxwl.weather.eye.activity.ZXingActivity"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.WriteParametersActivity"
+            android:name="com.cxwl.weather.eye.activity.WriteParametersActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.ReadParametersActivity"
+            android:name="com.cxwl.weather.eye.activity.ReadParametersActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.SelectWeatherActivity"
+            android:name="com.cxwl.weather.eye.activity.SelectWeatherActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         

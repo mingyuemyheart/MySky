@@ -24,7 +24,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.ZXingActivity;
+import com.cxwl.weather.eye.activity.ZXingActivity;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;

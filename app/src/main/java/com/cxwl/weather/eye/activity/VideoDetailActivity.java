@@ -1,23 +1,15 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 /**
  * 预览视频
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -31,16 +23,19 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cxwl.weather.eye.common.CONST;
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
-import com.cxwl.weather.eye.utils.CustomHttpClient;
 import com.cxwl.weather.eye.utils.CustomHttpClient2;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-@SuppressLint("SimpleDateFormat")
+import org.apache.http.NameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class VideoDetailActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext = null;
@@ -105,7 +100,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 			}
 		}
 	}
-	
+
 	/**
 	 * 获取内网是否可用，不可用切换位外网
 	 */
@@ -115,19 +110,14 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 		task.setTimeOut(CustomHttpClient2.TIME_OUT);
 		task.execute(requestUrl);
 	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
+
 	private class HttpAsyncTaskNetState extends AsyncTask<String, Void, String> {
 		private String method = "GET";
-		private List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
-		
+		private List<NameValuePair> nvpList = new ArrayList<>();
+
 		public HttpAsyncTaskNetState() {
 		}
-		
+
 		@Override
 		protected String doInBackground(String... url) {
 			String result = null;
@@ -159,7 +149,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 		}
 
 		private void setTimeOut(int timeOut) {
-			CustomHttpClient.TIME_OUT = timeOut;
+			CustomHttpClient2.TIME_OUT = timeOut;
 		}
 
 		/**
@@ -167,7 +157,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 		 */
 		@SuppressWarnings("unused")
 		private void cancelTask() {
-			CustomHttpClient.shuttdownRequest();
+			CustomHttpClient2.shuttdownRequest();
 			this.cancel(true);
 		}
 	}

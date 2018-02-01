@@ -28,7 +28,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.ZXingActivity;
+import com.cxwl.weather.eye.activity.ZXingActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mining.app.zxing.camera.CameraManager;

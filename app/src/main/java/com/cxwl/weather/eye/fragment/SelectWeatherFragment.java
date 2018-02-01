@@ -44,7 +44,6 @@ public class SelectWeatherFragment extends Fragment{
 		initWidget(view);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void initWidget(View view) {
 		llContainer = (LinearLayout) view.findViewById(R.id.llContainer);
 		

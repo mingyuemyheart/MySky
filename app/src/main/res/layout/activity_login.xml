@@ -40,6 +40,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@android:color/transparent"
                 android:hint="请输入用户名"
+                android:textColorHint="@color/text_color1"
                 android:singleLine="true"
                 android:textColor="@color/text_color1"
                 android:textSize="@dimen/level_4" />
@@ -69,6 +70,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@android:color/transparent"
                 android:hint="请输入密码"
+                android:textColorHint="@color/text_color1"
                 android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/text_color1"

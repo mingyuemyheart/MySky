@@ -1,4 +1,4 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,9 +14,14 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.manager.DataCleanManager;
 import com.cxwl.weather.eye.utils.AutoUpdateUtil;
+
+/**
+ * 设置界面
+ */
 
 public class SettingActivity extends BaseActivity implements OnClickListener{
 	
@@ -186,7 +191,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener{
 			deleteDialog(true, "清除缓存", "确定要清除缓存？", tvCache);
 			break;
 		case R.id.llVersion:
-			AutoUpdateUtil.checkUpdate(mContext, "67", getString(R.string.app_name), false);
+			AutoUpdateUtil.checkUpdate(SettingActivity.this, mContext, "67", getString(R.string.app_name), false);
 			break;
 		case R.id.tvLogout:
 			logout("退出登录", "确定要退出登录？");

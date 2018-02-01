@@ -1,4 +1,4 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -24,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.fragment.FacilityGroupFragment;
@@ -48,7 +48,7 @@ public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 	private long mExitTime;//记录点击完返回按钮后的long型时间
 	private MainViewPager viewPager = null;
 	private MyPagerAdapter pagerAdapter = null;
-	private List<Fragment> fragments = new ArrayList<Fragment>();
+	private List<Fragment> fragments = new ArrayList<>();
 	private LinearLayout llBack = null;
 	private ImageView ivBack = null;
 	private TextView tvTitle = null;
@@ -135,7 +135,7 @@ public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 	
 	
 	private void initWidget() {
-		AutoUpdateUtil.checkUpdate(mContext, "67", getString(R.string.app_name), true);
+		AutoUpdateUtil.checkUpdate(WeatherEyeActivity.this, mContext, "67", getString(R.string.app_name), true);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tvTitle.setText(getString(R.string.app_name));
 		ivControl = (ImageView) findViewById(R.id.ivControl);
@@ -165,7 +165,7 @@ public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 	private void initViewPager() {
 		Fragment fragment1 = new FacilityMapFragment();
 		fragments.add(fragment1);
-		Fragment fragment2 = new FacilityGroupFragment();
+		Fragment fragment2;
 		if (TextUtils.equals(AUTHORITY, CONST.MANAGER)) {
 			fragment2 = new FacilityGroupFragment();
 		}else {

@@ -1,4 +1,4 @@
-package com.cxwl.weather.eye;
+package com.cxwl.weather.eye.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
 import com.cxwl.weather.eye.fragment.ReadParamentersFragment1;
 import com.cxwl.weather.eye.fragment.ReadParamentersFragment2;

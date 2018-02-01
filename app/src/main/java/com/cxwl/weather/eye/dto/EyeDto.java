@@ -22,7 +22,7 @@ public class EyeDto implements Parcelable{
 	public String lat;
 	public String lng;
 	public String forePosition;//预位置
-	
+
 	public String time;//逐小时
 	public float temperature;//温度
 	public float quality;//空气质量

@@ -83,7 +83,7 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 	}
 	
 	public interface FinishListener {
-		public void loadComplete(boolean startDraw);
+		void loadComplete(boolean startDraw);
 	}
 	
 	public FinishListener getFinishListener() {
@@ -389,7 +389,7 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 			this.index = index;
 		}
 	}
-	
+
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			int what = msg.what;

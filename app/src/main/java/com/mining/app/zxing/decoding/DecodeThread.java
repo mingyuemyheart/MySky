@@ -23,7 +23,7 @@ import java.util.concurrent.CountDownLatch;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.cxwl.weather.eye.ZXingActivity;
+import com.cxwl.weather.eye.activity.ZXingActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;

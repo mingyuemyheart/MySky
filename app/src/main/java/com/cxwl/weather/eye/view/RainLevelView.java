@@ -1,6 +1,5 @@
 package com.cxwl.weather.eye.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -26,17 +25,18 @@ import java.util.List;
  *
  */
 
-@SuppressLint("SimpleDateFormat")
 public class RainLevelView extends View{
 
 	private Context mContext = null;
-	private List<EyeDto> tempList = new ArrayList<EyeDto>();
+	private List<EyeDto> tempList = new ArrayList<>();
 	private float maxValue = 0;
 	private float minValue = 0;
 	private Paint lineP = null;//画线画笔
 	private Paint textP = null;//写字画笔
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
+	private float totalDivider = 0;
+	private float itemDivider = 1;
 
 	public RainLevelView(Context context) {
 		super(context);
@@ -89,14 +89,12 @@ public class RainLevelView extends View{
 				}
 			}
 			
-			if (maxValue == 0 && minValue == 0) {
-				maxValue = 4;
-				minValue = 0;
-			}
+			maxValue = 4 + itemDivider/2;
+			minValue = 0;
+			totalDivider = maxValue + minValue;
 		}
 	}
 	
-	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -108,11 +106,10 @@ public class RainLevelView extends View{
 		float w = canvas.getWidth();
 		float h = canvas.getHeight();
 		float chartW = w-CommonUtil.dip2px(mContext, 50);
-		float chartH = h-CommonUtil.dip2px(mContext, 50);
+		float chartH = h-CommonUtil.dip2px(mContext, 30);
 		float leftMargin = CommonUtil.dip2px(mContext, 30);
 		float rightMargin = CommonUtil.dip2px(mContext, 20);
-		float topMargin = CommonUtil.dip2px(mContext, 25);
-		float bottomMargin = CommonUtil.dip2px(mContext, 25);
+		float bottomMargin = CommonUtil.dip2px(mContext, 30);
 
 		int size = tempList.size();
 		float columnWidth = chartW/(size-1);
@@ -120,17 +117,15 @@ public class RainLevelView extends View{
 		for (int i = 0; i < size; i++) {
 			EyeDto dto = tempList.get(i);
 			dto.x = columnWidth*i+leftMargin;
-			dto.y = 0;
-			
+
 			float value = dto.precipitationLevel;
-			dto.y = chartH - chartH*value/maxValue + topMargin;
+			dto.y = chartH*(maxValue-value)/totalDivider;
 			tempList.set(i, dto);
 		}
 		
 		int itemDivider = 1;
 		for (int i = (int) minValue; i <= maxValue; i+=itemDivider) {
-			int value = i;
-			float dividerY = chartH - chartH*value/maxValue + topMargin;
+			float dividerY = chartH*(maxValue-i)/totalDivider;
 			lineP.setColor(0xff999999);
 			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 			canvas.drawLine(leftMargin, dividerY, w-rightMargin, dividerY, lineP);
@@ -170,29 +165,11 @@ public class RainLevelView extends View{
 				rectPath.lineTo(dto.x+columnWidth, h-bottomMargin);
 				rectPath.lineTo(dto.x, h-bottomMargin);
 				rectPath.close();
-				lineP.setColor(0xffe73540);
+				lineP.setColor(0x90e73540);
 				lineP.setStyle(Style.FILL_AND_STROKE);
-				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1));
+				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 				canvas.drawPath(rectPath, lineP);
 			}
-			
-			//绘制纵向线
-			lineP.setColor(0xc0ffffff);
-			lineP.setStyle(Style.STROKE);
-			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
-			canvas.drawLine(dto.x, dto.y, dto.x, h-bottomMargin, lineP);
-			
-//			//绘制白点
-//			lineP.setColor(Color.WHITE);
-//			lineP.setStyle(Style.FILL_AND_STROKE);
-//			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 10));
-//			canvas.drawPoint(dto.x, dto.y, lineP);
-//
-//			//绘制曲线上每个点的数据值
-//			textP.setColor(Color.WHITE);
-//			textP.setTextSize(CommonUtil.dip2px(mContext, 10));
-//			float tempWidth = textP.measureText(dto.precipitationLevel+"");
-//			canvas.drawText(dto.precipitationLevel+"", dto.x-tempWidth/2, dto.y-CommonUtil.dip2px(mContext, 10f), textP);
 			
 			//绘制24小时
 			textP.setColor(0xff999999);

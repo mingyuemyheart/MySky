@@ -1,16 +1,5 @@
 package com.cxwl.weather.eye.utils;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -37,16 +26,16 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import android.annotation.SuppressLint;
-import android.util.Base64;
-import android.util.Log;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomHttpClient2 {
 	private static final String CHARSET = HTTP.UTF_8;
 	private static HttpClient customerHttpClient;
-	private static final String TAG = "HttpClient";
-	private static List<HttpClient> clientList = new ArrayList<HttpClient>();
-	private static List<HttpRequest> requestList = new ArrayList<HttpRequest>();
+	private static List<HttpClient> clientList = new ArrayList<>();
+	private static List<HttpRequest> requestList = new ArrayList<>();
 
 	private static HttpClient httpClient;
 	private static HttpRequest httpRequest;
@@ -113,7 +102,7 @@ public class CustomHttpClient2 {
 		HttpPost request = new HttpPost(url);
 		try {
 			// 编码参数
-			List<NameValuePair> formparams = new ArrayList<NameValuePair>(); // 请求参数
+			List<NameValuePair> formparams = new ArrayList<>(); // 请求参数
 			for (NameValuePair p : paramsList) {
 				formparams.add(p);
 			}
@@ -173,57 +162,6 @@ public class CustomHttpClient2 {
 				httpClient.getConnectionManager().shutdown();
 			}
 		}
-	}
-	
-	/**
-	 * 获取http://decision.tianqi.cn域名的请求头
-	 * @return
-	 */
-	@SuppressLint("SimpleDateFormat")
-	public static String getRequestHeader() {
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd00");
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd06");
-		SimpleDateFormat sdf3 = new SimpleDateFormat("yyyyMMdd12");
-		SimpleDateFormat sdf4 = new SimpleDateFormat("yyyyMMdd18");
-		SimpleDateFormat sdf5 = new SimpleDateFormat("yyyyMMddHH");
-		long time1 = 0, time2 = 0, time3 = 0, time4 = 0;
-		long currentTime = 0;
-		try {
-			time1 = sdf5.parse(sdf1.format(new Date())).getTime();
-			time2 = sdf5.parse(sdf2.format(new Date())).getTime();
-			time3 = sdf5.parse(sdf3.format(new Date())).getTime();
-			time4 = sdf5.parse(sdf4.format(new Date())).getTime();
-			currentTime = new Date().getTime();
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		String date = null;
-		if (currentTime >= time1 && currentTime < time2) {
-			date = sdf1.format(new Date());
-		}else if (currentTime >= time2 && currentTime < time3) {
-			date = sdf2.format(new Date());
-		}else if (currentTime >= time3 && currentTime < time4) {
-			date = sdf3.format(new Date());
-		}else if (currentTime >= time4) {
-			date = sdf4.format(new Date());
-		}
-		String publicKey = "http://decision.tianqi.cn/?date="+date;//公钥
-		String privateKye = "url_private_key_789";//私钥
-		String result = "";
-		try{
-			byte[] rawHmac = null;
-			byte[] keyBytes = privateKye.getBytes("UTF-8");
-			SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1");
-			Mac mac = Mac.getInstance("HmacSHA1");
-			mac.init(signingKey);
-			rawHmac = mac.doFinal(publicKey.getBytes("UTF-8"));
-			result = Base64.encodeToString(rawHmac, Base64.DEFAULT);
-//			result = URLEncoder.encode(result, "UTF-8");
-			result = "http://decision.tianqi.cn/"+result;
-		}catch(Exception e){
-			Log.e("SceneException", e.getMessage(), e);
-		}
-		return result;
 	}
 	
 }

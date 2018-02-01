@@ -14,6 +14,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.cxwl.weather.eye.R;
@@ -26,17 +27,19 @@ import com.cxwl.weather.eye.utils.CommonUtil;
  *
  */
 
-@SuppressLint("SimpleDateFormat")
 public class PressureView extends View{
 	
 	private Context mContext = null;
-	private List<EyeDto> tempList = new ArrayList<EyeDto>();
+	private List<EyeDto> tempList = new ArrayList<>();
 	private float maxValue = 0;
 	private float minValue = 0;
+	private float min = 0;
 	private Paint lineP = null;//画线画笔
 	private Paint textP = null;//写字画笔
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
+	private float totalDivider = 0;
+	private float itemDivider = 0.1f;
 	
 	public PressureView(Context context) {
 		super(context);
@@ -76,6 +79,18 @@ public class PressureView extends View{
 			if (tempList.isEmpty()) {
 				return;
 			}
+
+			min = tempList.get(0).pressure;
+			for (int i = 0; i < tempList.size(); i++) {
+				EyeDto dto = tempList.get(i);
+				if (min >= dto.pressure) {
+					min = dto.pressure;
+				}
+			}
+			for (int i = 0; i < tempList.size(); i++) {
+				EyeDto dto = tempList.get(i);
+				dto.pressure = dto.pressure - min;
+			}
 			
 			maxValue = tempList.get(0).pressure;
 			minValue = tempList.get(0).pressure;
@@ -93,25 +108,18 @@ public class PressureView extends View{
 				maxValue = 1000;
 				minValue = 0;
 			}else {
-				int totalDivider = (int) Math.ceil(maxValue);
-				int itemDivider = 100;
-				if (totalDivider > 0 && totalDivider <= 500) {
-					itemDivider = 100;
-				}else if (totalDivider > 500 && totalDivider <= 1000) {
+				totalDivider = maxValue - minValue;
+				if (totalDivider > 200) {
 					itemDivider = 200;
 				}else {
-					itemDivider = 200;
+					itemDivider = 1;
 				}
-				maxValue = (float) (Math.ceil(maxValue)+itemDivider);
-				minValue = (float) (Math.floor(minValue)-itemDivider);
-				if (minValue <= 0) {
-					minValue = 0;
-				}
+				maxValue = maxValue + itemDivider - (maxValue % itemDivider) + itemDivider/2;
 			}
+			totalDivider = maxValue - minValue;
 		}
 	}
 	
-	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -122,12 +130,11 @@ public class PressureView extends View{
 		canvas.drawColor(Color.TRANSPARENT);
 		float w = canvas.getWidth();
 		float h = canvas.getHeight();
-		float chartW = w-CommonUtil.dip2px(mContext, 50);
-		float chartH = h-CommonUtil.dip2px(mContext, 50);
-		float leftMargin = CommonUtil.dip2px(mContext, 30);
+		float chartW = w-CommonUtil.dip2px(mContext, 60);
+		float chartH = h-CommonUtil.dip2px(mContext, 30);
+		float leftMargin = CommonUtil.dip2px(mContext, 40);
 		float rightMargin = CommonUtil.dip2px(mContext, 20);
-		float topMargin = CommonUtil.dip2px(mContext, 25);
-		float bottomMargin = CommonUtil.dip2px(mContext, 25);
+		float bottomMargin = CommonUtil.dip2px(mContext, 30);
 
 		int size = tempList.size();
 		float columnWidth = chartW/(size-1);
@@ -135,31 +142,21 @@ public class PressureView extends View{
 		for (int i = 0; i < size; i++) {
 			EyeDto dto = tempList.get(i);
 			dto.x = columnWidth*i+leftMargin;
-			dto.y = 0;
-			
+
 			float value = dto.pressure;
-			dto.y = chartH - chartH*value/maxValue + topMargin;
+			dto.y = chartH*(maxValue-value)/totalDivider;
+			Log.e("pressure", value+"---"+dto.y+"---"+chartH+"---"+h);
 			tempList.set(i, dto);
 		}
 
-		int totalDivider = (int) Math.ceil(maxValue);
-		int itemDivider = 100;
-		if (totalDivider > 0 && totalDivider <= 500) {
-			itemDivider = 100;
-		}else if (totalDivider > 500 && totalDivider <= 1000) {
-			itemDivider = 200;
-		}else {
-			itemDivider = 200;
-		}
 		for (int i = (int) minValue; i <= maxValue; i+=itemDivider) {
-			int value = i;
-			float dividerY = chartH - chartH*value/maxValue + topMargin;
+			float dividerY = chartH*(maxValue-i)/totalDivider;
 			lineP.setColor(0xff999999);
 			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 			canvas.drawLine(leftMargin, dividerY, w-rightMargin, dividerY, lineP);
 			textP.setColor(getResources().getColor(R.color.text_color1));
 			textP.setTextSize(CommonUtil.dip2px(mContext, 10));
-			canvas.drawText(String.valueOf(i), CommonUtil.dip2px(mContext, 5), dividerY, textP);
+			canvas.drawText(String.valueOf(i+min), CommonUtil.dip2px(mContext, 5), dividerY, textP);
 		}
 		
 		//绘制区域
@@ -173,30 +170,24 @@ public class PressureView extends View{
 				rectPath.lineTo(dto.x+columnWidth, h-bottomMargin);
 				rectPath.lineTo(dto.x, h-bottomMargin);
 				rectPath.close();
-				lineP.setColor(0xffe73540);
+				lineP.setColor(0x90e73540);
 				lineP.setStyle(Style.FILL_AND_STROKE);
-				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1));
+				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 				canvas.drawPath(rectPath, lineP);
 			}
 			
-			//绘制纵向线
-			lineP.setColor(0xc0ffffff);
-			lineP.setStyle(Style.STROKE);
-			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
-			canvas.drawLine(dto.x, dto.y, dto.x, h-bottomMargin, lineP);
-
 			if (dto.pressure > 0) {
 				//绘制白点
 				lineP.setColor(Color.WHITE);
 				lineP.setStyle(Style.FILL_AND_STROKE);
-				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 10));
+				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 5));
 				canvas.drawPoint(dto.x, dto.y, lineP);
 
 				//绘制曲线上每个点的数据值
 				textP.setColor(Color.WHITE);
 				textP.setTextSize(CommonUtil.dip2px(mContext, 10));
-				float tempWidth = textP.measureText(dto.pressure+"");
-				canvas.drawText(dto.pressure+"", dto.x-tempWidth/2, dto.y-CommonUtil.dip2px(mContext, 10f), textP);
+				float tempWidth = textP.measureText(dto.pressure+min+"");
+				canvas.drawText(dto.pressure+min+"", dto.x-tempWidth/2, dto.y-CommonUtil.dip2px(mContext, 5f), textP);
 			}
 
 			//绘制24小时

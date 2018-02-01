@@ -1,9 +1,11 @@
 package com.cxwl.weather.eye.view;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,17 +28,18 @@ import com.cxwl.weather.eye.utils.CommonUtil;
  *
  */
 
-@SuppressLint("SimpleDateFormat")
 public class RainView extends View{
 	
 	private Context mContext = null;
-	private List<EyeDto> tempList = new ArrayList<EyeDto>();
+	private List<EyeDto> tempList = new ArrayList<>();
 	private float maxValue = 0;
 	private float minValue = 0;
 	private Paint lineP = null;//画线画笔
 	private Paint textP = null;//写字画笔
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
+	private float totalDivider = 0;
+	private float itemDivider = 1;
 	
 	public RainView(Context context) {
 		super(context);
@@ -90,8 +93,7 @@ public class RainView extends View{
 				maxValue = 5;
 				minValue = 0;
 			}else {
-				int totalDivider = (int) Math.ceil(maxValue);
-				int itemDivider = 1;
+				totalDivider = maxValue + minValue;
 				if (totalDivider > 0 && totalDivider <= 5) {
 					itemDivider = 1;
 				}else if (totalDivider > 5 && totalDivider <= 10) {
@@ -103,13 +105,13 @@ public class RainView extends View{
 				}else {
 					itemDivider = 5;
 				}
-				maxValue = (float) (Math.ceil(maxValue)+itemDivider);
+				maxValue = maxValue + itemDivider - (maxValue % itemDivider) + itemDivider/2;
 				minValue = 0;
 			}
+			totalDivider = maxValue + minValue;
 		}
 	}
 	
-	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -120,12 +122,11 @@ public class RainView extends View{
 		canvas.drawColor(Color.TRANSPARENT);
 		float w = canvas.getWidth();
 		float h = canvas.getHeight();
-		float chartW = w-CommonUtil.dip2px(mContext, 40);
-		float chartH = h-CommonUtil.dip2px(mContext, 50);
-		float leftMargin = CommonUtil.dip2px(mContext, 20);
+		float chartW = w-CommonUtil.dip2px(mContext, 50);
+		float chartH = h-CommonUtil.dip2px(mContext, 30);
+		float leftMargin = CommonUtil.dip2px(mContext, 30);
 		float rightMargin = CommonUtil.dip2px(mContext, 20);
-		float topMargin = CommonUtil.dip2px(mContext, 25);
-		float bottomMargin = CommonUtil.dip2px(mContext, 25);
+		float bottomMargin = CommonUtil.dip2px(mContext, 30);
 
 		int size = tempList.size();
 		float columnWidth = chartW/(size-1);
@@ -133,29 +134,14 @@ public class RainView extends View{
 		for (int i = 0; i < size; i++) {
 			EyeDto dto = tempList.get(i);
 			dto.x = columnWidth*i+leftMargin;
-			dto.y = 0;
-			
+
 			float value = dto.precipitation;
-			dto.y = chartH - chartH*value/maxValue + topMargin;
+			dto.y = chartH*(maxValue-value)/totalDivider;
 			tempList.set(i, dto);
 		}
 
-		int totalDivider = (int) Math.ceil(maxValue);
-		int itemDivider = 1;
-		if (totalDivider > 0 && totalDivider <= 5) {
-			itemDivider = 1;
-		}else if (totalDivider > 5 && totalDivider <= 10) {
-			itemDivider = 2;
-		}else if (totalDivider > 10 && totalDivider <= 15) {
-			itemDivider = 3;
-		}else if (totalDivider > 15 && totalDivider <= 20) {
-			itemDivider = 4;
-		}else {
-			itemDivider = 5;
-		}
 		for (int i = (int) minValue; i <= maxValue; i+=itemDivider) {
-			int value = i;
-			float dividerY = chartH - chartH*value/maxValue + topMargin;
+			float dividerY = chartH*(maxValue-i)/totalDivider;
 			lineP.setColor(0xff999999);
 			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 0.2f));
 			canvas.drawLine(leftMargin, dividerY, w-rightMargin, dividerY, lineP);
@@ -175,7 +161,7 @@ public class RainView extends View{
 				rectPath.lineTo(dto.x+columnWidth/3, h-bottomMargin);
 				rectPath.lineTo(dto.x-columnWidth/3, h-bottomMargin);
 				rectPath.close();
-				lineP.setColor(0xffe73540);
+				lineP.setColor(0x90e73540);
 				lineP.setStyle(Style.FILL_AND_STROKE);
 				lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1));
 				canvas.drawPath(rectPath, lineP);
@@ -184,7 +170,7 @@ public class RainView extends View{
 				textP.setColor(Color.WHITE);
 				textP.setTextSize(CommonUtil.dip2px(mContext, 10));
 				float tempWidth = textP.measureText(dto.precipitation+"");
-				canvas.drawText(dto.precipitation+"", dto.x-tempWidth/2, dto.y-CommonUtil.dip2px(mContext, 10f), textP);
+				canvas.drawText(dto.precipitation+"", dto.x-tempWidth/2, dto.y-CommonUtil.dip2px(mContext, 5f), textP);
 			}
 			
 			//绘制24小时
