@@ -4,6 +4,7 @@ package com.cxwl.weather.eye.activity;
  * 视频操作
  */
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +12,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,7 +44,6 @@ import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.ForePositionAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
-import com.cxwl.weather.eye.utils.CustomHttpClient2;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.RoundMenuView;
 import com.tencent.rtmp.ITXLivePlayListener;
@@ -52,7 +51,6 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,10 +58,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -194,11 +194,44 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			data = getIntent().getExtras().getParcelable("data");
 			if (data != null) {
 				if (!TextUtils.isEmpty(data.StatusUrl)) {
-					asyncQueryNetState(data.StatusUrl);
+					OkHttpNetState(data.StatusUrl);
+				}else {
+					initTXCloudVideoView(data.streamPublic);
 				}
 				OkHttpParameter("https://tqwy.tianqi.cn/tianqixy/userInfo/obtain");
 			}
 		}
+	}
+
+	/**
+	 * 获取内网是否可用，不可用切换位外网
+	 */
+	private final OkHttpClient.Builder builder = new OkHttpClient.Builder()
+			.connectTimeout(5, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS);
+	private final OkHttpClient okHttpClient = builder.build();
+
+	private void OkHttpNetState(String url) {
+		okHttpClient.newCall(new Request.Builder().url(url).build()).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						initTXCloudVideoView(data.streamPublic);
+					}
+				});
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						initTXCloudVideoView(data.streamPrivate);
+					}
+				});
+			}
+		});
 	}
 	
 	private OnTouchListener ivMinuse1Listener = new OnTouchListener() {
@@ -284,137 +317,77 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 获取摄像头移动速度、亮度、饱和度、对比度、色度
 	 */
-	private void OkHttpParameter(String url) {
+	private void OkHttpParameter(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("FID", data.fId);//设备id
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-				
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("list")) {
-												JSONArray array = object.getJSONArray("list");
-												JSONObject obj = array.getJSONObject(0);
-												if (!obj.isNull("speed")) {
-													speed = obj.getInt("speed");
-													tvValue1.setText(speed+"");
-												}
-												if (!obj.isNull("brightness")) {
-													brightness = obj.getInt("brightness");
-													tvSeekBar1.setText(brightness+"");
-													seekBar1.setProgress(brightness);
-												}
-												if (!obj.isNull("contrast")) {
-													contrast = obj.getInt("contrast");
-													tvSeekBar2.setText(contrast+"");
-													seekBar2.setProgress(contrast);
-												}
-												if (!obj.isNull("saturation")) {
-													saturation = obj.getInt("saturation");
-													tvSeekBar3.setText(saturation+"");
-													seekBar3.setProgress(saturation);
-												}
-												if (!obj.isNull("chroma")) {
-													chroma = obj.getInt("chroma");
-													tvSeekBar4.setText(chroma+"");
-													seekBar4.setProgress(chroma);
+					public void onFailure(Call call, IOException e) {
+
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("list")) {
+														JSONArray array = object.getJSONArray("list");
+														JSONObject obj = array.getJSONObject(0);
+														if (!obj.isNull("speed")) {
+															speed = obj.getInt("speed");
+															tvValue1.setText(speed+"");
+														}
+														if (!obj.isNull("brightness")) {
+															brightness = obj.getInt("brightness");
+															tvSeekBar1.setText(brightness+"");
+															seekBar1.setProgress(brightness);
+														}
+														if (!obj.isNull("contrast")) {
+															contrast = obj.getInt("contrast");
+															tvSeekBar2.setText(contrast+"");
+															seekBar2.setProgress(contrast);
+														}
+														if (!obj.isNull("saturation")) {
+															saturation = obj.getInt("saturation");
+															tvSeekBar3.setText(saturation+"");
+															seekBar3.setProgress(saturation);
+														}
+														if (!obj.isNull("chroma")) {
+															chroma = obj.getInt("chroma");
+															tvSeekBar4.setText(chroma+"");
+															seekBar4.setProgress(chroma);
+														}
+													}
 												}
 											}
 										}
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
-	}
-	
-	/**
-	 * 获取内网是否可用，不可用切换位外网
-	 */
-	private void asyncQueryNetState(String url) {
-		HttpAsyncTaskNetState task = new HttpAsyncTaskNetState();
-		task.setMethod("GET");
-		task.setTimeOut(CustomHttpClient2.TIME_OUT);
-		task.execute(url);
-	}
-	
-	/**
-	 * 异步请求方法
-	 * @author dell
-	 *
-	 */
-	private class HttpAsyncTaskNetState extends AsyncTask<String, Void, String> {
-		private String method = "GET";
-		private List<NameValuePair> nvpList = new ArrayList<>();
-		
-		public HttpAsyncTaskNetState() {
-		}
-		
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient2.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient2.get(url[0]);
-			}
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			if (!TextUtils.isEmpty(requestResult) && requestResult.contains("Active connections")) {
-				initTXCloudVideoView(data.streamPrivate);
-			}else {
-				initTXCloudVideoView(data.streamPublic);
-			}
-		}
-
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient2.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient2.shuttdownRequest();
-			this.cancel(true);
-		}
+		}).start();
 	}
 	
 	/**
@@ -507,7 +480,8 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
     }
-	
+
+    @SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {  
 	    public void handleMessage(Message msg) {  
 	    	switch (msg.what) {
@@ -685,7 +659,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 发送指令
 	 */
-	private void OkHttpCommand(String url) {
+	private void OkHttpCommand(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("FID", data.fId);//设备id
 		builder.add("FacilityZid", data.fGroupId);//设备组id
@@ -693,50 +667,55 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 		builder.add("OrederType", orderType);//命令类型
 		builder.add("OrederValue1", OrederValue1);//水平速度
 		builder.add("OrederValue2", OrederValue1);//垂直速度
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											//success
-										}else if (TextUtils.equals(code, "701")) {
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast toast = Toast.makeText(mContext, reason, Toast.LENGTH_LONG);
-													toast.setGravity(Gravity.TOP, 0, 300);
-													toast.show();
+					public void onFailure(Call call, IOException e) {
+
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													//success
+												}else if (TextUtils.equals(code, "701")) {
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast toast = Toast.makeText(mContext, reason, Toast.LENGTH_LONG);
+															toast.setGravity(Gravity.TOP, 0, 300);
+															toast.show();
+														}
+													}
 												}
 											}
 										}
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 
 	/**

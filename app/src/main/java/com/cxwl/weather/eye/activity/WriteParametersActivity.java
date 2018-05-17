@@ -126,83 +126,88 @@ public class WriteParametersActivity extends BaseActivity implements OnClickList
 	/**
 	 * post序列号给后台确认信息
 	 */
-	private void OkHttpSeriesNo(String url, String seriesNo) {
+	private void OkHttpSeriesNo(final String url, String seriesNo) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("FacilityNumber", seriesNo);
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("list")) {
-												JSONObject obj = new JSONObject(object.getString("list"));
-												if (!obj.isNull("Longitude")) {
-													tvLng.setText(obj.getString("Longitude"));
-												}
+					public void onFailure(Call call, IOException e) {
 
-												if (!obj.isNull("Dimensionality")) {
-													tvLat.setText(obj.getString("Dimensionality"));
-												}
+					}
 
-												if (!obj.isNull("Province")) {
-													etPro.setText(obj.getString("Province"));
-													if (!TextUtils.isEmpty(etPro.getText().toString())) {
-														etPro.setSelection(etPro.getText().toString().length());
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("list")) {
+														JSONObject obj = new JSONObject(object.getString("list"));
+														if (!obj.isNull("Longitude")) {
+															tvLng.setText(obj.getString("Longitude"));
+														}
+
+														if (!obj.isNull("Dimensionality")) {
+															tvLat.setText(obj.getString("Dimensionality"));
+														}
+
+														if (!obj.isNull("Province")) {
+															etPro.setText(obj.getString("Province"));
+															if (!TextUtils.isEmpty(etPro.getText().toString())) {
+																etPro.setSelection(etPro.getText().toString().length());
+															}
+														}
+
+														if (!obj.isNull("City")) {
+															etCity.setText(obj.getString("City"));
+														}
+
+														if (!obj.isNull("County")) {
+															etArea.setText(obj.getString("County"));
+														}
+
+														if (!obj.isNull("Location")) {
+															etAddr.setText(obj.getString("Location"));
+														}
+
+														scrollView.setVisibility(View.VISIBLE);
 													}
-												}
-
-												if (!obj.isNull("City")) {
-													etCity.setText(obj.getString("City"));
-												}
-
-												if (!obj.isNull("County")) {
-													etArea.setText(obj.getString("County"));
-												}
-
-												if (!obj.isNull("Location")) {
-													etAddr.setText(obj.getString("Location"));
-												}
-
-												scrollView.setVisibility(View.VISIBLE);
-											}
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														}
+													}
 												}
 											}
 										}
+										cancelDialog();
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								cancelDialog();
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 	/**

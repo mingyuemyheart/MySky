@@ -118,71 +118,76 @@ public class FacilityGroupFragment extends Fragment {
 	/**
 	 * 获取设备组
 	 */
-	private void OkHttList(String url) {
+	private void OkHttList(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("intpage", page+"");
 		builder.add("pagerow", pageCount+"");
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				getActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("list")) {
-												JSONArray array = new JSONArray(object.getString("list"));
-												for (int i = 0; i < array.length(); i++) {
-													JSONObject itemObj = array.getJSONObject(i);
-													EyeDto dto = new EyeDto();
-													if (!itemObj.isNull("fzid")) {
-														dto.fGroupId = itemObj.getString("fzid");
+					public void onFailure(Call call, IOException e) {
+
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						getActivity().runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("list")) {
+														JSONArray array = new JSONArray(object.getString("list"));
+														for (int i = 0; i < array.length(); i++) {
+															JSONObject itemObj = array.getJSONObject(i);
+															EyeDto dto = new EyeDto();
+															if (!itemObj.isNull("fzid")) {
+																dto.fGroupId = itemObj.getString("fzid");
+															}
+															if (!itemObj.isNull("fzname")) {
+																dto.fGroupName = itemObj.getString("fzname");
+															}
+															groupList.add(dto);
+														}
+														if (groupAdapter != null) {
+															groupAdapter.notifyDataSetChanged();
+														}
 													}
-													if (!itemObj.isNull("fzname")) {
-														dto.fGroupName = itemObj.getString("fzname");
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
+														}
 													}
-													groupList.add(dto);
-												}
-												if (groupAdapter != null) {
-													groupAdapter.notifyDataSetChanged();
-												}
-											}
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
 												}
 											}
 										}
+										refreshLayout.setRefreshing(false);
+										refreshLayout.setLoading(false);
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								refreshLayout.setRefreshing(false);
-								refreshLayout.setLoading(false);
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 }

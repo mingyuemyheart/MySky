@@ -140,7 +140,7 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 	/**
 	 * 获取视频列表
 	 */
-	private void OkHttpList(String url) {
+	private void OkHttpList(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("intpage", page+"");
 		builder.add("pagerow", pageCount+"");
@@ -150,92 +150,97 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 				builder.add("FZID", groupId);
 			}
 		}
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("list")) {
-												JSONArray array = new JSONArray(object.getString("list"));
-												for (int i = 0; i < array.length(); i++) {
-													JSONObject itemObj = array.getJSONObject(i);
-													EyeDto dto = new EyeDto();
-													if (!itemObj.isNull("Fzid")) {
-														dto.fGroupId = itemObj.getString("Fzid");
+					public void onFailure(Call call, IOException e) {
+
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("list")) {
+														JSONArray array = new JSONArray(object.getString("list"));
+														for (int i = 0; i < array.length(); i++) {
+															JSONObject itemObj = array.getJSONObject(i);
+															EyeDto dto = new EyeDto();
+															if (!itemObj.isNull("Fzid")) {
+																dto.fGroupId = itemObj.getString("Fzid");
+															}
+															if (!itemObj.isNull("Fid")) {
+																dto.fId = itemObj.getString("Fid");
+															}
+															if (!itemObj.isNull("FacilityIP")) {
+																dto.fGroupIp = itemObj.getString("FacilityIP");
+															}
+															if (!itemObj.isNull("Location")) {
+																dto.location = itemObj.getString("Location");
+															}
+															if (!itemObj.isNull("StatusUrl")) {
+																dto.StatusUrl = itemObj.getString("StatusUrl");
+															}
+															if (!itemObj.isNull("FacilityNumber")) {
+																dto.fNumber = itemObj.getString("FacilityNumber");
+															}
+															if (!itemObj.isNull("ErectTime")) {
+																dto.erectTime = itemObj.getString("ErectTime");
+															}
+															if (!itemObj.isNull("FacilityUrlWithin")) {
+																dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
+															}
+															if (!itemObj.isNull("FacilityUrl")) {
+																dto.streamPublic = itemObj.getString("FacilityUrl");
+															}
+															if (!itemObj.isNull("small")) {
+																dto.videoThumbUrl = itemObj.getString("small");
+															}
+															videoList.add(dto);
+														}
+														if (videoAdapter != null) {
+															videoAdapter.notifyDataSetChanged();
+														}
 													}
-													if (!itemObj.isNull("Fid")) {
-														dto.fId = itemObj.getString("Fid");
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														}
 													}
-													if (!itemObj.isNull("FacilityIP")) {
-														dto.fGroupIp = itemObj.getString("FacilityIP");
-													}
-													if (!itemObj.isNull("Location")) {
-														dto.location = itemObj.getString("Location");
-													}
-													if (!itemObj.isNull("StatusUrl")) {
-														dto.StatusUrl = itemObj.getString("StatusUrl");
-													}
-													if (!itemObj.isNull("FacilityNumber")) {
-														dto.fNumber = itemObj.getString("FacilityNumber");
-													}
-													if (!itemObj.isNull("ErectTime")) {
-														dto.erectTime = itemObj.getString("ErectTime");
-													}
-													if (!itemObj.isNull("FacilityUrlWithin")) {
-														dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
-													}
-													if (!itemObj.isNull("FacilityUrl")) {
-														dto.streamPublic = itemObj.getString("FacilityUrl");
-													}
-													if (!itemObj.isNull("small")) {
-														dto.videoThumbUrl = itemObj.getString("small");
-													}
-													videoList.add(dto);
-												}
-												if (videoAdapter != null) {
-													videoAdapter.notifyDataSetChanged();
-												}
-											}
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
 												}
 											}
 										}
+										refreshLayout.setRefreshing(false);
+										refreshLayout.setLoading(false);
+										cancelDialog();
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								refreshLayout.setRefreshing(false);
-								refreshLayout.setLoading(false);
-								cancelDialog();
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 	@Override

@@ -32,7 +32,7 @@ public class ReadParametersActivity extends BaseActivity implements OnClickListe
 	private TextView tvTitle = null;
 	private MainViewPager viewPager = null;
 	private MyPagerAdapter pagerAdapter = null;
-	private List<Fragment> fragments = new ArrayList<Fragment>();
+	private List<Fragment> fragments = new ArrayList<>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

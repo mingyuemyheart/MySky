@@ -105,7 +105,7 @@ public class ModifyPersonInfoActivity extends BaseActivity implements OnClickLis
 	/**
 	 * 修改用户信息
 	 */
-	private void OkHttpModify(String url) {
+	private void OkHttpModify(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("UserID", UID);
 		String key = null;
@@ -117,68 +117,73 @@ public class ModifyPersonInfoActivity extends BaseActivity implements OnClickLis
 			key = "UserPhone";
 		}
 		builder.add(key, editText.getText().toString().trim());
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											//把用户信息保存在sharedPreferance里
-											SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
-											Editor editor = sharedPreferences.edit();
-											if (TextUtils.equals(title, getString(R.string.modify_nickname))) {
-												editor.putString(UserInfo.nickname, editText.getText().toString().trim());
-												NICKNAME = editText.getText().toString().trim();
-											}else if (TextUtils.equals(title, getString(R.string.modify_mail))) {
-												editor.putString(UserInfo.mail, editText.getText().toString().trim());
-												MAIL = editText.getText().toString().trim();
-											}else if (TextUtils.equals(title, getString(R.string.modify_phone))) {
-												editor.putString(UserInfo.phone, editText.getText().toString().trim());
-												PHONE = editText.getText().toString().trim();
-											}
-											editor.commit();
+					public void onFailure(Call call, IOException e) {
 
-											Intent intent = new Intent();
-											intent.putExtra("modifyValue", editText.getText().toString().trim());
-											setResult(RESULT_OK, intent);
-											finish();
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													//把用户信息保存在sharedPreferance里
+													SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
+													Editor editor = sharedPreferences.edit();
+													if (TextUtils.equals(title, getString(R.string.modify_nickname))) {
+														editor.putString(UserInfo.nickname, editText.getText().toString().trim());
+														NICKNAME = editText.getText().toString().trim();
+													}else if (TextUtils.equals(title, getString(R.string.modify_mail))) {
+														editor.putString(UserInfo.mail, editText.getText().toString().trim());
+														MAIL = editText.getText().toString().trim();
+													}else if (TextUtils.equals(title, getString(R.string.modify_phone))) {
+														editor.putString(UserInfo.phone, editText.getText().toString().trim());
+														PHONE = editText.getText().toString().trim();
+													}
+													editor.commit();
+
+													Intent intent = new Intent();
+													intent.putExtra("modifyValue", editText.getText().toString().trim());
+													setResult(RESULT_OK, intent);
+													finish();
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														}
+													}
 												}
 											}
 										}
+										cancelDialog();
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								cancelDialog();
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 	@Override

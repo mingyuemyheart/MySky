@@ -8,10 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,16 +25,20 @@ import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
-import com.cxwl.weather.eye.utils.CustomHttpClient2;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-import org.apache.http.NameValuePair;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
-import java.util.ArrayList;
-import java.util.List;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class VideoDetailActivity extends BaseActivity implements OnClickListener{
 	
@@ -95,7 +99,9 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 			data = getIntent().getExtras().getParcelable("data");
 			if (data != null) {
 				if (!TextUtils.isEmpty(data.StatusUrl)) {
-					asyncQueryNetState(data.StatusUrl);
+					OkHttpNetState(data.StatusUrl);
+				}else {
+					initTXCloudVideoView(data.streamPublic);
 				}
 			}
 		}
@@ -104,64 +110,34 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 	/**
 	 * 获取内网是否可用，不可用切换位外网
 	 */
-	private void asyncQueryNetState(String requestUrl) {
-		HttpAsyncTaskNetState task = new HttpAsyncTaskNetState();
-		task.setMethod("GET");
-		task.setTimeOut(CustomHttpClient2.TIME_OUT);
-		task.execute(requestUrl);
+	private final OkHttpClient.Builder builder = new OkHttpClient.Builder()
+			.connectTimeout(5, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS);
+	private final OkHttpClient okHttpClient = builder.build();
+
+	private void OkHttpNetState(String url) {
+		okHttpClient.newCall(new Request.Builder().url(url).build()).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						initTXCloudVideoView(data.streamPublic);
+					}
+				});
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						initTXCloudVideoView(data.streamPrivate);
+					}
+				});
+			}
+		});
 	}
 
-	private class HttpAsyncTaskNetState extends AsyncTask<String, Void, String> {
-		private String method = "GET";
-		private List<NameValuePair> nvpList = new ArrayList<>();
-
-		public HttpAsyncTaskNetState() {
-		}
-
-		@Override
-		protected String doInBackground(String... url) {
-			String result = null;
-			if (method.equalsIgnoreCase("POST")) {
-				result = CustomHttpClient2.post(url[0], nvpList);
-			} else if (method.equalsIgnoreCase("GET")) {
-				result = CustomHttpClient2.get(url[0]);
-			}
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(String requestResult) {
-			super.onPostExecute(requestResult);
-			if (!TextUtils.isEmpty(requestResult) && requestResult.contains("Active connections")) {
-				initTXCloudVideoView(data.streamPrivate);
-			}else {
-				initTXCloudVideoView(data.streamPublic);
-			}
-		}
-
-		@SuppressWarnings("unused")
-		private void setParams(NameValuePair nvp) {
-			nvpList.add(nvp);
-		}
-
-		private void setMethod(String method) {
-			this.method = method;
-		}
-
-		private void setTimeOut(int timeOut) {
-			CustomHttpClient2.TIME_OUT = timeOut;
-		}
-
-		/**
-		 * 取消当前task
-		 */
-		@SuppressWarnings("unused")
-		private void cancelTask() {
-			CustomHttpClient2.shuttdownRequest();
-			this.cancel(true);
-		}
-	}
-	
 	/**
 	 * 初始化播放器
 	 */

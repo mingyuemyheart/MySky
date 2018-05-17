@@ -239,129 +239,134 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 	/**
 	 * 获取天气要素数据
 	 */
-	private void OkHttpWeather(String url, String fNumber) {
+	private void OkHttpWeather(final String url, String fNumber) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("FacilityNumber", fNumber);
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("at")) {//实况
-												JSONObject atObj = object.getJSONObject("at");
-												if (!atObj.isNull("temperature")) {
-													tvTemp.setText(atObj.getString("temperature")+"");
-												}
-												if (!atObj.isNull("humidity")) {
-													tvHumidity.setText(atObj.getString("humidity")+"");
-												}
-												if (!atObj.isNull("precipitation")) {
-													tvRain.setText(atObj.getString("precipitation")+"");
-												}
-												if (!atObj.isNull("precipitationLevel")) {
-													tvRainLevel.setText(atObj.getString("precipitationLevel")+"");
-												}
-												if (!atObj.isNull("quality")) {
-													tvQuality.setText(atObj.getString("quality")+"");
-												}
-												if (!atObj.isNull("wind")) {
-													tvWindSpeed.setText(atObj.getString("wind")+"");
-												}
-												if (!atObj.isNull("direction")) {
-													String windDir = atObj.getString("direction");
-													if (!TextUtils.isEmpty(windDir)) {
-														tvWindDir.setText(CommonUtil.getWindDir(windDir));
-													}
-												}
-												if (!atObj.isNull("pressure")) {
-													tvPressure.setText(atObj.getString("pressure")+"");
-												}
-												if (!atObj.isNull("Ultraviolet")) {
-													tvUltraviolet.setText(atObj.getString("Ultraviolet")+"");
-												}
-											}
+					public void onFailure(Call call, IOException e) {
 
-											if (!object.isNull("list")) {
-												weatherList.clear();
-												JSONArray array = object.getJSONArray("list");
-												for (int i = 0; i < array.length(); i++) {
-													EyeDto dto = new EyeDto();
-													JSONObject itemObj = array.getJSONObject(i);
-													if (!itemObj.isNull("Datetime")) {
-														dto.time = itemObj.getString("Datetime");
-													}
-													if (!itemObj.isNull("temperature")) {
-														dto.temperature = Float.parseFloat(itemObj.getString("temperature"));
-													}
-													if (!itemObj.isNull("humidity")) {
-														dto.humidity = Float.parseFloat(itemObj.getString("humidity"));
-													}
-													if (!itemObj.isNull("precipitation")) {
-														dto.precipitation = Float.parseFloat(itemObj.getString("precipitation"));
-													}
-													if (!itemObj.isNull("precipitationLevel")) {
-														dto.precipitationLevel = Float.parseFloat(itemObj.getString("precipitationLevel"));
-													}
-													if (!itemObj.isNull("quality")) {
-														dto.quality = Float.parseFloat(itemObj.getString("quality"));
-													}
-													if (!itemObj.isNull("wind")) {
-														dto.windSpeed = Float.parseFloat(itemObj.getString("wind"));
-													}
-													if (!itemObj.isNull("direction")) {
-														dto.windDir = itemObj.getString("direction");
-													}
-													if (!itemObj.isNull("pressure")) {
-														dto.pressure = Float.parseFloat(itemObj.getString("pressure"));
-													}
-													if (!itemObj.isNull("Ultraviolet")) {
-														dto.ultraviolet = Float.parseFloat(itemObj.getString("Ultraviolet"));
-													}
-													weatherList.add(dto);
-												}
+					}
 
-												initViewPager(weatherList);
-											}
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("at")) {//实况
+														JSONObject atObj = object.getJSONObject("at");
+														if (!atObj.isNull("temperature")) {
+															tvTemp.setText(atObj.getString("temperature")+"");
+														}
+														if (!atObj.isNull("humidity")) {
+															tvHumidity.setText(atObj.getString("humidity")+"");
+														}
+														if (!atObj.isNull("precipitation")) {
+															tvRain.setText(atObj.getString("precipitation")+"");
+														}
+														if (!atObj.isNull("precipitationLevel")) {
+															tvRainLevel.setText(atObj.getString("precipitationLevel")+"");
+														}
+														if (!atObj.isNull("quality")) {
+															tvQuality.setText(atObj.getString("quality")+"");
+														}
+														if (!atObj.isNull("wind")) {
+															tvWindSpeed.setText(atObj.getString("wind")+"");
+														}
+														if (!atObj.isNull("direction")) {
+															String windDir = atObj.getString("direction");
+															if (!TextUtils.isEmpty(windDir)) {
+																tvWindDir.setText(CommonUtil.getWindDir(windDir));
+															}
+														}
+														if (!atObj.isNull("pressure")) {
+															tvPressure.setText(atObj.getString("pressure")+"");
+														}
+														if (!atObj.isNull("Ultraviolet")) {
+															tvUltraviolet.setText(atObj.getString("Ultraviolet")+"");
+														}
+													}
 
-											llContent.setVisibility(View.VISIBLE);
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+													if (!object.isNull("list")) {
+														weatherList.clear();
+														JSONArray array = object.getJSONArray("list");
+														for (int i = 0; i < array.length(); i++) {
+															EyeDto dto = new EyeDto();
+															JSONObject itemObj = array.getJSONObject(i);
+															if (!itemObj.isNull("Datetime")) {
+																dto.time = itemObj.getString("Datetime");
+															}
+															if (!itemObj.isNull("temperature")) {
+																dto.temperature = Float.parseFloat(itemObj.getString("temperature"));
+															}
+															if (!itemObj.isNull("humidity")) {
+																dto.humidity = Float.parseFloat(itemObj.getString("humidity"));
+															}
+															if (!itemObj.isNull("precipitation")) {
+																dto.precipitation = Float.parseFloat(itemObj.getString("precipitation"));
+															}
+															if (!itemObj.isNull("precipitationLevel")) {
+																dto.precipitationLevel = Float.parseFloat(itemObj.getString("precipitationLevel"));
+															}
+															if (!itemObj.isNull("quality")) {
+																dto.quality = Float.parseFloat(itemObj.getString("quality"));
+															}
+															if (!itemObj.isNull("wind")) {
+																dto.windSpeed = Float.parseFloat(itemObj.getString("wind"));
+															}
+															if (!itemObj.isNull("direction")) {
+																dto.windDir = itemObj.getString("direction");
+															}
+															if (!itemObj.isNull("pressure")) {
+																dto.pressure = Float.parseFloat(itemObj.getString("pressure"));
+															}
+															if (!itemObj.isNull("Ultraviolet")) {
+																dto.ultraviolet = Float.parseFloat(itemObj.getString("Ultraviolet"));
+															}
+															weatherList.add(dto);
+														}
+
+														initViewPager(weatherList);
+													}
+
+													llContent.setVisibility(View.VISIBLE);
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														}
+													}
 												}
 											}
 										}
+										cancelDialog();
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								cancelDialog();
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 	@Override

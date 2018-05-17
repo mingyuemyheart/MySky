@@ -93,125 +93,130 @@ public class LoginActivity extends BaseActivity implements OnClickListener{
 	/**
 	 * 异步请求
 	 */
-	private void OkHttpLogin(String url) {
+	private void OkHttpLogin(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("UserNo", etUserName.getText().toString());
 		builder.add("UserPwd", etPwd.getText().toString());
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("list")) {
-												JSONObject obj = new JSONObject(object.getString("list"));
-												String uid = null;
-												if (!obj.isNull("Userid")) {
-													uid = obj.getString("Userid");
-												}
+					public void onFailure(Call call, IOException e) {
 
-												String authority = null;//0(标识管理员) 1 （组长） 2（普通）
-												if (!obj.isNull("UserAuthority")) {
-													authority = obj.getString("UserAuthority");
-												}
+					}
 
-												String userAgent = null;//设备操作权限（0为拥有操作权限 1没有）
-												if (!obj.isNull("UserAgent")) {
-													userAgent = obj.getString("UserAgent");
-												}
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("list")) {
+														JSONObject obj = new JSONObject(object.getString("list"));
+														String uid = null;
+														if (!obj.isNull("Userid")) {
+															uid = obj.getString("Userid");
+														}
 
-												String nickname = null;//昵称
-												if (!obj.isNull("UserName")) {
-													nickname = obj.getString("UserName");
-												}
+														String authority = null;//0(标识管理员) 1 （组长） 2（普通）
+														if (!obj.isNull("UserAuthority")) {
+															authority = obj.getString("UserAuthority");
+														}
 
-												String mail = null;
-												if (!obj.isNull("UserMail")) {
-													mail = obj.getString("UserMail");
-												}
+														String userAgent = null;//设备操作权限（0为拥有操作权限 1没有）
+														if (!obj.isNull("UserAgent")) {
+															userAgent = obj.getString("UserAgent");
+														}
 
-												String phone = null;
-												if (!obj.isNull("UserPhone")) {
-													phone = obj.getString("UserPhone");
-												}
+														String nickname = null;//昵称
+														if (!obj.isNull("UserName")) {
+															nickname = obj.getString("UserName");
+														}
 
-												//把用户信息保存在sharedPreferance里
-												SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
-												Editor editor = sharedPreferences.edit();
-												editor.putString(UserInfo.userName, etUserName.getText().toString());
-												editor.putString(UserInfo.passWord, etPwd.getText().toString());
-												editor.putString(UserInfo.uId, uid);
-												editor.putString(UserInfo.authority, authority);
-												editor.putString(UserInfo.userAgent, userAgent);
-												editor.putString(UserInfo.nickname, nickname);
-												editor.putString(UserInfo.mail, mail);
-												editor.putString(UserInfo.phone, phone);
-												editor.commit();
+														String mail = null;
+														if (!obj.isNull("UserMail")) {
+															mail = obj.getString("UserMail");
+														}
 
-												USERNAME = etUserName.getText().toString();
-												PASSWORD = etPwd.getText().toString();
-												UID = uid;
-												AUTHORITY = authority;
-												USERAGENT = userAgent;
-												NICKNAME = nickname;
-												MAIL = mail;
-												PHONE = phone;
+														String phone = null;
+														if (!obj.isNull("UserPhone")) {
+															phone = obj.getString("UserPhone");
+														}
 
-												startActivity(new Intent(mContext, WeatherEyeActivity.class));
-												finish();
-											}
-										}else if (TextUtils.equals(code, "100")) {//录入人员
-											if (!object.isNull("list")) {
-												//把用户信息保存在sharedPreferance里
-												SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
-												Editor editor = sharedPreferences.edit();
-												editor.putString(UserInfo.userName, etUserName.getText().toString());
-												editor.putString(UserInfo.passWord, etPwd.getText().toString());
-												editor.commit();
+														//把用户信息保存在sharedPreferance里
+														SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
+														Editor editor = sharedPreferences.edit();
+														editor.putString(UserInfo.userName, etUserName.getText().toString());
+														editor.putString(UserInfo.passWord, etPwd.getText().toString());
+														editor.putString(UserInfo.uId, uid);
+														editor.putString(UserInfo.authority, authority);
+														editor.putString(UserInfo.userAgent, userAgent);
+														editor.putString(UserInfo.nickname, nickname);
+														editor.putString(UserInfo.mail, mail);
+														editor.putString(UserInfo.phone, phone);
+														editor.commit();
 
-												USERNAME = etUserName.getText().toString();
-												PASSWORD = etPwd.getText().toString();
+														USERNAME = etUserName.getText().toString();
+														PASSWORD = etPwd.getText().toString();
+														UID = uid;
+														AUTHORITY = authority;
+														USERAGENT = userAgent;
+														NICKNAME = nickname;
+														MAIL = mail;
+														PHONE = phone;
 
-												Intent intent = new Intent(mContext, WriteParametersActivity.class);
-												startActivity(intent);
-											}
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														startActivity(new Intent(mContext, WeatherEyeActivity.class));
+														finish();
+													}
+												}else if (TextUtils.equals(code, "100")) {//录入人员
+													if (!object.isNull("list")) {
+														//把用户信息保存在sharedPreferance里
+														SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
+														Editor editor = sharedPreferences.edit();
+														editor.putString(UserInfo.userName, etUserName.getText().toString());
+														editor.putString(UserInfo.passWord, etPwd.getText().toString());
+														editor.commit();
+
+														USERNAME = etUserName.getText().toString();
+														PASSWORD = etPwd.getText().toString();
+
+														Intent intent = new Intent(mContext, WriteParametersActivity.class);
+														startActivity(intent);
+													}
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														}
+													}
 												}
 											}
 										}
+										cancelDialog();
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								cancelDialog();
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 	@Override

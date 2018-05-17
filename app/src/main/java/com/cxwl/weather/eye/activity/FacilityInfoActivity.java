@@ -124,90 +124,95 @@ public class FacilityInfoActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 获取视频列表
 	 */
-	private void OkHttpList(String url) {
+	private void OkHttpList(final String url) {
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("intpage", page+"");
 		builder.add("pagerow", pageCount+"");
-		RequestBody body = builder.build();
-		OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+		final RequestBody body = builder.build();
+		new Thread(new Runnable() {
 			@Override
-			public void onFailure(Call call, IOException e) {
-
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if (!response.isSuccessful()) {
-					return;
-				}
-				final String result = response.body().string();
-				runOnUiThread(new Runnable() {
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
-					public void run() {
-						if (!TextUtils.isEmpty(result)) {
-							try {
-								JSONObject object = new JSONObject(result);
-								if (object != null) {
-									if (!object.isNull("code")) {
-										String code  = object.getString("code");
-										if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-											if (!object.isNull("list")) {
-												JSONArray array = new JSONArray(object.getString("list"));
-												for (int i = 0; i < array.length(); i++) {
-													JSONObject itemObj = array.getJSONObject(i);
-													EyeDto dto = new EyeDto();
-													if (!itemObj.isNull("Fzid")) {
-														dto.fGroupId = itemObj.getString("Fzid");
+					public void onFailure(Call call, IOException e) {
+
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						final String result = response.body().string();
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (!TextUtils.isEmpty(result)) {
+									try {
+										JSONObject object = new JSONObject(result);
+										if (object != null) {
+											if (!object.isNull("code")) {
+												String code  = object.getString("code");
+												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+													if (!object.isNull("list")) {
+														JSONArray array = new JSONArray(object.getString("list"));
+														for (int i = 0; i < array.length(); i++) {
+															JSONObject itemObj = array.getJSONObject(i);
+															EyeDto dto = new EyeDto();
+															if (!itemObj.isNull("Fzid")) {
+																dto.fGroupId = itemObj.getString("Fzid");
+															}
+															if (!itemObj.isNull("Fid")) {
+																dto.fId = itemObj.getString("Fid");
+															}
+															if (!itemObj.isNull("FacilityIP")) {
+																dto.fGroupIp = itemObj.getString("FacilityIP");
+															}
+															if (!itemObj.isNull("Fzname")) {
+																dto.fGroupName = itemObj.getString("Fzname");
+															}
+															if (!itemObj.isNull("Location")) {
+																dto.location = itemObj.getString("Location");
+															}
+															if (!itemObj.isNull("FacilityNumber")) {
+																dto.fNumber = itemObj.getString("FacilityNumber");
+															}
+															if (!itemObj.isNull("FacilityUrlWithin")) {
+																dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
+															}
+															if (!itemObj.isNull("FacilityUrl")) {
+																dto.streamPublic = itemObj.getString("FacilityUrl");
+															}
+															facilityList.add(dto);
+														}
+														if (mAdapter != null) {
+															mAdapter.notifyDataSetChanged();
+														}
 													}
-													if (!itemObj.isNull("Fid")) {
-														dto.fId = itemObj.getString("Fid");
+												}else {
+													//失败
+													if (!object.isNull("reason")) {
+														String reason = object.getString("reason");
+														if (!TextUtils.isEmpty(reason)) {
+															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
+														}
 													}
-													if (!itemObj.isNull("FacilityIP")) {
-														dto.fGroupIp = itemObj.getString("FacilityIP");
-													}
-													if (!itemObj.isNull("Fzname")) {
-														dto.fGroupName = itemObj.getString("Fzname");
-													}
-													if (!itemObj.isNull("Location")) {
-														dto.location = itemObj.getString("Location");
-													}
-													if (!itemObj.isNull("FacilityNumber")) {
-														dto.fNumber = itemObj.getString("FacilityNumber");
-													}
-													if (!itemObj.isNull("FacilityUrlWithin")) {
-														dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
-													}
-													if (!itemObj.isNull("FacilityUrl")) {
-														dto.streamPublic = itemObj.getString("FacilityUrl");
-													}
-													facilityList.add(dto);
-												}
-												if (mAdapter != null) {
-													mAdapter.notifyDataSetChanged();
-												}
-											}
-										}else {
-											//失败
-											if (!object.isNull("reason")) {
-												String reason = object.getString("reason");
-												if (!TextUtils.isEmpty(reason)) {
-													Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
 												}
 											}
 										}
+										refreshLayout.setRefreshing(false);
+										refreshLayout.setLoading(false);
+										cancelDialog();
+									} catch (JSONException e) {
+										e.printStackTrace();
 									}
 								}
-								refreshLayout.setRefreshing(false);
-								refreshLayout.setLoading(false);
-								cancelDialog();
-							} catch (JSONException e) {
-								e.printStackTrace();
 							}
-						}
+						});
 					}
 				});
 			}
-		});
+		}).start();
 	}
 	
 	@Override
