@@ -388,7 +388,7 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 														picList.clear();
 														for (int i = 0; i < array.length(); i++) {
 															String imgUrl = array.getString(i);
-															if (!TextUtils.isEmpty(imgUrl) && imgUrl.contains(".png")) {
+															if (!TextUtils.isEmpty(imgUrl)) {
 																String time = imgUrl.substring(imgUrl.length()-14, imgUrl.length()-4);
 
 																EyeDto dto = new EyeDto();
