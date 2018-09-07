@@ -1,5 +1,6 @@
 package com.cxwl.weather.eye.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import okhttp3.Response;
  */
 public class VideoListAdapter extends BaseAdapter{
 	
-	private Context mContext;
+	private Activity activity;
 	private LayoutInflater mInflater;
 	private List<EyeDto> mArrayList;
 	private int width;
@@ -44,12 +45,12 @@ public class VideoListAdapter extends BaseAdapter{
 		TextView tvLocation;
 	}
 	
-	public VideoListAdapter(Context context, List<EyeDto> mArrayList) {
-		mContext = context;
+	public VideoListAdapter(Activity activity, List<EyeDto> mArrayList) {
+		this.activity = activity;
 		this.mArrayList = mArrayList;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+		WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
 		width = wm.getDefaultDisplay().getWidth();
 	}
 
@@ -88,8 +89,7 @@ public class VideoListAdapter extends BaseAdapter{
 			}
 
 			if (!TextUtils.isEmpty(dto.videoThumbUrl)) {
-				FinalBitmap finalBitmap = FinalBitmap.create(mContext);
-				finalBitmap.display(mHolder.imageView, dto.videoThumbUrl, null, 0);
+				Picasso.get().load(dto.videoThumbUrl).error(R.drawable.eye_bg_thumb).into(mHolder.imageView);
 			}else {
 				OkHttpImg(dto.facilityUrlTes, mHolder.imageView);
 			}
@@ -105,7 +105,10 @@ public class VideoListAdapter extends BaseAdapter{
 	}
 
 	private void OkHttpImg(String facilityUrlTes, final ImageView imageView) {
-		final String url = "https://api.bluepi.tianqi.cn/Outdata/other/getNetEyeImage/id/5107_"+facilityUrlTes;
+		if (TextUtils.isEmpty(facilityUrlTes)) {
+			return;
+		}
+		final String url = "https://api.bluepi.tianqi.cn/Outdata/other/getNetEyeImage/id/"+facilityUrlTes;
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -123,10 +126,15 @@ public class VideoListAdapter extends BaseAdapter{
 							try {
 								JSONObject obj = new JSONObject(result);
 								if (!obj.isNull("img")) {
-
-									String img = obj.getString("img");
+									final String img = obj.getString("img");
 									if (!TextUtils.isEmpty(img)) {
-										Picasso.get().load(img).error(R.drawable.eye_bg_thumb).into(imageView);
+										activity.runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												Picasso.get().load(img).error(R.drawable.eye_bg_thumb).into(imageView);
+//												notifyDataSetChanged();
+											}
+										});
 									}
 								}
 							} catch (JSONException e) {

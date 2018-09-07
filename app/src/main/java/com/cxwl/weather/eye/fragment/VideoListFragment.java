@@ -56,7 +56,6 @@ public class VideoListFragment extends Fragment {
 	
 	private VideoListAdapter videoAdapter;
 	private List<EyeDto> videoList = new ArrayList<>();
-	private int page = 1;
 	private RefreshLayout refreshLayout;//下拉刷新布局
 
 	@Override
@@ -90,14 +89,12 @@ public class VideoListFragment extends Fragment {
 		refreshLayout.setOnLoadListener(new OnLoadListener() {
 			@Override
 			public void onLoad() {
-				page++;
 				OkHttpList();
 			}
 		});
 	}
-	
+
 	private void refresh() {
-		page = 1;
 		videoList.clear();
 		OkHttpList();
 	}
@@ -128,7 +125,6 @@ public class VideoListFragment extends Fragment {
 	 */
 	private void OkHttpList() {
 		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf";
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
