@@ -152,82 +152,81 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 								if (!TextUtils.isEmpty(result)) {
 									try {
 										JSONObject object = new JSONObject(result);
-										if (object != null) {
-											if (!object.isNull("code")) {
-												String code  = object.getString("code");
-												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-													if (!object.isNull("list")) {
-														eyeList.clear();
-														JSONArray array = new JSONArray(object.getString("list"));
-														for (int i = 0; i < array.length(); i++) {
-															JSONObject itemObj = array.getJSONObject(i);
-															EyeDto dto = new EyeDto();
-															if (!itemObj.isNull("Fzid")) {
-																dto.fGroupId = itemObj.getString("Fzid");
-															}
-															if (!itemObj.isNull("Fid")) {
-																dto.fId = itemObj.getString("Fid");
-															}
-															if (!itemObj.isNull("FacilityIP")) {
-																dto.fGroupIp = itemObj.getString("FacilityIP");
-															}
-															if (!itemObj.isNull("Location")) {
-																dto.location = itemObj.getString("Location");
-															}
-															if (!itemObj.isNull("StatusUrl")) {
-																dto.StatusUrl = itemObj.getString("StatusUrl");
-															}
-															if (!itemObj.isNull("FacilityNumber")) {
-																dto.fNumber = itemObj.getString("FacilityNumber");
-															}
-															if (!itemObj.isNull("FacilityUrlWithin")) {
-																dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
-															}
-															if (!itemObj.isNull("FacilityUrl")) {
-																dto.streamPublic = itemObj.getString("FacilityUrl");
-															}
-															if (!itemObj.isNull("Dimensionality")) {
-																dto.lat = itemObj.getString("Dimensionality");
-															}
-															if (!itemObj.isNull("Longitude")) {
-																dto.lng = itemObj.getString("Longitude");
-															}
-															eyeList.add(dto);
+										if (!object.isNull("code")) {
+											String code  = object.getString("code");
+											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+												if (!object.isNull("list")) {
+													eyeList.clear();
+													JSONArray array = new JSONArray(object.getString("list"));
+													for (int i = 0; i < array.length(); i++) {
+														JSONObject itemObj = array.getJSONObject(i);
+														EyeDto dto = new EyeDto();
+														if (!itemObj.isNull("Fzid")) {
+															dto.fGroupId = itemObj.getString("Fzid");
 														}
+														if (!itemObj.isNull("Fid")) {
+															dto.fId = itemObj.getString("Fid");
+														}
+														if (!itemObj.isNull("FacilityIP")) {
+															dto.fGroupIp = itemObj.getString("FacilityIP");
+														}
+														if (!itemObj.isNull("Location")) {
+															dto.location = itemObj.getString("Location");
+														}
+														if (!itemObj.isNull("StatusUrl")) {
+															dto.StatusUrl = itemObj.getString("StatusUrl");
+														}
+														if (!itemObj.isNull("FacilityNumber")) {
+															dto.fNumber = itemObj.getString("FacilityNumber");
+														}
+														if (!itemObj.isNull("FacilityUrlWithin")) {
+															dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
+														}
+														if (!itemObj.isNull("FacilityUrl")) {
+															dto.streamPublic = itemObj.getString("FacilityUrl");
+														}
+														if (!itemObj.isNull("Dimensionality")) {
+															dto.lat = itemObj.getString("Dimensionality");
+														}
+														if (!itemObj.isNull("Longitude")) {
+															dto.lng = itemObj.getString("Longitude");
+														}
+														eyeList.add(dto);
+													}
 
-														aMap.clear();
-														markerList.clear();
-														LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-														for (int i = 0; i < eyeList.size(); i++) {
-															EyeDto dto = eyeList.get(i);
-															MarkerOptions options = new MarkerOptions();
-															if (!TextUtils.isEmpty(dto.fId)) {
-																options.snippet(dto.fId);
-															}
-															options.anchor(0.5f, 0.5f);
-															if (!TextUtils.isEmpty(dto.lat) && !TextUtils.isEmpty(dto.lng)) {
-																options.position(new LatLng(Double.valueOf(dto.lat), Double.valueOf(dto.lng)));
-															}
-															View view = inflater.inflate(R.layout.view_eye_marker, null);
-															TextView tvMarker = (TextView) view.findViewById(R.id.tvMarker);
-															if (!TextUtils.isEmpty(dto.location)) {
-																tvMarker.setText(dto.location.trim());
-																tvMarker.setVisibility(View.VISIBLE);
-															}
-															options.icon(BitmapDescriptorFactory.fromView(view));
-															Marker marker = aMap.addMarker(options);
-															if (marker != null) {
-																markerList.add(marker);
-																Animation animation = new ScaleAnimation(0,1,0,1);
-																animation.setInterpolator(new LinearInterpolator());
-																//整个移动所需要的时间
-																animation.setDuration(1000);
-																//设置动画
-																marker.setAnimation(animation);
-																//开始动画
-																marker.startAnimation();
-															}
+													aMap.clear();
+													markerList.clear();
+													LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+													for (int i = 0; i < eyeList.size(); i++) {
+														EyeDto dto = eyeList.get(i);
+														MarkerOptions options = new MarkerOptions();
+														if (!TextUtils.isEmpty(dto.fId)) {
+															options.snippet(dto.fId);
 														}
+														options.anchor(0.5f, 0.5f);
+														if (!TextUtils.isEmpty(dto.lat) && !TextUtils.isEmpty(dto.lng)) {
+															options.position(new LatLng(Double.valueOf(dto.lat), Double.valueOf(dto.lng)));
+														}
+														View view = inflater.inflate(R.layout.view_eye_marker, null);
+														TextView tvMarker = (TextView) view.findViewById(R.id.tvMarker);
+														if (!TextUtils.isEmpty(dto.location)) {
+															tvMarker.setText(dto.location.trim());
+															tvMarker.setVisibility(View.VISIBLE);
+														}
+														options.icon(BitmapDescriptorFactory.fromView(view));
+														Marker marker = aMap.addMarker(options);
+														if (marker != null) {
+															markerList.add(marker);
+															Animation animation = new ScaleAnimation(0,1,0,1);
+															animation.setInterpolator(new LinearInterpolator());
+															//整个移动所需要的时间
+															animation.setDuration(1000);
+															//设置动画
+															marker.setAnimation(animation);
+															//开始动画
+															marker.startAnimation();
+														}
+													}
 
 //									if (markerList.size() > 0) {
 //										double leftLat = markerList.get(0).getPosition().latitude;
@@ -267,28 +266,27 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 //										}, 500);
 //									}
 
-														new Handler().postDelayed(new Runnable() {
-															@Override
-															public void run() {
-																try {
-																	LatLngBounds bounds = new LatLngBounds.Builder()
-																			.include(new LatLng(1, 75))
-																			.include(new LatLng(60, 135)).build();
-																	aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
-																} catch (ArrayIndexOutOfBoundsException e) {
-																	e.printStackTrace();
-																}
+													new Handler().postDelayed(new Runnable() {
+														@Override
+														public void run() {
+															try {
+																LatLngBounds bounds = new LatLngBounds.Builder()
+																		.include(new LatLng(1, 75))
+																		.include(new LatLng(60, 135)).build();
+																aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+															} catch (ArrayIndexOutOfBoundsException e) {
+																e.printStackTrace();
 															}
-														}, 500);
-
-													}
-												}else {
-													//失败
-													if (!object.isNull("reason")) {
-														String reason = object.getString("reason");
-														if (!TextUtils.isEmpty(reason)) {
-															Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
 														}
+													}, 500);
+
+												}
+											}else {
+												//失败
+												if (!object.isNull("reason")) {
+													String reason = object.getString("reason");
+													if (!TextUtils.isEmpty(reason)) {
+														Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
 													}
 												}
 											}

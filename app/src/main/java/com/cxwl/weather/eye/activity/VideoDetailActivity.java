@@ -142,7 +142,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 	 * 初始化播放器
 	 */
 	private void initTXCloudVideoView(String streamUrl) {
-		if (!TextUtils.isEmpty(streamUrl)) {
+		if (!TextUtils.isEmpty(streamUrl) && mLivePlayer != null) {
 			mLivePlayer.startPlay(streamUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
 			mLivePlayer.setPlayListener(new ITXLivePlayListener() {
 				@Override

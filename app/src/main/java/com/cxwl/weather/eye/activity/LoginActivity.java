@@ -30,13 +30,10 @@ import okhttp3.Response;
 /**
  * 登录界面
  */
-
 public class LoginActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext = null;
-	private EditText etUserName = null;//用户名
-	private EditText etPwd = null;//密码
-	private TextView tvLogin = null;
+	private EditText etUserName,etPwd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +47,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener{
 	 * 初始化控件
 	 */
 	private void initWidget() {
-		etUserName = (EditText) findViewById(R.id.etUserName);
-		etPwd = (EditText) findViewById(R.id.etPwd);
-		tvLogin = (TextView) findViewById(R.id.tvLogin);
+		etUserName = findViewById(R.id.etUserName);
+		etPwd = findViewById(R.id.etPwd);
+		TextView tvLogin = findViewById(R.id.tvLogin);
 		tvLogin.setOnClickListener(this);
 		
 		SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);

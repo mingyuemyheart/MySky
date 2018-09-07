@@ -165,12 +165,12 @@ public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 	private void initViewPager() {
 		Fragment fragment1 = new FacilityMapFragment();
 		fragments.add(fragment1);
-		Fragment fragment2;
-		if (TextUtils.equals(AUTHORITY, CONST.MANAGER)) {
-			fragment2 = new FacilityGroupFragment();
-		}else {
-			fragment2 = new VideoListFragment();
-		}
+		Fragment fragment2 = new VideoListFragment();
+//		if (TextUtils.equals(AUTHORITY, CONST.MANAGER)) {
+//			fragment2 = new FacilityGroupFragment();
+//		}else {
+//			fragment2 = new VideoListFragment();
+//		}
 		fragments.add(fragment2);
 			
 		viewPager = (MainViewPager) findViewById(R.id.viewPager);

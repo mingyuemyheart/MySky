@@ -61,7 +61,7 @@
         
         <activity
             android:name="com.cxwl.weather.eye.activity.WelcomeActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

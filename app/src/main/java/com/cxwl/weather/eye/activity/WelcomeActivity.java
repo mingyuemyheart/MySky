@@ -10,7 +10,6 @@ import com.cxwl.weather.eye.R;
 /**
  * 闪屏
  */
-
 public class WelcomeActivity extends BaseActivity {
 
 	@Override

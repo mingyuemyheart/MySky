@@ -1,12 +1,5 @@
 package com.cxwl.weather.eye.adapter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.tsz.afinal.FinalBitmap;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,27 +13,36 @@ import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
+import com.squareup.picasso.Picasso;
+
+import net.tsz.afinal.FinalBitmap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * 视频列表
  */
-
 public class VideoListAdapter extends BaseAdapter{
 	
-	private Context mContext = null;
-	private LayoutInflater mInflater = null;
-	private List<EyeDto> mArrayList = new ArrayList<>();
-	private int width = 0;
-	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	private SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmm");
-	
+	private Context mContext;
+	private LayoutInflater mInflater;
+	private List<EyeDto> mArrayList;
+	private int width;
+
 	private final class ViewHolder{
 		ImageView imageView;
 		TextView tvLocation;
-		TextView tvErectTime;
 	}
-	
-	private ViewHolder mHolder = null;
 	
 	public VideoListAdapter(Context context, List<EyeDto> mArrayList) {
 		mContext = context;
@@ -68,12 +70,12 @@ public class VideoListAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder mHolder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.adapter_videolist, null);
 			mHolder = new ViewHolder();
-			mHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
-			mHolder.tvLocation = (TextView) convertView.findViewById(R.id.tvLocation);
-			mHolder.tvErectTime = (TextView) convertView.findViewById(R.id.tvErectTime);
+			mHolder.imageView = convertView.findViewById(R.id.imageView);
+			mHolder.tvLocation = convertView.findViewById(R.id.tvLocation);
 			convertView.setTag(mHolder);
 		}else {
 			mHolder = (ViewHolder) convertView.getTag();
@@ -84,29 +86,57 @@ public class VideoListAdapter extends BaseAdapter{
 			if (!TextUtils.isEmpty(dto.location)) {
 				mHolder.tvLocation.setText(dto.location);
 			}
-			if (!TextUtils.isEmpty(dto.erectTime)) {
-				try {
-					mHolder.tvErectTime.setText("架设时间："+sdf1.format(sdf2.parse(dto.erectTime)));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
+
 			if (!TextUtils.isEmpty(dto.videoThumbUrl)) {
 				FinalBitmap finalBitmap = FinalBitmap.create(mContext);
 				finalBitmap.display(mHolder.imageView, dto.videoThumbUrl, null, 0);
 			}else {
-				mHolder.imageView.setImageResource(R.drawable.eye_bg_thumb);
+				OkHttpImg(dto.facilityUrlTes, mHolder.imageView);
 			}
-			int height = width*9/16;
 			LayoutParams params = mHolder.imageView.getLayoutParams();
-			params.width = width;
-			params.height = height;
+			params.width = width/3;
+			params.height = width/3*3/4;
 			mHolder.imageView.setLayoutParams(params);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
 		
 		return convertView;
+	}
+
+	private void OkHttpImg(String facilityUrlTes, final ImageView imageView) {
+		final String url = "https://api.bluepi.tianqi.cn/Outdata/other/getNetEyeImage/id/5107_"+facilityUrlTes;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+					@Override
+					public void onFailure(Call call, IOException e) {
+					}
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						String result = response.body().string();
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONObject obj = new JSONObject(result);
+								if (!obj.isNull("img")) {
+
+									String img = obj.getString("img");
+									if (!TextUtils.isEmpty(img)) {
+										Picasso.get().load(img).error(R.drawable.eye_bg_thumb).into(imageView);
+									}
+								}
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+			}
+		}).start();
 	}
 
 }

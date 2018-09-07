@@ -39,10 +39,7 @@ import okhttp3.Response;
 
 /**
  * 天气网眼设备组
- * @author shawn_sun
- *
  */
-
 public class FacilityGroupFragment extends Fragment {
 	
 	private ListView listView = null;

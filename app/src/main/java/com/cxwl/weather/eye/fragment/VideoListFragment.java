@@ -1,21 +1,29 @@
 package com.cxwl.weather.eye.fragment;
 
-/**
- * 视频列表
- */
-
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.animation.Animation;
+import com.amap.api.maps.model.animation.ScaleAnimation;
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.activity.VideoDetailActivity;
 import com.cxwl.weather.eye.adapter.VideoListAdapter;
@@ -41,16 +49,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 视频列表
+ */
 public class VideoListFragment extends Fragment {
 	
-	private ListView listView = null;
-	private VideoListAdapter videoAdapter = null;
+	private VideoListAdapter videoAdapter;
 	private List<EyeDto> videoList = new ArrayList<>();
 	private int page = 1;
-	private int pageCount = 20;
-	private RefreshLayout refreshLayout = null;//下拉刷新布局
-	private String baseUrl = "https://tqwy.tianqi.cn/tianqixy/userInfo/selectlist";
-	
+	private RefreshLayout refreshLayout;//下拉刷新布局
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_videolist, null);
@@ -69,7 +77,7 @@ public class VideoListFragment extends Fragment {
 	 * 初始化下拉刷新布局
 	 */
 	private void initRefreshLayout(View view) {
-		refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+		refreshLayout = view.findViewById(R.id.refreshLayout);
 		refreshLayout.setColor(CONST.color1, CONST.color2, CONST.color3, CONST.color4);
 		refreshLayout.setMode(RefreshLayout.Mode.BOTH);
 		refreshLayout.setLoadNoFull(false);
@@ -83,7 +91,7 @@ public class VideoListFragment extends Fragment {
 			@Override
 			public void onLoad() {
 				page++;
-				OkHttpList(baseUrl);
+				OkHttpList();
 			}
 		});
 	}
@@ -91,7 +99,7 @@ public class VideoListFragment extends Fragment {
 	private void refresh() {
 		page = 1;
 		videoList.clear();
-		OkHttpList(baseUrl);
+		OkHttpList();
 	}
 	
 	private void initWidget(View view) {
@@ -99,10 +107,10 @@ public class VideoListFragment extends Fragment {
 	}
 	
 	private void initListView(View view) {
-		listView = (ListView) view.findViewById(R.id.listView);
+		GridView gridView = view.findViewById(R.id.gridView);
 		videoAdapter = new VideoListAdapter(getActivity(), videoList);
-		listView.setAdapter(videoAdapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		gridView.setAdapter(videoAdapter);
+		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				EyeDto dto = videoList.get(arg2);
@@ -118,20 +126,16 @@ public class VideoListFragment extends Fragment {
 	/**
 	 * 获取视频列表
 	 */
-	private void OkHttpList(final String url) {
-		FormBody.Builder builder = new FormBody.Builder();
-		builder.add("intpage", page+"");
-		builder.add("pagerow", pageCount+"");
-		final RequestBody body = builder.build();
+	private void OkHttpList() {
+		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf";
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
-
 					}
-
 					@Override
 					public void onResponse(Call call, Response response) throws IOException {
 						if (!response.isSuccessful()) {
@@ -144,58 +148,64 @@ public class VideoListFragment extends Fragment {
 								if (!TextUtils.isEmpty(result)) {
 									try {
 										JSONObject object = new JSONObject(result);
-										if (object != null) {
-											if (!object.isNull("code")) {
-												String code  = object.getString("code");
-												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-													if (!object.isNull("list")) {
-														JSONArray array = new JSONArray(object.getString("list"));
-														for (int i = 0; i < array.length(); i++) {
-															JSONObject itemObj = array.getJSONObject(i);
-															EyeDto dto = new EyeDto();
-															if (!itemObj.isNull("Fzid")) {
-																dto.fGroupId = itemObj.getString("Fzid");
-															}
-															if (!itemObj.isNull("Fid")) {
-																dto.fId = itemObj.getString("Fid");
-															}
-															if (!itemObj.isNull("FacilityIP")) {
-																dto.fGroupIp = itemObj.getString("FacilityIP");
-															}
-															if (!itemObj.isNull("Location")) {
-																dto.location = itemObj.getString("Location");
-															}
-															if (!itemObj.isNull("StatusUrl")) {
-																dto.StatusUrl = itemObj.getString("StatusUrl");
-															}
-															if (!itemObj.isNull("FacilityNumber")) {
-																dto.fNumber = itemObj.getString("FacilityNumber");
-															}
-															if (!itemObj.isNull("ErectTime")) {
-																dto.erectTime = itemObj.getString("ErectTime");
-															}
-															if (!itemObj.isNull("FacilityUrlWithin")) {
-																dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
-															}
-															if (!itemObj.isNull("FacilityUrl")) {
-																dto.streamPublic = itemObj.getString("FacilityUrl");
-															}
-															if (!itemObj.isNull("small")) {
-																dto.videoThumbUrl = itemObj.getString("small");
-															}
-															videoList.add(dto);
+										if (!object.isNull("code")) {
+											String code  = object.getString("code");
+											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+												if (!object.isNull("list")) {
+													videoList.clear();
+													JSONArray array = new JSONArray(object.getString("list"));
+													for (int i = 0; i < array.length(); i++) {
+														JSONObject itemObj = array.getJSONObject(i);
+														EyeDto dto = new EyeDto();
+														if (!itemObj.isNull("Fzid")) {
+															dto.fGroupId = itemObj.getString("Fzid");
 														}
-														if (videoAdapter != null) {
-															videoAdapter.notifyDataSetChanged();
+														if (!itemObj.isNull("Fid")) {
+															dto.fId = itemObj.getString("Fid");
 														}
+														if (!itemObj.isNull("FacilityIP")) {
+															dto.fGroupIp = itemObj.getString("FacilityIP");
+														}
+														if (!itemObj.isNull("Location")) {
+															dto.location = itemObj.getString("Location");
+														}
+														if (!itemObj.isNull("StatusUrl")) {
+															dto.StatusUrl = itemObj.getString("StatusUrl");
+														}
+														if (!itemObj.isNull("FacilityNumber")) {
+															dto.fNumber = itemObj.getString("FacilityNumber");
+														}
+														if (!itemObj.isNull("FacilityUrlWithin")) {
+															dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
+														}
+														if (!itemObj.isNull("FacilityUrl")) {
+															dto.streamPublic = itemObj.getString("FacilityUrl");
+														}
+														if (!itemObj.isNull("Dimensionality")) {
+															dto.lat = itemObj.getString("Dimensionality");
+														}
+														if (!itemObj.isNull("Longitude")) {
+															dto.lng = itemObj.getString("Longitude");
+														}
+														if (!itemObj.isNull("small")) {
+														    dto.videoThumbUrl = itemObj.getString("small");
+                                                        }
+                                                        if (!itemObj.isNull("FacilityUrlTes")) {
+                                                            dto.facilityUrlTes = itemObj.getString("FacilityUrlTes");
+                                                        }
+														videoList.add(dto);
 													}
-												}else {
-													//失败
-													if (!object.isNull("reason")) {
-														String reason = object.getString("reason");
-														if (!TextUtils.isEmpty(reason)) {
-															Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
-														}
+
+													if (videoAdapter != null) {
+														videoAdapter.notifyDataSetChanged();
+													}
+												}
+											}else {
+												//失败
+												if (!object.isNull("reason")) {
+													String reason = object.getString("reason");
+													if (!TextUtils.isEmpty(reason)) {
+														Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
 													}
 												}
 											}

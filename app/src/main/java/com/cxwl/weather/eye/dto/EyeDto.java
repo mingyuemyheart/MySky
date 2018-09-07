@@ -22,6 +22,7 @@ public class EyeDto implements Parcelable{
 	public String lat;
 	public String lng;
 	public String forePosition;//预位置
+	public String facilityUrlTes;
 
 	public String time;//逐小时
 	public float temperature;//温度
@@ -63,6 +64,7 @@ public class EyeDto implements Parcelable{
 		dest.writeString(this.lat);
 		dest.writeString(this.lng);
 		dest.writeString(this.forePosition);
+		dest.writeString(this.facilityUrlTes);
 		dest.writeString(this.time);
 		dest.writeFloat(this.temperature);
 		dest.writeFloat(this.quality);
@@ -95,6 +97,7 @@ public class EyeDto implements Parcelable{
 		this.lat = in.readString();
 		this.lng = in.readString();
 		this.forePosition = in.readString();
+		this.facilityUrlTes = in.readString();
 		this.time = in.readString();
 		this.temperature = in.readFloat();
 		this.quality = in.readFloat();

@@ -15,15 +15,11 @@ import com.cxwl.weather.eye.view.MyVideoView;
 
 /**
  * 引导视频
- * @author shawn_sun
- *
  */
-
 public class WelcomeVideoActivity extends BaseActivity implements OnClickListener{
 	
-	private MyVideoView videoView = null;
-	private TextView tvExit = null;
-	
+	private MyVideoView videoView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,12 +29,12 @@ public class WelcomeVideoActivity extends BaseActivity implements OnClickListene
 	}
 	
 	private void initWidget() {
-		tvExit = (TextView) findViewById(R.id.tvExit);
+		TextView tvExit = findViewById(R.id.tvExit);
 		tvExit.setOnClickListener(this);
 	}
 	
 	private void initVideoView() {
-		videoView = (MyVideoView) findViewById(R.id.videoView);
+		videoView = findViewById(R.id.videoView);
         videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.welcome));
         videoView.setOnPreparedListener(new OnPreparedListener() {
 			@Override
