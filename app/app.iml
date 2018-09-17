@@ -142,10 +142,8 @@
     <orderEntry type="library" name="Gradle: com.android.support:exifinterface-27.1.0" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:livedata-core-1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.picasso:picasso-2.71828" level="project" />
-    <orderEntry type="library" name="Gradle: com.amap.api:search:5.7.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng-shareboard-widget-6.9.3.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/scene-final.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/shawn/AndroidStudioProjects/WeatherEye/app/libs/umeng-share-core-6.9.3.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.http.legacy-android-27" level="project" />
