@@ -17,19 +17,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
- * Created by shawn on 2017/8/3.
- */
-
 public class OkHttpUtil {
 
+    public static HashMap<String, List<Cookie>> cookieMap = new HashMap<>();
+
     private final static OkHttpClient.Builder builder = new OkHttpClient.Builder().cookieJar(new CookieJar() {//携带cookie请求
-
-        HashMap<String, List<Cookie>> cookieMap = new HashMap<>();
-
         @Override
         public void saveFromResponse(HttpUrl httpUrl, List<Cookie> list) {
-            cookieMap.put(httpUrl.host(), list);
+            if (httpUrl.host().contains("tqwy.tianqi.cn")) {
+                cookieMap.put(httpUrl.host(), list);
+            }
         }
 
         @Override
@@ -38,7 +35,6 @@ public class OkHttpUtil {
             return list != null ? list : new ArrayList<Cookie>();
         }
     });
-//    private final static OkHttpClient.Builder builder = new OkHttpClient.Builder();
     private final static OkHttpClient okHttpClient = builder.build();
     private static int timeOut = 30;//超时时间
 

@@ -1,8 +1,5 @@
 package com.cxwl.weather.eye.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,7 +23,6 @@ import android.widget.Toast;
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
 import com.cxwl.weather.eye.common.CONST;
-import com.cxwl.weather.eye.fragment.FacilityGroupFragment;
 import com.cxwl.weather.eye.fragment.FacilityMapFragment;
 import com.cxwl.weather.eye.fragment.VideoListFragment;
 import com.cxwl.weather.eye.utils.AutoUpdateUtil;
@@ -35,26 +31,22 @@ import com.cxwl.weather.eye.view.MainViewPager;
 import com.cxwl.weather.eye.view.SemiMenuView;
 import com.cxwl.weather.eye.view.SemiMenuView.FinishListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 天气网眼
- * @author shawn_sun
- *
  */
-
 public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 	
-	private Context mContext = null;
-	private ImageView ivControl = null;
+	private Context mContext;
+	private ImageView ivControl;
 	private long mExitTime;//记录点击完返回按钮后的long型时间
-	private MainViewPager viewPager = null;
-	private MyPagerAdapter pagerAdapter = null;
+	private MainViewPager viewPager;
 	private List<Fragment> fragments = new ArrayList<>();
-	private LinearLayout llBack = null;
-	private ImageView ivBack = null;
-	private TextView tvTitle = null;
-	private LinearLayout llContainer = null;
-	private SemiMenuView semiMenuView = null;
-	private MyBroadCastReceiver mReceiver = null;
+	private LinearLayout llBack,llContainer;
+	private SemiMenuView semiMenuView;
+	private MyBroadCastReceiver mReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,17 +128,18 @@ public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 	
 	private void initWidget() {
 		AutoUpdateUtil.checkUpdate(WeatherEyeActivity.this, mContext, "67", getString(R.string.app_name), true);
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
+
+		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText(getString(R.string.app_name));
-		ivControl = (ImageView) findViewById(R.id.ivControl);
+		ivControl = findViewById(R.id.ivControl);
 		ivControl.setOnClickListener(this);
 		ivControl.setVisibility(View.VISIBLE);
-		llBack = (LinearLayout) findViewById(R.id.llBack);
+		llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
-		ivBack = (ImageView) findViewById(R.id.ivBack);
+		ImageView ivBack = findViewById(R.id.ivBack);
 		ivBack.setImageResource(R.drawable.eye_iv_menu);
-		llContainer = (LinearLayout) findViewById(R.id.llContainer);
-		semiMenuView = (SemiMenuView) findViewById(R.id.semiMenuView);
+		llContainer = findViewById(R.id.llContainer);
+		semiMenuView = findViewById(R.id.semiMenuView);
 		
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getRealMetrics(dm);
@@ -173,8 +166,8 @@ public class WeatherEyeActivity extends BaseActivity implements OnClickListener{
 //		}
 		fragments.add(fragment2);
 			
-		viewPager = (MainViewPager) findViewById(R.id.viewPager);
-		pagerAdapter = new MyPagerAdapter(WeatherEyeActivity.this, fragments);
+		viewPager = findViewById(R.id.viewPager);
+		MyPagerAdapter pagerAdapter = new MyPagerAdapter(WeatherEyeActivity.this, fragments);
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setSlipping(false);//设置ViewPager是否可以滑动
 		viewPager.setOffscreenPageLimit(fragments.size());

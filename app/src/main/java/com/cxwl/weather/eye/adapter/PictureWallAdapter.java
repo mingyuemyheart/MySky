@@ -8,44 +8,37 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
-
-import net.tsz.afinal.FinalBitmap;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 照片墙
  */
-
 public class PictureWallAdapter extends BaseAdapter{
 	
-	private Context mContext = null;
-	private LayoutInflater mInflater = null;
-	private List<EyeDto> mArrayList = new ArrayList<>();
-	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-	private int width = 0;
+	private LayoutInflater mInflater;
+	private List<EyeDto> mArrayList;
+	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+	private int width;
 	
 	private final class ViewHolder{
 		ImageView imageView;
 		TextView tvTime;
 	}
 	
-	private ViewHolder mHolder = null;
-	
 	public PictureWallAdapter(Context context, List<EyeDto> mArrayList) {
-		mContext = context;
 		this.mArrayList = mArrayList;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		width = wm.getDefaultDisplay().getWidth();
 	}
 
@@ -66,11 +59,12 @@ public class PictureWallAdapter extends BaseAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder mHolder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.adapter_picturewall, null);
 			mHolder = new ViewHolder();
-			mHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
-			mHolder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+			mHolder.imageView = convertView.findViewById(R.id.imageView);
+			mHolder.tvTime = convertView.findViewById(R.id.tvTime);
 			convertView.setTag(mHolder);
 		}else {
 			mHolder = (ViewHolder) convertView.getTag();
@@ -82,9 +76,10 @@ public class PictureWallAdapter extends BaseAdapter{
 				mHolder.tvTime.setText(sdf.format(new Date(Long.valueOf(dto.pictureTime)*1000)));
 			}
 			if (!TextUtils.isEmpty(dto.pictureThumbUrl)) {
-				FinalBitmap finalBitmap = FinalBitmap.create(mContext);
-				finalBitmap.display(mHolder.imageView, dto.pictureThumbUrl, null, 0);
-				RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width/3, width/3*3/4);
+				Picasso.get().load(dto.pictureThumbUrl).into(mHolder.imageView);
+				ViewGroup.LayoutParams params = mHolder.imageView.getLayoutParams();
+				params.width = width/3;
+				params.height = width/3*3/4;
 				mHolder.imageView.setLayoutParams(params);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {

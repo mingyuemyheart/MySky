@@ -1,9 +1,5 @@
 package com.cxwl.weather.eye.activity;
 
-/**
- * 视频操作
- */
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -68,24 +64,23 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 视频操作
+ */
 public class VideoSettingActivity extends BaseActivity implements OnClickListener{
 	
-	private Context mContext = null;
-	private LinearLayout llBack = null;
-	private ImageView ivBack = null;
-	private RelativeLayout reTitle = null;
-	private TextView tvTitle = null;
-	private EyeDto data = null;
-	private Configuration configuration = null;//方向监听器
-	private ProgressBar progressBar = null;
-	private TXCloudVideoView mPlayerView = null;
-	private TXLivePlayer mLivePlayer = null;
+	private Context mContext;
+	private RelativeLayout reTitle;
+	private EyeDto data;
+	private Configuration configuration;//方向监听器
+	private ProgressBar progressBar;
+	private TXCloudVideoView mPlayerView;
+	private TXLivePlayer mLivePlayer;
 
-	private RoundMenuView roundMenuView = null;
 	private float startDegree = 0;//开始角度
 	private float clickDegree = 0;//选中角度
-	private ImageView ivMenuDir = null;
-	private MyBroadCastReceiver mReceiver = null;
+	private ImageView ivMenuDir;
+	private MyBroadCastReceiver mReceiver;
 	private String commandBaseUrl = "https://tqwy.tianqi.cn/tianqixy/userInfo/facilordeinset";//发送指令baseUrl
 	//操作类型 1 上，2下，3左，4右，5右上，6左上，7右下，8左下，
 			//10变倍大，11变倍小，13聚焦近，14聚焦远，17打开光圈，18关闭光圈，19打开雨刷，
@@ -98,13 +93,9 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	private int saturation = 50;//饱和度
 	private int chroma = 50;//色度
 	
-	private ImageView ivMinuse1, ivMinuse2, ivMinuse3, ivMinuse4, ivMinuse5;
-	private ImageView ivPlus1, ivPlus2, ivPlus3, ivPlus4, ivPlus5;
-	private TextView tvValue1 = null;
+	private ImageView ivMinuse1, ivPlus1;
 	private SeekBar seekBar1, seekBar2, seekBar3, seekBar4;
-	private TextView tvSeekBar1, tvSeekBar2, tvSeekBar3, tvSeekBar4;
-	private LinearLayout ll8 = null;
-	private TextView tvForePosition = null;
+	private TextView tvSeekBar1, tvSeekBar2, tvSeekBar3, tvSeekBar4,tvValue1,tvForePosition;
 	private static final int HANDLER_SPEED_MINUSE_DOWN = 2;
 	private static final int HANDLER_SPEED_MINUSE_UP = 3;
 	private static final int HANDLER_SPEED_PLUS_DOWN = 4;
@@ -132,51 +123,51 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	 * 初始化控件
 	 */
 	private void initWidget() {
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
+		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText("视频设置");
-		llBack = (LinearLayout) findViewById(R.id.llBack);
+		LinearLayout llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
-		reTitle = (RelativeLayout) findViewById(R.id.reTitle);
-		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		ivBack = (ImageView) findViewById(R.id.ivBack);
+		reTitle = findViewById(R.id.reTitle);
+		progressBar = findViewById(R.id.progressBar);
+		ImageView ivBack = findViewById(R.id.ivBack);
 		ivBack.setImageResource(R.drawable.eye_btn_close);
-		ivMenuDir = (ImageView) findViewById(R.id.ivMenuDir);
-		ivMinuse1 = (ImageView) findViewById(R.id.ivMinuse1);
+		ivMenuDir = findViewById(R.id.ivMenuDir);
+		ivMinuse1 = findViewById(R.id.ivMinuse1);
 		ivMinuse1.setOnTouchListener(ivMinuse1Listener);
-		ivMinuse2 = (ImageView) findViewById(R.id.ivMinuse2);
+		ImageView ivMinuse2 = findViewById(R.id.ivMinuse2);
 		ivMinuse2.setOnClickListener(this);
-		ivMinuse3 = (ImageView) findViewById(R.id.ivMinuse3);
+		ImageView ivMinuse3 = findViewById(R.id.ivMinuse3);
 		ivMinuse3.setOnClickListener(this);
-		ivMinuse4 = (ImageView) findViewById(R.id.ivMinuse4);
+		ImageView ivMinuse4 = findViewById(R.id.ivMinuse4);
 		ivMinuse4.setOnClickListener(this);
-		ivMinuse5 = (ImageView) findViewById(R.id.ivMinuse5);
+		ImageView ivMinuse5 = findViewById(R.id.ivMinuse5);
 		ivMinuse5.setOnClickListener(this);
-		ivPlus1 = (ImageView) findViewById(R.id.ivPlus1);
+		ivPlus1 = findViewById(R.id.ivPlus1);
 		ivPlus1.setOnTouchListener(ivPlus1Listener);
-		ivPlus2 = (ImageView) findViewById(R.id.ivPlus2);
+		ImageView ivPlus2 = findViewById(R.id.ivPlus2);
 		ivPlus2.setOnClickListener(this);
-		ivPlus3 = (ImageView) findViewById(R.id.ivPlus3);
+		ImageView ivPlus3 = findViewById(R.id.ivPlus3);
 		ivPlus3.setOnClickListener(this);
-		ivPlus4 = (ImageView) findViewById(R.id.ivPlus4);
+		ImageView ivPlus4 = findViewById(R.id.ivPlus4);
 		ivPlus4.setOnClickListener(this);
-		ivPlus5 = (ImageView) findViewById(R.id.ivPlus5);
+		ImageView ivPlus5 = findViewById(R.id.ivPlus5);
 		ivPlus5.setOnClickListener(this);
-		tvValue1 = (TextView) findViewById(R.id.tvValue1);
-		tvSeekBar1 = (TextView) findViewById(R.id.tvSeekBar1);
-		tvSeekBar2 = (TextView) findViewById(R.id.tvSeekBar2);
-		tvSeekBar3 = (TextView) findViewById(R.id.tvSeekBar3);
-		tvSeekBar4 = (TextView) findViewById(R.id.tvSeekBar4);
-		seekBar1 = (SeekBar) findViewById(R.id.seekBar1);
-		seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
-		seekBar3 = (SeekBar) findViewById(R.id.seekBar3);
-		seekBar4 = (SeekBar) findViewById(R.id.seekBar4);
+		tvValue1 = findViewById(R.id.tvValue1);
+		tvSeekBar1 = findViewById(R.id.tvSeekBar1);
+		tvSeekBar2 = findViewById(R.id.tvSeekBar2);
+		tvSeekBar3 = findViewById(R.id.tvSeekBar3);
+		tvSeekBar4 = findViewById(R.id.tvSeekBar4);
+		seekBar1 = findViewById(R.id.seekBar1);
+		seekBar2 = findViewById(R.id.seekBar2);
+		seekBar3 = findViewById(R.id.seekBar3);
+		seekBar4 = findViewById(R.id.seekBar4);
 		seekBar1.setOnSeekBarChangeListener(seekBarListener1);
 		seekBar2.setOnSeekBarChangeListener(seekBarListener2);
 		seekBar3.setOnSeekBarChangeListener(seekBarListener3);
 		seekBar4.setOnSeekBarChangeListener(seekBarListener4);
-		ll8 = (LinearLayout) findViewById(R.id.ll8);
+		LinearLayout ll8 = findViewById(R.id.ll8);
 		ll8.setOnClickListener(this);
-		tvForePosition = (TextView) findViewById(R.id.tvForePosition);
+		tvForePosition = findViewById(R.id.tvForePosition);
 		
 		tvValue1.setText(speed+"");
 		tvSeekBar1.setText(brightness+"");
@@ -184,7 +175,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 		tvSeekBar3.setText(saturation+"");
 		tvSeekBar4.setText(chroma+"");
 		
-		mPlayerView = (TXCloudVideoView) findViewById(R.id.video_view);
+		mPlayerView = findViewById(R.id.video_view);
 		mPlayerView.setOnClickListener(this);
 		mLivePlayer = new TXLivePlayer(mContext);
 		mLivePlayer.setPlayerView(mPlayerView);
@@ -406,7 +397,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 				
 				@Override
 				public void onNetStatus(Bundle status) {
-					TextView tv = (TextView) findViewById(R.id.tv);
+					TextView tv = findViewById(R.id.tv);
 					tv.setText("Current status, CPU:"+status.getString(TXLiveConstants.NET_STATUS_CPU_USAGE)+
 			                ", RES:"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH)+"*"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT)+
 			                ", SPD:"+status.getInt(TXLiveConstants.NET_STATUS_NET_SPEED)+"Kbps"+
@@ -513,7 +504,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	 * 初始化圆形菜单按钮
 	 */
 	private void initRoundMenuView() {
-		roundMenuView = (RoundMenuView) findViewById(R.id.roundMenuView);
+		RoundMenuView roundMenuView = findViewById(R.id.roundMenuView);
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getRealMetrics(dm);
 		int width = dm.widthPixels;
@@ -674,9 +665,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
-
 					}
-
 					@Override
 					public void onResponse(Call call, Response response) throws IOException {
 						if (!response.isSuccessful()) {
@@ -689,19 +678,17 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 								if (!TextUtils.isEmpty(result)) {
 									try {
 										JSONObject object = new JSONObject(result);
-										if (object != null) {
-											if (!object.isNull("code")) {
-												String code  = object.getString("code");
-												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-													//success
-												}else if (TextUtils.equals(code, "701")) {
-													if (!object.isNull("reason")) {
-														String reason = object.getString("reason");
-														if (!TextUtils.isEmpty(reason)) {
-															Toast toast = Toast.makeText(mContext, reason, Toast.LENGTH_LONG);
-															toast.setGravity(Gravity.TOP, 0, 300);
-															toast.show();
-														}
+										if (!object.isNull("code")) {
+											String code  = object.getString("code");
+											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+												//success
+											}else if (TextUtils.equals(code, "701")) {
+												if (!object.isNull("reason")) {
+													String reason = object.getString("reason");
+													if (!TextUtils.isEmpty(reason)) {
+														Toast toast = Toast.makeText(mContext, reason, Toast.LENGTH_LONG);
+														toast.setGravity(Gravity.TOP, 0, 300);
+														toast.show();
 													}
 												}
 											}
@@ -724,9 +711,9 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 	private void foreDialog() {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_fore_position, null);
-		TextView tvMessage = (TextView) view.findViewById(R.id.tvMessage);
+		TextView tvMessage = view.findViewById(R.id.tvMessage);
 		tvMessage.setText("设置预位置");
-		TextView tvNegtive = (TextView) view.findViewById(R.id.tvNegtive);
+		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
 		
 		final List<EyeDto> foreList = new ArrayList<>();
 		foreList.clear();
@@ -735,7 +722,7 @@ public class VideoSettingActivity extends BaseActivity implements OnClickListene
 			dto.forePosition = i+"";
 			foreList.add(dto);
 		}
-		ListView listView = (ListView) view.findViewById(R.id.listView);
+		ListView listView = view.findViewById(R.id.listView);
 		ForePositionAdapter foreAdapter = new ForePositionAdapter(mContext, foreList);
 		listView.setAdapter(foreAdapter);
 		

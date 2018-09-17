@@ -6,8 +6,12 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
@@ -17,7 +21,7 @@ import com.cxwl.weather.eye.view.MyVideoView;
  * 引导视频
  */
 public class WelcomeVideoActivity extends BaseActivity implements OnClickListener{
-	
+
 	private MyVideoView videoView;
 
 	@Override
@@ -29,8 +33,15 @@ public class WelcomeVideoActivity extends BaseActivity implements OnClickListene
 	}
 	
 	private void initWidget() {
+		ImageView imageView = findViewById(R.id.imageView);
 		TextView tvExit = findViewById(R.id.tvExit);
 		tvExit.setOnClickListener(this);
+
+		AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+		alphaAnimation.setDuration(2000);
+		alphaAnimation.setFillAfter(true);
+		imageView.startAnimation(alphaAnimation);
+
 	}
 	
 	private void initVideoView() {

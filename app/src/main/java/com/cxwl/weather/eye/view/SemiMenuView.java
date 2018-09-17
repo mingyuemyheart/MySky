@@ -1,5 +1,6 @@
 package com.cxwl.weather.eye.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,7 +24,7 @@ import com.cxwl.weather.eye.utils.CommonUtil;
 
 public class SemiMenuView extends ImageView implements OnGestureListener {
 	
-	private Context mContext = null;
+	private Context mContext;
 	private static final int childMenuSize = 30;
 	private static final float childAngle = 180f / childMenuSize;
 	private float offsetAngle = 0f;
@@ -47,7 +48,6 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 		init();
 	}
 
-	@SuppressWarnings("deprecation")
 	private void init() {
 		paint = new Paint();
 		paint.setStrokeWidth(CommonUtil.dip2px(mContext, 50));
@@ -126,7 +126,7 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 			canvas.drawArc(rectF, 180, -((childMenuSize-index) * childAngle + offsetAngle), false, paint);
 		}
 		
-		if (index == childMenuSize && startDraw == true) {
+		if (index == childMenuSize && startDraw) {
 //			if (TextUtils.equals(CONST.AUTHORITY, CONST.COMMON)) {//普通用户
 //				//设置
 //				double x3 = centerX + getRoundX(radius-CommonUtil.dip2px(mContext, 25), 3, childMenuSize, offsetAngle + childAngle / 2);
@@ -341,7 +341,7 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 		private int index;
 		private int count;
 		
-		public DrawThread() {
+		private DrawThread() {
 			this.count = childMenuSize;
 			this.index = 0;
 			this.state = STATE_NONE;
@@ -378,7 +378,7 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 			}
 		}
 		
-		public void cancel() {
+		private void cancel() {
 			this.state = STATE_CANCEL;
 		}
 		public void play() {
@@ -390,6 +390,7 @@ public class SemiMenuView extends ImageView implements OnGestureListener {
 		}
 	}
 
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			int what = msg.what;

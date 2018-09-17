@@ -91,7 +91,11 @@ public class VideoListAdapter extends BaseAdapter{
 			if (!TextUtils.isEmpty(dto.videoThumbUrl)) {
 				Picasso.get().load(dto.videoThumbUrl).error(R.drawable.eye_bg_thumb).into(mHolder.imageView);
 			}else {
-				OkHttpImg(dto.facilityUrlTes, mHolder.imageView);
+				if (TextUtils.equals(dto.videoThumbUrl, "")) {
+					mHolder.imageView.setImageResource(R.drawable.eye_bg_thumb);
+				}else {
+					OkHttpImg(dto.facilityUrlTes, mHolder.imageView, dto);
+				}
 			}
 			LayoutParams params = mHolder.imageView.getLayoutParams();
 			params.width = width/3;
@@ -104,7 +108,7 @@ public class VideoListAdapter extends BaseAdapter{
 		return convertView;
 	}
 
-	private void OkHttpImg(String facilityUrlTes, final ImageView imageView) {
+	private void OkHttpImg(String facilityUrlTes, final ImageView imageView, final EyeDto dto) {
 		if (TextUtils.isEmpty(facilityUrlTes)) {
 			return;
 		}
@@ -132,6 +136,7 @@ public class VideoListAdapter extends BaseAdapter{
 											@Override
 											public void run() {
 												Picasso.get().load(img).error(R.drawable.eye_bg_thumb).into(imageView);
+												dto.videoThumbUrl = img;
 //												notifyDataSetChanged();
 											}
 										});

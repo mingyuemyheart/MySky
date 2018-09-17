@@ -1,38 +1,25 @@
 package com.cxwl.weather.eye.fragment;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.animation.Animation;
-import com.amap.api.maps.model.animation.ScaleAnimation;
 import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.activity.BaseActivity;
 import com.cxwl.weather.eye.activity.VideoDetailActivity;
 import com.cxwl.weather.eye.adapter.VideoListAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
-import com.cxwl.weather.eye.view.RefreshLayout;
-import com.cxwl.weather.eye.view.RefreshLayout.OnLoadListener;
-import com.cxwl.weather.eye.view.RefreshLayout.OnRefreshListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,9 +31,8 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
+import okhttp3.Cookie;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -55,8 +41,8 @@ import okhttp3.Response;
 public class VideoListFragment extends Fragment {
 	
 	private VideoListAdapter videoAdapter;
-	private List<EyeDto> videoList = new ArrayList<>();
-	private RefreshLayout refreshLayout;//下拉刷新布局
+	private List<EyeDto> dataList = new ArrayList<>();
+	private SwipeRefreshLayout refreshLayout;//下拉刷新布局
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,26 +62,20 @@ public class VideoListFragment extends Fragment {
 	 * 初始化下拉刷新布局
 	 */
 	private void initRefreshLayout(View view) {
-		refreshLayout = view.findViewById(R.id.refreshLayout);
-		refreshLayout.setColor(CONST.color1, CONST.color2, CONST.color3, CONST.color4);
-		refreshLayout.setMode(RefreshLayout.Mode.BOTH);
-		refreshLayout.setLoadNoFull(false);
-		refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				refresh();
-			}
-		});
-		refreshLayout.setOnLoadListener(new OnLoadListener() {
-			@Override
-			public void onLoad() {
-				OkHttpList();
-			}
-		});
+        refreshLayout = view.findViewById(R.id.refreshLayout);
+        refreshLayout.setColorSchemeResources(CONST.color1, CONST.color2, CONST.color3, CONST.color4);
+        refreshLayout.setProgressViewEndTarget(true, 300);
+        refreshLayout.setRefreshing(true);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 	}
 
 	private void refresh() {
-		videoList.clear();
+		dataList.clear();
 		OkHttpList();
 	}
 	
@@ -105,12 +85,12 @@ public class VideoListFragment extends Fragment {
 	
 	private void initListView(View view) {
 		GridView gridView = view.findViewById(R.id.gridView);
-		videoAdapter = new VideoListAdapter(getActivity(), videoList);
+		videoAdapter = new VideoListAdapter(getActivity(), dataList);
 		gridView.setAdapter(videoAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				EyeDto dto = videoList.get(arg2);
+				EyeDto dto = dataList.get(arg2);
 				Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putParcelable("data", dto);
@@ -124,7 +104,17 @@ public class VideoListFragment extends Fragment {
 	 * 获取视频列表
 	 */
 	private void OkHttpList() {
-		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf";
+		String c = null;
+		for (String host : OkHttpUtil.cookieMap.keySet()) {
+			if (OkHttpUtil.cookieMap.containsKey(host)) {
+				List<Cookie> cookies = OkHttpUtil.cookieMap.get(host);
+				for (Cookie cookie : cookies) {
+					c = cookie.name()+":"+cookie.value();
+				}
+			}
+		}
+		final String url = String.format("https://api.bluepi.tianqi.cn/outdata/other/newselmallf/cookie/%s&UserNo=%s", c, BaseActivity.USERNAME);
+//		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf";
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -148,7 +138,7 @@ public class VideoListFragment extends Fragment {
 											String code  = object.getString("code");
 											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
 												if (!object.isNull("list")) {
-													videoList.clear();
+													dataList.clear();
 													JSONArray array = new JSONArray(object.getString("list"));
 													for (int i = 0; i < array.length(); i++) {
 														JSONObject itemObj = array.getJSONObject(i);
@@ -189,7 +179,7 @@ public class VideoListFragment extends Fragment {
                                                         if (!itemObj.isNull("FacilityUrlTes")) {
                                                             dto.facilityUrlTes = itemObj.getString("FacilityUrlTes");
                                                         }
-														videoList.add(dto);
+														dataList.add(dto);
 													}
 
 													if (videoAdapter != null) {
@@ -207,7 +197,6 @@ public class VideoListFragment extends Fragment {
 											}
 										}
 										refreshLayout.setRefreshing(false);
-										refreshLayout.setLoading(false);
 									} catch (JSONException e) {
 										e.printStackTrace();
 									}

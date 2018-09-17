@@ -18,21 +18,15 @@ import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.manager.DataCleanManager;
 import com.cxwl.weather.eye.utils.AutoUpdateUtil;
+import com.cxwl.weather.eye.utils.OkHttpUtil;
 
 /**
  * 设置界面
  */
-
 public class SettingActivity extends BaseActivity implements OnClickListener{
 	
-	private Context mContext = null;
-	private LinearLayout llBack = null;
-	private TextView tvTitle = null;
-	private LinearLayout llClearCache = null;
-	private TextView tvCache = null;
-	private LinearLayout llVersion = null;
-	private TextView tvVersion = null;
-	private TextView tvLogout = null;
+	private Context mContext;
+	private TextView tvCache;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +37,18 @@ public class SettingActivity extends BaseActivity implements OnClickListener{
 	}
 	
 	private void initWidget() {
-		llBack = (LinearLayout) findViewById(R.id.llBack);
+		LinearLayout llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
+		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText("设置");
-		llClearCache = (LinearLayout) findViewById(R.id.llClearCache);
+		LinearLayout llClearCache = findViewById(R.id.llClearCache);
 		llClearCache.setOnClickListener(this);
-		tvCache = (TextView) findViewById(R.id.tvCache);
-		llVersion = (LinearLayout) findViewById(R.id.llVersion);
+		tvCache = findViewById(R.id.tvCache);
+		LinearLayout llVersion = findViewById(R.id.llVersion);
 		llVersion.setOnClickListener(this);
-		tvVersion = (TextView) findViewById(R.id.tvVersion);
+		TextView tvVersion = findViewById(R.id.tvVersion);
 		tvVersion.setText(getVersion());
-		tvLogout = (TextView) findViewById(R.id.tvLogout);
+		TextView tvLogout = findViewById(R.id.tvLogout);
 		tvLogout.setOnClickListener(this);
 		
 		try {
@@ -89,10 +83,10 @@ public class SettingActivity extends BaseActivity implements OnClickListener{
 	private void deleteDialog(final boolean flag, String message, String content, final TextView textView) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_delete, null);
-		TextView tvMessage = (TextView) view.findViewById(R.id.tvMessage);
-		TextView tvContent = (TextView) view.findViewById(R.id.tvContent);
-		LinearLayout llNegative = (LinearLayout) view.findViewById(R.id.llNegative);
-		LinearLayout llPositive = (LinearLayout) view.findViewById(R.id.llPositive);
+		TextView tvMessage = view.findViewById(R.id.tvMessage);
+		TextView tvContent = view.findViewById(R.id.tvContent);
+		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
+		TextView tvPositive = view.findViewById(R.id.tvPositive);
 		
 		final Dialog dialog = new Dialog(mContext, R.style.CustomProgressDialog);
 		dialog.setContentView(view);
@@ -101,14 +95,14 @@ public class SettingActivity extends BaseActivity implements OnClickListener{
 		tvMessage.setText(message);
 		tvContent.setText(content);
 		tvContent.setVisibility(View.VISIBLE);
-		llNegative.setOnClickListener(new OnClickListener() {
+		tvNegtive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
 			}
 		});
-		
-		llPositive.setOnClickListener(new OnClickListener() {
+
+		tvPositive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if (flag) {
@@ -146,10 +140,10 @@ public class SettingActivity extends BaseActivity implements OnClickListener{
 	private void logout(String message, String content) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_delete, null);
-		TextView tvMessage = (TextView) view.findViewById(R.id.tvMessage);
-		TextView tvContent = (TextView) view.findViewById(R.id.tvContent);
-		LinearLayout llNegative = (LinearLayout) view.findViewById(R.id.llNegative);
-		LinearLayout llPositive = (LinearLayout) view.findViewById(R.id.llPositive);
+		TextView tvMessage = view.findViewById(R.id.tvMessage);
+		TextView tvContent = view.findViewById(R.id.tvContent);
+		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
+		TextView tvPositive = view.findViewById(R.id.tvPositive);
 		
 		final Dialog dialog = new Dialog(mContext, R.style.CustomProgressDialog);
 		dialog.setContentView(view);
@@ -158,21 +152,22 @@ public class SettingActivity extends BaseActivity implements OnClickListener{
 		tvMessage.setText(message);
 		tvContent.setText(content);
 		tvContent.setVisibility(View.VISIBLE);
-		llNegative.setOnClickListener(new OnClickListener() {
+		tvNegtive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
 			}
 		});
-		
-		llPositive.setOnClickListener(new OnClickListener() {
+
+		tvPositive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
 				SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
 				Editor editor = sharedPreferences.edit();
 				editor.clear();
-				editor.commit();
+				editor.apply();
+				OkHttpUtil.cookieMap.clear();
 				startActivity(new Intent(mContext, LoginActivity.class));
 				finish();
 				CONST.destoryActivity("VideoListActivity");

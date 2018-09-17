@@ -42,10 +42,7 @@ import okhttp3.Response;
 
 /**
  * 数据采集
- * @author shawn_sun
- *
  */
-
 public class SelectWeatherActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext = null;

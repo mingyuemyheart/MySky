@@ -6,11 +6,10 @@ import android.os.Bundle;
 
 import com.cxwl.weather.eye.view.MyDialog;
 
-
 public class BaseActivity extends Activity{
 	
-	private Context mContext = null;
-	private MyDialog mDialog = null;
+	private Context mContext;
+	private MyDialog mDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +51,5 @@ public class BaseActivity extends Activity{
 	public static String NICKNAME = null;//昵称
 	public static String MAIL = null;//邮箱
 	public static String PHONE = null;//电话
-	
+
 }

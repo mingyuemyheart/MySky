@@ -1,9 +1,5 @@
 package com.cxwl.weather.eye.activity;
 
-/**
- * 视频列表
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +37,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 视频列表
+ */
 public class VideoListActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext = null;
@@ -122,7 +121,7 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 	
 	private void initListView() {
 		listView = (ListView) findViewById(R.id.listView);
-		videoAdapter = new VideoListAdapter(mContext, videoList);
+		videoAdapter = new VideoListAdapter(this, videoList);
 		listView.setAdapter(videoAdapter);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override

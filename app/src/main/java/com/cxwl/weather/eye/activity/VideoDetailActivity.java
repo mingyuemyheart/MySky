@@ -1,9 +1,5 @@
 package com.cxwl.weather.eye.activity;
 
-/**
- * 预览视频
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,7 +7,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +20,6 @@ import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.dto.EyeDto;
-import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
@@ -40,22 +34,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 视频详情
+ */
 public class VideoDetailActivity extends BaseActivity implements OnClickListener{
 	
-	private Context mContext = null;
-	private LinearLayout llBack = null;
-	private TextView tvTitle = null;
-	private RelativeLayout reTitle = null;
-	private EyeDto data = null;
-	private Configuration configuration = null;//方向监听器
-	private ProgressBar progressBar = null;
-	private TXCloudVideoView mPlayerView = null;
-	private TXLivePlayer mLivePlayer = null;
-
-	private ImageView ivSetting = null;
-	private ImageView ivWeather = null;
-	private ImageView ivPicture = null;
-	private LinearLayout llControl = null;
+	private Context mContext;
+	private RelativeLayout reTitle;
+	private EyeDto data;
+	private Configuration configuration;//方向监听器
+	private ProgressBar progressBar;
+	private TXCloudVideoView mPlayerView;
+	private TXLivePlayer mLivePlayer;
+	private LinearLayout llControl;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +60,19 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 	 * 初始化控件
 	 */
 	private void initWidget() {
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
+		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText("视频详情");
-		llBack = (LinearLayout) findViewById(R.id.llBack);
+		LinearLayout llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
-		reTitle = (RelativeLayout) findViewById(R.id.reTitle);
-		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		ivSetting = (ImageView) findViewById(R.id.ivSetting);
+		reTitle = findViewById(R.id.reTitle);
+		progressBar = findViewById(R.id.progressBar);
+		ImageView ivSetting = findViewById(R.id.ivSetting);
 		ivSetting.setOnClickListener(this);
-		ivWeather = (ImageView) findViewById(R.id.ivWeather);
+		ImageView ivWeather = findViewById(R.id.ivWeather);
 		ivWeather.setOnClickListener(this);
-		ivPicture = (ImageView) findViewById(R.id.ivPicture);
+		ImageView ivPicture = findViewById(R.id.ivPicture);
 		ivPicture.setOnClickListener(this);
-		llControl = (LinearLayout) findViewById(R.id.llControl);
+		llControl = findViewById(R.id.llControl);
 		
 		if (TextUtils.equals(USERAGENT, "0")) {//0为有权限操作摄像头
 			ivSetting.setVisibility(View.VISIBLE);
@@ -89,7 +80,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 			ivSetting.setVisibility(View.GONE);
 		}
 		
-		mPlayerView = (TXCloudVideoView) findViewById(R.id.video_view);
+		mPlayerView = findViewById(R.id.video_view);
 		mPlayerView.setOnClickListener(this);
 		mLivePlayer = new TXLivePlayer(mContext);
 		mLivePlayer.setPlayerView(mPlayerView);
@@ -154,7 +145,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 				
 				@Override
 				public void onNetStatus(Bundle status) {
-					TextView tv = (TextView) findViewById(R.id.tv);
+					TextView tv = findViewById(R.id.tv);
 					tv.setText("Current status, CPU:"+status.getString(TXLiveConstants.NET_STATUS_CPU_USAGE)+
 			                ", RES:"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH)+"*"+status.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT)+
 			                ", SPD:"+status.getInt(TXLiveConstants.NET_STATUS_NET_SPEED)+"Kbps"+
@@ -266,6 +257,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 	
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.ivBack:
 			exit();
@@ -274,27 +266,27 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 			finish();
 			break;
 		case R.id.ivSetting:
-			Intent intentSet = new Intent(mContext, VideoSettingActivity.class);
+			intent = new Intent(mContext, VideoSettingActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putParcelable("data", data);
-			intentSet.putExtras(bundle);
-			startActivity(intentSet);
+			intent.putExtras(bundle);
+			startActivity(intent);
 			overridePendingTransition(R.anim.in_downtoup, R.anim.out_downtoup);
 			break;
 		case R.id.ivWeather:
-			Intent intentW = new Intent(mContext, SelectWeatherActivity.class);
+			intent = new Intent(mContext, SelectWeatherActivity.class);
 			bundle = new Bundle();
 			bundle.putParcelable("data", data);
-			intentW.putExtras(bundle);
-			startActivity(intentW);
+			intent.putExtras(bundle);
+			startActivity(intent);
 			overridePendingTransition(R.anim.in_downtoup, R.anim.out_downtoup);
 			break;
 		case R.id.ivPicture:
-			Intent intentPic = new Intent(mContext, PictureWallActivity.class);
+			intent = new Intent(mContext, PictureWallActivity.class);
 			bundle = new Bundle();
 			bundle.putParcelable("data", data);
-			intentPic.putExtras(bundle);
-			startActivity(intentPic);
+			intent.putExtras(bundle);
+			startActivity(intent);
 			overridePendingTransition(R.anim.in_downtoup, R.anim.out_downtoup);
 			break;
 

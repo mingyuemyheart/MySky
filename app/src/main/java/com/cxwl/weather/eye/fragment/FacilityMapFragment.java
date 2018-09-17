@@ -3,6 +3,7 @@ package com.cxwl.weather.eye.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -24,42 +25,50 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.Polygon;
+import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.ScaleAnimation;
 import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.activity.BaseActivity;
 import com.cxwl.weather.eye.activity.VideoDetailActivity;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.MyDialog;
+import com.squareup.picasso.Picasso;
+
+import net.tsz.afinal.FinalBitmap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Cookie;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
  * 地图
- * @author shawn_sun
- *
  */
-
 public class FacilityMapFragment extends Fragment implements OnClickListener, OnMarkerClickListener{
 	
-	private MapView mMapView = null;
-	private AMap aMap = null;
-	private float zoom = 3.7f;
-	private List<EyeDto> eyeList = new ArrayList<>();
-	private MyDialog mDialog = null;
-	private ImageView ivRefresh = null;
+	private MapView mMapView;
+	private AMap aMap;
+	private List<EyeDto> dataList = new ArrayList<>();
+	private MyDialog mDialog;
 	private List<Marker> markerList = new ArrayList<>();
+	private ImageView ivJiangshui,ivLegend;
+	private TextView tvName,tvTime;
+	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd HH:00", Locale.CHINA);
+	private List<Polygon> polygons = new ArrayList<>();//图层数据
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +81,7 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 		super.onViewCreated(view, savedInstanceState);
 		showDialog();
 		initMap(view, savedInstanceState);
+		initWidget(view);
 	}
 	
 	private void showDialog() {
@@ -86,60 +96,64 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 			mDialog.dismiss();
 		}
 	}
+
+	private void initWidget(View view) {
+		ImageView ivRefresh = view.findViewById(R.id.ivRefresh);
+		ivRefresh.setOnClickListener(this);
+		ivJiangshui = view.findViewById(R.id.ivJiangshui);
+		ivJiangshui.setOnClickListener(this);
+		ivLegend = view.findViewById(R.id.ivLegend);
+		tvName = view.findViewById(R.id.tvName);
+		tvName.setText("全国降水量预报24小时");
+		tvTime = view.findViewById(R.id.tvTime);
+
+		String imgUrl = "http://decision-admin.tianqi.cn/Public/images/decision_images/%E9%99%8D%E6%B0%B4.png";
+		Picasso.get().load(imgUrl).into(ivLegend);
+
+		refresh();
+	}
 	
 	/**
 	 * 初始化地图
 	 */
 	private void initMap(View view, Bundle bundle) {
-		mMapView = (MapView) view.findViewById(R.id.map);
+		mMapView = view.findViewById(R.id.mapView);
 		mMapView.onCreate(bundle);
 		if (aMap == null) {
 			aMap = mMapView.getMap();
 		}
-		aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(35.926628, 105.178100), zoom));
+		aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(35.926628, 105.178100), 3.7f));
 		aMap.getUiSettings().setZoomControlsEnabled(false);
 		aMap.getUiSettings().setRotateGesturesEnabled(false);
 		aMap.setOnMarkerClickListener(this);
-		
-		ivRefresh = (ImageView) view.findViewById(R.id.ivRefresh);
-		ivRefresh.setOnClickListener(this);
-		
-		refresh();
 	}
 	
 	private void refresh() {
-		OkHttpList("https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf");
-	}
-
-	@Override
-	public boolean onMarkerClick(Marker arg0) {
-		for (int i = 0; i < eyeList.size(); i++) {
-			EyeDto dto = eyeList.get(i);
-			if (TextUtils.equals(dto.fId, arg0.getSnippet())) {
-				Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable("data", dto);
-				intent.putExtras(bundle);
-				startActivity(intent);
-				break;
-			}
-		}
-		return true;
+		OkHttpList();
 	}
 	
 	/**
 	 * 获取地图上所有设备信息
 	 */
-	private void OkHttpList(final String url) {
+	private void OkHttpList() {
+		String c = null;
+		for (String host : OkHttpUtil.cookieMap.keySet()) {
+			if (OkHttpUtil.cookieMap.containsKey(host)) {
+				List<Cookie> cookies = OkHttpUtil.cookieMap.get(host);
+				for (Cookie cookie : cookies) {
+					c = cookie.name()+":"+cookie.value();
+				}
+			}
+		}
+		final String url = String.format("https://api.bluepi.tianqi.cn/outdata/other/newselmallf/cookie/%s&UserNo=%s", c, BaseActivity.USERNAME);
+//		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf";
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
-
 					}
-
 					@Override
 					public void onResponse(Call call, Response response) throws IOException {
 						if (!response.isSuccessful()) {
@@ -156,7 +170,7 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 											String code  = object.getString("code");
 											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
 												if (!object.isNull("list")) {
-													eyeList.clear();
+                                                    dataList.clear();
 													JSONArray array = new JSONArray(object.getString("list"));
 													for (int i = 0; i < array.length(); i++) {
 														JSONObject itemObj = array.getJSONObject(i);
@@ -191,94 +205,10 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 														if (!itemObj.isNull("Longitude")) {
 															dto.lng = itemObj.getString("Longitude");
 														}
-														eyeList.add(dto);
+                                                        dataList.add(dto);
 													}
 
-													aMap.clear();
-													markerList.clear();
-													LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-													for (int i = 0; i < eyeList.size(); i++) {
-														EyeDto dto = eyeList.get(i);
-														MarkerOptions options = new MarkerOptions();
-														if (!TextUtils.isEmpty(dto.fId)) {
-															options.snippet(dto.fId);
-														}
-														options.anchor(0.5f, 0.5f);
-														if (!TextUtils.isEmpty(dto.lat) && !TextUtils.isEmpty(dto.lng)) {
-															options.position(new LatLng(Double.valueOf(dto.lat), Double.valueOf(dto.lng)));
-														}
-														View view = inflater.inflate(R.layout.view_eye_marker, null);
-														TextView tvMarker = (TextView) view.findViewById(R.id.tvMarker);
-														if (!TextUtils.isEmpty(dto.location)) {
-															tvMarker.setText(dto.location.trim());
-															tvMarker.setVisibility(View.VISIBLE);
-														}
-														options.icon(BitmapDescriptorFactory.fromView(view));
-														Marker marker = aMap.addMarker(options);
-														if (marker != null) {
-															markerList.add(marker);
-															Animation animation = new ScaleAnimation(0,1,0,1);
-															animation.setInterpolator(new LinearInterpolator());
-															//整个移动所需要的时间
-															animation.setDuration(1000);
-															//设置动画
-															marker.setAnimation(animation);
-															//开始动画
-															marker.startAnimation();
-														}
-													}
-
-//									if (markerList.size() > 0) {
-//										double leftLat = markerList.get(0).getPosition().latitude;
-//										double leftLng = markerList.get(0).getPosition().longitude;
-//										double rightLat = markerList.get(0).getPosition().latitude;
-//										double rightLng = markerList.get(0).getPosition().longitude;
-//										for (int i = 0; i < markerList.size(); i++) {
-//											if (leftLat >= markerList.get(i).getPosition().latitude) {
-//												leftLat = markerList.get(i).getPosition().latitude;
-//											}
-//											if (leftLng >= markerList.get(i).getPosition().longitude) {
-//												leftLng = markerList.get(i).getPosition().longitude;
-//											}
-//											if (rightLat <= markerList.get(i).getPosition().latitude) {
-//												rightLat = markerList.get(i).getPosition().latitude;
-//											}
-//											if (rightLng <= markerList.get(i).getPosition().longitude) {
-//												rightLng = markerList.get(i).getPosition().longitude;
-//											}
-//										}
-//
-//										final LatLng left = new LatLng(leftLat, leftLng);
-//										final LatLng right = new LatLng(rightLat, rightLng);
-//										//延时1秒开始地图动画
-//										new Handler().postDelayed(new Runnable() {
-//											@Override
-//											public void run() {
-//												try {
-//													LatLngBounds bounds = new LatLngBounds.Builder()
-//															.include(left)
-//															.include(right).build();
-//													aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-//												} catch (ArrayIndexOutOfBoundsException e) {
-//													e.printStackTrace();
-//												}
-//											}
-//										}, 500);
-//									}
-
-													new Handler().postDelayed(new Runnable() {
-														@Override
-														public void run() {
-															try {
-																LatLngBounds bounds = new LatLngBounds.Builder()
-																		.include(new LatLng(1, 75))
-																		.include(new LatLng(60, 135)).build();
-																aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
-															} catch (ArrayIndexOutOfBoundsException e) {
-																e.printStackTrace();
-															}
-														}
-													}, 500);
+													addMarkers();
 
 												}
 											}else {
@@ -303,17 +233,98 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 			}
 		}).start();
 	}
+
+	private void removeMarkers() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for (Marker marker : markerList) {
+					marker.remove();
+				}
+				markerList.clear();
+			}
+		}).start();
+	}
+
+	private void addMarkers() {
+		removeMarkers();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				LatLngBounds.Builder builder = new LatLngBounds.Builder();
+				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				for (int i = 0; i < dataList.size(); i++) {
+					EyeDto dto = dataList.get(i);
+					MarkerOptions options = new MarkerOptions();
+					if (!TextUtils.isEmpty(dto.fId)) {
+						options.snippet(dto.fId);
+					}
+					options.anchor(0.5f, 0.5f);
+					if (!TextUtils.isEmpty(dto.lat) && !TextUtils.isEmpty(dto.lng)) {
+						LatLng latLng = new LatLng(Double.valueOf(dto.lat), Double.valueOf(dto.lng));
+						builder.include(latLng);
+						options.position(latLng);
+					}
+					View view = inflater.inflate(R.layout.view_eye_marker, null);
+					TextView tvMarker = view.findViewById(R.id.tvMarker);
+//					if (!TextUtils.isEmpty(dto.location)) {
+//						tvMarker.setText(dto.location.trim());
+//						tvMarker.setVisibility(View.VISIBLE);
+//					}
+					options.icon(BitmapDescriptorFactory.fromView(view));
+					Marker marker = aMap.addMarker(options);
+					if (marker != null) {
+						markerList.add(marker);
+						Animation animation = new ScaleAnimation(0,1,0,1);
+						animation.setInterpolator(new LinearInterpolator());
+						animation.setDuration(400);
+						marker.setAnimation(animation);
+						marker.startAnimation();
+					}
+				}
+				aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+			}
+		}).start();
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		for (int i = 0; i < dataList.size(); i++) {
+			EyeDto dto = dataList.get(i);
+			if (TextUtils.equals(dto.fId, marker.getSnippet())) {
+				Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putParcelable("data", dto);
+				intent.putExtras(bundle);
+				startActivity(intent);
+				break;
+			}
+		}
+		return true;
+	}
 	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivRefresh:
-			showDialog();
-			refresh();
-			break;
+			case R.id.ivRefresh:
+				showDialog();
+				refresh();
+				break;
+			case R.id.ivJiangshui:
+				if (ivLegend.getVisibility() == View.VISIBLE) {
+					ivLegend.setVisibility(View.INVISIBLE);
+					ivJiangshui.setImageResource(R.drawable.com_jiangshui);
+					clearPolygons();
+				} else {
+					OkHttpRain();
+					ivLegend.setVisibility(View.VISIBLE);
+					ivJiangshui.setImageResource(R.drawable.com_jiangshui_press);
+				}
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 
@@ -358,6 +369,93 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 		super.onDestroy();
 		if (mMapView != null) {
 			mMapView.onDestroy();
+		}
+	}
+
+	/**
+	 * 24小时降水
+	 */
+	private void OkHttpRain() {
+		if (polygons.size() > 0) {
+			for (int i = 0; i < polygons.size(); i++) {
+				polygons.get(i).setVisible(true);
+			}
+			return;
+		}
+		final String url = "http://scapi.weather.com.cn/weather/micapsfile?fileMark=js_24_fc&isChina=true&date=201809171150&appid=f63d32&key=zVlS26V8Z8xYEIS6dUKdtPxEOlw%3D";
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+					@Override
+					public void onFailure(Call call, IOException e) {
+					}
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						if (!response.isSuccessful()) {
+							return;
+						}
+						String result = response.body().string();
+						if (!TextUtils.isEmpty(result)) {
+							try {
+								JSONArray arr = new JSONArray(result);
+								if (arr.length() > 0) {
+									JSONObject obj = arr.getJSONObject(0);
+
+									if (!obj.isNull("time")) {
+										final long time = obj.getLong("time");
+										final int validhour = 24*1000*60*60;
+										final int starthour = 0;
+										getActivity().runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												tvTime.setText(sdf1.format(time+starthour)+" - "+sdf1.format(time+starthour+validhour));
+											}
+										});
+									}
+
+									if (!obj.isNull("areas")) {
+										clearPolygons();
+										JSONArray array = obj.getJSONArray("areas");
+										for (int i = 0; i < array.length(); i++) {
+											JSONObject itemObj = array.getJSONObject(i);
+											String color = itemObj.getString("c");
+											if (color.contains("#")) {
+												color = color.replace("#", "");
+											}
+											int r = Integer.parseInt(color.substring(0,2), 16);
+											int g = Integer.parseInt(color.substring(2,4), 16);
+											int b = Integer.parseInt(color.substring(4,6), 16);
+											if (!itemObj.isNull("items")) {
+												JSONArray items = itemObj.getJSONArray("items");
+												PolygonOptions polygonOption = new PolygonOptions();
+												polygonOption.strokeColor(Color.rgb(r, g, b)).fillColor(Color.rgb(r, g, b));
+												for (int j = 0; j < items.length(); j++) {
+													JSONObject item = items.getJSONObject(j);
+													double lat = item.getDouble("y");
+													double lng = item.getDouble("x");
+													polygonOption.add(new LatLng(lat, lng));
+												}
+												Polygon polygon = aMap.addPolygon(polygonOption);
+												polygon.setVisible(true);
+												polygons.add(polygon);
+											}
+										}
+									}
+								}
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+			}
+		}).start();
+	}
+
+	private void clearPolygons() {
+		for (int i = 0; i < polygons.size(); i++) {
+			polygons.get(i).setVisible(false);
 		}
 	}
 	

@@ -5,7 +5,7 @@
     android:background="@color/content_bg"
     android:orientation="vertical" >
 
-    <com.cxwl.weather.eye.view.RefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,6 +26,6 @@
             android:scrollbars="none"
             android:stretchMode="columnWidth"
             android:verticalSpacing="2dp" />
-    </com.cxwl.weather.eye.view.RefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

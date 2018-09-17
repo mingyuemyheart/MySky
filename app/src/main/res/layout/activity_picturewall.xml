@@ -45,8 +45,8 @@
                     android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/eye_bg_picture_time"
                     android:paddingLeft="5dp"
@@ -64,13 +64,13 @@
                 android:cacheColorHint="@color/transparent"
                 android:fadingEdge="none"
                 android:gravity="center"
-                android:horizontalSpacing="1dip"
+                android:horizontalSpacing="1dp"
                 android:listSelector="@color/transparent"
                 android:numColumns="3"
                 android:overScrollMode="never"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="1dip"/>
+                android:verticalSpacing="1dp"/>
         </LinearLayout>
 
     </ScrollView>
@@ -91,7 +91,7 @@
         <LinearLayout
             android:id="@+id/viewGroup"
             android:layout_width="match_parent"
-            android:layout_height="20dip"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:orientation="horizontal" >

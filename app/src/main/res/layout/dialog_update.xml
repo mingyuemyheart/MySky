@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:gravity="center"
               android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="240dp"
-        android:layout_height="90dp"
+        android:layout_height="45dp"
         android:background="@drawable/eye_corner_top_white"
         android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/level_3"/>
-
-        <TextView
-            android:id="@+id/tvContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/level_4"
-            android:visibility="gone"/>
-    </LinearLayout>
+        android:text="@string/auto_update"
+        android:textColor="#1e90ff"
+        android:textSize="@dimen/level_3"/>
 
     <TextView
         android:layout_width="240dp"
         android:layout_height="0.5dp"
-        android:background="#d9d9d9"/>
+        android:background="#1e90ff"/>
+
+    <ScrollView
+        android:layout_width="240dp"
+        android:layout_height="160dp"
+        android:background="@android:color/white"
+        android:padding="5dp"
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/text_color3"
+            android:textSize="13sp"/>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="240dp"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray"/>
 
     <LinearLayout
         android:layout_width="240dp"
@@ -42,27 +49,27 @@
         <TextView
             android:id="@+id/tvNegtive"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/eye_dialog_btn_left"
             android:gravity="center"
-            android:text="取消"
-            android:textColor="@color/content_bg"
+            android:text="@string/update_later"
+            android:textColor="@color/text_color4"
             android:textSize="@dimen/level_4"/>
 
         <TextView
             android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:background="#d9d9d9"/>
+            android:layout_height="40dp"
+            android:background="@color/light_gray"/>
 
         <TextView
             android:id="@+id/tvPositive"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/eye_dialog_btn_right"
             android:gravity="center"
-            android:text="确定"
+            android:text="@string/update_right_now"
             android:textColor="@color/white"
             android:textSize="@dimen/level_4"/>
     </LinearLayout>

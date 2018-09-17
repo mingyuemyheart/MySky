@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -55,30 +56,22 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * 图片墙
- * @author shawn_sun
- *
  */
-
 public class PictureWallActivity extends BaseActivity implements OnClickListener{
 	
-	private Context mContext = null;
-	private EyeDto data = null;
-	private TextView tvTitle = null;
-	private LinearLayout llBack = null;
-	private ImageView ivBack = null;
-	private TextView tvTime = null;
-	private ImageView imageView = null;
-	private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss");
-	private GridView gridView = null;
-	private PictureWallAdapter picAdapter = null;
+	private Context mContext;
+	private EyeDto data;
+	private TextView tvTime;
+	private ImageView imageView;
+	private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.CHINA);
+	private GridView gridView;
+	private PictureWallAdapter picAdapter;
 	private List<EyeDto> picList = new ArrayList<>();
 
-	private ViewPager mViewPager = null;
-	private MyViewPagerAdapter pagerAdapter = null;
-	private ImageView[] imageArray = null;//装载图片的数组
-	private ImageView[] ivTips = null;//装载点的数组
-	private ViewGroup viewGroup = null;
-	private RelativeLayout rePager = null;
+	private ViewPager mViewPager;
+	private ImageView[] ivTips;//装载点的数组
+	private ViewGroup viewGroup;
+	private RelativeLayout rePager;
 	private List<String> urlList = new ArrayList<>();//存放图片的list
 	private int index = 0;
 
@@ -95,25 +88,25 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 	private void refresh() {
 		data = getIntent().getExtras().getParcelable("data");
 		if (data != null) {
-			OkHttpList("https://tqwy.tianqi.cn/tianqixy/userInfo/getpngs");
+			OkHttpList();
 		}
 	}
 	
 	private void initWidget() {
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
+		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText("图集展示");
-		llBack = (LinearLayout) findViewById(R.id.llBack);
+		LinearLayout llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
-		ivBack = (ImageView) findViewById(R.id.ivBack);
+		ImageView ivBack = findViewById(R.id.ivBack);
 		ivBack.setImageResource(R.drawable.eye_btn_close);
-		imageView = (ImageView) findViewById(R.id.imageView);
+		imageView = findViewById(R.id.imageView);
 		imageView.setOnClickListener(this);
 		imageView.requestFocus();
 		imageView.setFocusable(true);
 		imageView.setFocusableInTouchMode(true);
-		tvTime = (TextView) findViewById(R.id.tvTime);
-		rePager = (RelativeLayout) findViewById(R.id.rePager);
-		viewGroup = (ViewGroup) findViewById(R.id.viewGroup);
+		tvTime = findViewById(R.id.tvTime);
+		rePager = findViewById(R.id.rePager);
+		viewGroup = findViewById(R.id.viewGroup);
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getRealMetrics(dm);
@@ -124,7 +117,7 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void initGridView() {
-		gridView = (GridView) findViewById(R.id.gridView);
+		gridView = findViewById(R.id.gridView);
 		picAdapter = new PictureWallAdapter(mContext, picList);
 		gridView.setAdapter(picAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -145,7 +138,7 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 	 * 初始化viewPager
 	 */
 	private void initViewPager() {
-		imageArray = new ImageView[urlList.size()];
+		ImageView[] imageArray = new ImageView[urlList.size()];
 		for (int i = 0; i < urlList.size(); i++) {
 			ImageView image = new ImageView(mContext);
 			FinalBitmap finalBitmap = FinalBitmap.create(mContext);
@@ -170,8 +163,8 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 			viewGroup.addView(imageView, layoutParams);
 		}
 
-		mViewPager = (ViewPager) findViewById(R.id.viewPager);
-		pagerAdapter = new MyViewPagerAdapter(imageArray);
+		mViewPager = findViewById(R.id.viewPager);
+		MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(imageArray);
 		mViewPager.setAdapter(pagerAdapter);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
@@ -351,10 +344,11 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 	/**
 	 * 异步请求
 	 */
-	private void OkHttpList(final String url) {
-		if (TextUtils.isEmpty(url) || TextUtils.isEmpty(data.fId)) {
+	private void OkHttpList() {
+		if (TextUtils.isEmpty(data.fId)) {
 			return;
 		}
+		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/getpngs";
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("fid", data.fId);
 		final RequestBody body = builder.build();
@@ -364,9 +358,7 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
-
 					}
-
 					@Override
 					public void onResponse(Call call, Response response) throws IOException {
 						if (!response.isSuccessful()) {
@@ -379,69 +371,68 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 								if (!TextUtils.isEmpty(result)) {
 									try {
 										JSONObject object = new JSONObject(result);
-										if (object != null) {
-											if (!object.isNull("code")) {
-												String code  = object.getString("code");
-												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-													if (!object.isNull("small")) {//缩略图
-														JSONArray array = object.getJSONArray("small");
-														picList.clear();
-														for (int i = 0; i < array.length(); i++) {
-															String imgUrl = array.getString(i);
-															if (!TextUtils.isEmpty(imgUrl)) {
-																String time = imgUrl.substring(imgUrl.length()-14, imgUrl.length()-4);
+										if (!object.isNull("code")) {
+											String code  = object.getString("code");
+											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
+												if (!object.isNull("small")) {//缩略图
+													JSONArray array = object.getJSONArray("small");
+													picList.clear();
+													for (int i = 0; i < array.length(); i++) {
+														String imgUrl = array.getString(i);
+														if (!TextUtils.isEmpty(imgUrl)) {
+															String time = imgUrl.substring(imgUrl.length()-14, imgUrl.length()-4);
 
-																EyeDto dto = new EyeDto();
-																dto.pictureThumbUrl = imgUrl;
-																dto.pictureTime = time;
+															EyeDto dto = new EyeDto();
+															dto.pictureThumbUrl = imgUrl;
+															dto.pictureTime = time;
 
-																if (i == 0) {
-																	FinalBitmap finalBitmap = FinalBitmap.create(mContext);
-																	finalBitmap.display(imageView, imgUrl, null, 0);
+															if (i == 0) {
+																FinalBitmap finalBitmap = FinalBitmap.create(mContext);
+																finalBitmap.display(imageView, imgUrl, null, 0);
 
-																	if (!TextUtils.isEmpty(time)) {
-																		tvTime.setText(sdf.format(new Date(Long.valueOf(time)*1000)));
-																	}
-																}else {
-																	picList.add(dto);
+																if (!TextUtils.isEmpty(time)) {
+																	tvTime.setText(sdf.format(new Date(Long.valueOf(time)*1000)));
 																}
-															}
-														}
-														if (picAdapter != null) {
-															picAdapter.notifyDataSetChanged();
-															if (gridView != null) {
-																CommonUtil.setGridViewHeightBasedOnChildren(gridView);
+															}else {
+																picList.add(dto);
 															}
 														}
 													}
+													if (picAdapter != null) {
+														picAdapter.notifyDataSetChanged();
+														if (gridView != null) {
+															CommonUtil.setGridViewHeightBasedOnChildren(gridView);
+														}
+													}
+												}
 
-													if (!object.isNull("list")) {//原图
-														JSONArray array = object.getJSONArray("list");
-														urlList.clear();
-														for (int i = 0; i < array.length(); i++) {
-															String imgUrl = array.getString(i);
-															if (!TextUtils.isEmpty(imgUrl)) {
-																urlList.add(imgUrl);
-															}
+												if (!object.isNull("list")) {//原图
+													JSONArray array = object.getJSONArray("list");
+													urlList.clear();
+													for (int i = 0; i < array.length(); i++) {
+														String imgUrl = array.getString(i);
+														if (!TextUtils.isEmpty(imgUrl)) {
+															urlList.add(imgUrl);
 														}
-														initViewPager();
 													}
-												}else {
-													//失败
-													if (!object.isNull("reason")) {
-														String reason = object.getString("reason");
-														if (!TextUtils.isEmpty(reason)) {
-															Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
-														}
+													initViewPager();
+												}
+											}else {
+												//失败
+												if (!object.isNull("reason")) {
+													String reason = object.getString("reason");
+													if (!TextUtils.isEmpty(reason)) {
+														Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
 													}
 												}
 											}
 										}
-										cancelDialog();
 									} catch (JSONException e) {
 										e.printStackTrace();
 									}
 								}
+
+								cancelDialog();
 							}
 						});
 					}
