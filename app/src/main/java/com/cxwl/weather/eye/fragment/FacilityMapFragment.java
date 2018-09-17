@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +35,6 @@ import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.MyDialog;
 import com.squareup.picasso.Picasso;
-
-import net.tsz.afinal.FinalBitmap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -313,11 +310,15 @@ public class FacilityMapFragment extends Fragment implements OnClickListener, On
 				break;
 			case R.id.ivJiangshui:
 				if (ivLegend.getVisibility() == View.VISIBLE) {
+					tvName.setVisibility(View.GONE);
+					tvTime.setVisibility(View.GONE);
 					ivLegend.setVisibility(View.INVISIBLE);
 					ivJiangshui.setImageResource(R.drawable.com_jiangshui);
 					clearPolygons();
 				} else {
 					OkHttpRain();
+					tvName.setVisibility(View.VISIBLE);
+					tvTime.setVisibility(View.VISIBLE);
 					ivLegend.setVisibility(View.VISIBLE);
 					ivJiangshui.setImageResource(R.drawable.com_jiangshui_press);
 				}

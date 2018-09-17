@@ -17,8 +17,6 @@ import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.squareup.picasso.Picasso;
 
-import net.tsz.afinal.FinalBitmap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

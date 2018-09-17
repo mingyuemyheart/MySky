@@ -40,7 +40,6 @@ android {
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation files('libs/scene-final.jar')
     implementation files('libs/txrtmpsdk.jar')
     implementation files('libs/uk-co-senab-photoview.jar')
     implementation files('libs/zxing.jar')

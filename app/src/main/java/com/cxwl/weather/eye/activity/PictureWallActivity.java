@@ -31,8 +31,7 @@ import com.cxwl.weather.eye.adapter.PictureWallAdapter;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
-
-import net.tsz.afinal.FinalBitmap;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,8 +140,7 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 		ImageView[] imageArray = new ImageView[urlList.size()];
 		for (int i = 0; i < urlList.size(); i++) {
 			ImageView image = new ImageView(mContext);
-			FinalBitmap finalBitmap = FinalBitmap.create(mContext);
-			finalBitmap.display(image, urlList.get(i), null, 0);
+			Picasso.get().load(urlList.get(i)).into(image);
 			imageArray[i] = image;
 		}
 
@@ -387,9 +385,7 @@ public class PictureWallActivity extends BaseActivity implements OnClickListener
 															dto.pictureTime = time;
 
 															if (i == 0) {
-																FinalBitmap finalBitmap = FinalBitmap.create(mContext);
-																finalBitmap.display(imageView, imgUrl, null, 0);
-
+																Picasso.get().load(imgUrl).into(imageView);
 																if (!TextUtils.isEmpty(time)) {
 																	tvTime.setText(sdf.format(new Date(Long.valueOf(time)*1000)));
 																}
