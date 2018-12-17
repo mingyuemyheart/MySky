@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <!--//添加允许安装未知应用市场权限，这个权限不是动态权限，所以不用进行动态申请，否则自动更新功能失效-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     
@@ -42,7 +44,7 @@
             android:value="125c80dec4c619ff00f18c9e32724b3b" />
         
         <activity
-            android:name="com.cxwl.weather.eye.activity.WelcomeVideoActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnWelcomeActivity"
             android:theme="@style/SplashTheme"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -53,12 +55,12 @@
         </activity>
         
         <activity
-            android:name="com.cxwl.weather.eye.activity.LoginActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnLoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.WeatherEyeActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
@@ -87,27 +89,27 @@
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.SettingActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnSettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.AboutActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnAboutActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.FacilityInfoActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnFacilityInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.PersonInfoActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnUserinfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.ModifyPersonInfoActivity"
+            android:name="com.cxwl.weather.eye.activity.ShawnModifyUserinfoActivity"
             android:screenOrientation="portrait" />
         
         <activity 
@@ -141,7 +143,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1106871193" />
+                <data android:scheme="tencent1106012860" />
             </intent-filter>
         </activity>
         <activity

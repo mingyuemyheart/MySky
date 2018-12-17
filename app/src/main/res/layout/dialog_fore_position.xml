@@ -9,7 +9,7 @@
         android:id="@+id/tvMessage"
         android:layout_width="250dip"
         android:layout_height="40dip"
-        android:background="@drawable/eye_corner_top_white"
+        android:background="@drawable/shawn_bg_corner_top_white"
         android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="@dimen/level_3" />

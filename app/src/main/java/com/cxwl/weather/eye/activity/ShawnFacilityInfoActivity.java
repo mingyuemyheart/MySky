@@ -1,22 +1,18 @@
 package com.cxwl.weather.eye.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.adapter.VideoListAdapter;
+import com.cxwl.weather.eye.adapter.ShawnFacilityInfoAdapter;
 import com.cxwl.weather.eye.common.CONST;
-import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.RefreshLayout;
@@ -39,27 +35,22 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * 视频列表
+ * 设备设置
+ * @author shawn_sun
  */
-public class VideoListActivity extends BaseActivity implements OnClickListener{
+public class ShawnFacilityInfoActivity extends BaseActivity implements OnClickListener{
 	
-	private Context mContext = null;
-	private TextView tvTitle = null;
-	private LinearLayout llBack = null;
-	private ListView listView = null;
-	private VideoListAdapter videoAdapter = null;
-	private List<EyeDto> videoList = new ArrayList<>();
+	private Context mContext;
+	private ShawnFacilityInfoAdapter mAdapter = null;
+	private List<EyeDto> facilityList = new ArrayList<>();
 	private int page = 1;
-	private int pageCount = 20;
 	private RefreshLayout refreshLayout = null;//下拉刷新布局
-	private String baseUrl = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_videolist);
+		setContentView(R.layout.shawn_activity_facilityinfo);
 		mContext = this;
-		MyApplication.addDestoryActivity(VideoListActivity.this, "VideoListActivity");
 		showDialog();
 		initRefreshLayout();
 		initWidget();
@@ -70,7 +61,7 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 	 * 初始化下拉刷新布局
 	 */
 	private void initRefreshLayout() {
-		refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+		refreshLayout = findViewById(R.id.refreshLayout);
 		refreshLayout.setColor(CONST.color1, CONST.color2, CONST.color3, CONST.color4);
 		refreshLayout.setMode(RefreshLayout.Mode.BOTH);
 		refreshLayout.setLoadNoFull(false);
@@ -84,72 +75,50 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 			@Override
 			public void onLoad() {
 				page++;
-				OkHttpList(baseUrl);
+				OkHttpList();
 			}
 		});
 	}
 	
 	private void refresh() {
 		page = 1;
-		videoList.clear();
-		OkHttpList(baseUrl);
+		facilityList.clear();
+		OkHttpList();
 	}
 	
 	private void initWidget() {
-		tvTitle = (TextView) findViewById(R.id.tvTitle);
-		llBack = (LinearLayout) findViewById(R.id.llBack);
+		LinearLayout llBack = (LinearLayout) findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
-		
-		if (getIntent().hasExtra("groupName")) {
-			String groupName = getIntent().getStringExtra("groupName");
-			if (!TextUtils.isEmpty(groupName)) {
-				tvTitle.setText(groupName);
-			}
-		}else {
-			tvTitle.setText(getString(R.string.app_name));
-		}
-		
-		if (getIntent().hasExtra("groupId")) {//管理员获取组，然后通过设备组id查询设备
-			String groupId = getIntent().getStringExtra("groupId");
-			if (!TextUtils.isEmpty(groupId)) {
-				baseUrl = "https://tqwy.tianqi.cn/tianqixy/userInfo/selectlistzu";
-			}
-		}else {
-			baseUrl = "https://tqwy.tianqi.cn/tianqixy/userInfo/selectlist";
-		}
+		TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
+		tvTitle.setText("设备信息");
+
 		refresh();
 	}
 	
 	private void initListView() {
-		listView = (ListView) findViewById(R.id.listView);
-		videoAdapter = new VideoListAdapter(this, videoList);
-		listView.setAdapter(videoAdapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				EyeDto dto = videoList.get(arg2);
-				Intent intent = new Intent(mContext, VideoDetailActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable("data", dto);
-				intent.putExtras(bundle);
-				startActivity(intent);
-			}
-		});
+		ListView listView = findViewById(R.id.listView);
+		mAdapter = new ShawnFacilityInfoAdapter(mContext, facilityList);
+		listView.setAdapter(mAdapter);
+//		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+//			@Override
+//			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//				if (!TextUtils.equals(CONST.AUTHORITY, CONST.COMMON)) {
+//					llSelect.setVisibility(View.VISIBLE);
+//					llBottom.setVisibility(View.VISIBLE);
+//				}
+//				return false;
+//			}
+//		});
 	}
 	
 	/**
 	 * 获取视频列表
 	 */
-	private void OkHttpList(final String url) {
+	private void OkHttpList() {
+		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selfacility";
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("intpage", page+"");
-		builder.add("pagerow", pageCount+"");
-		if (getIntent().hasExtra("groupId")) {//管理员获取组，然后通过设备组id查询设备
-			String groupId = getIntent().getStringExtra("groupId");
-			if (!TextUtils.isEmpty(groupId)) {
-				builder.add("FZID", groupId);
-			}
-		}
+		builder.add("pagerow", "20");
 		final RequestBody body = builder.build();
 		new Thread(new Runnable() {
 			@Override
@@ -157,9 +126,7 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
-
 					}
-
 					@Override
 					public void onResponse(Call call, Response response) throws IOException {
 						if (!response.isSuccessful()) {
@@ -190,17 +157,14 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 															if (!itemObj.isNull("FacilityIP")) {
 																dto.fGroupIp = itemObj.getString("FacilityIP");
 															}
+															if (!itemObj.isNull("Fzname")) {
+																dto.fGroupName = itemObj.getString("Fzname");
+															}
 															if (!itemObj.isNull("Location")) {
 																dto.location = itemObj.getString("Location");
 															}
-															if (!itemObj.isNull("StatusUrl")) {
-																dto.StatusUrl = itemObj.getString("StatusUrl");
-															}
 															if (!itemObj.isNull("FacilityNumber")) {
 																dto.fNumber = itemObj.getString("FacilityNumber");
-															}
-															if (!itemObj.isNull("ErectTime")) {
-																dto.erectTime = itemObj.getString("ErectTime");
 															}
 															if (!itemObj.isNull("FacilityUrlWithin")) {
 																dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
@@ -208,13 +172,10 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 															if (!itemObj.isNull("FacilityUrl")) {
 																dto.streamPublic = itemObj.getString("FacilityUrl");
 															}
-															if (!itemObj.isNull("small")) {
-																dto.videoThumbUrl = itemObj.getString("small");
-															}
-															videoList.add(dto);
+															facilityList.add(dto);
 														}
-														if (videoAdapter != null) {
-															videoAdapter.notifyDataSetChanged();
+														if (mAdapter != null) {
+															mAdapter.notifyDataSetChanged();
 														}
 													}
 												}else {
@@ -235,6 +196,8 @@ public class VideoListActivity extends BaseActivity implements OnClickListener{
 										e.printStackTrace();
 									}
 								}
+
+								cancelDialog();
 							}
 						});
 					}

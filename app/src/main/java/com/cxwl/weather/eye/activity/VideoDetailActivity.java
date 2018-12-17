@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
@@ -74,7 +75,7 @@ public class VideoDetailActivity extends BaseActivity implements OnClickListener
 		ivPicture.setOnClickListener(this);
 		llControl = findViewById(R.id.llControl);
 		
-		if (TextUtils.equals(USERAGENT, "0")) {//0为有权限操作摄像头
+		if (TextUtils.equals(MyApplication.USERAGENT, "0")) {//0为有权限操作摄像头
 			ivSetting.setVisibility(View.VISIBLE);
 		}else {//1为无权限操作摄像头
 			ivSetting.setVisibility(View.GONE);

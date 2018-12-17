@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/content_bg"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/shawn_layout_title" />
+    
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="3dp"
+        android:text="产品简介
+\n实景天气采集软硬件解决方案: 集天气要素、图片、视频采集、存储、加工、夜彩功能于一体的实景天气软硬件整体解决方案。
+\n\n全新升级
+\n全新硬件设备升级、球机设备支持360°全景观测、可选装多种气象要素采集模块、高清摄像头实时天气监看、视频流全终端访问、信号实时接入气象影视直播系统、摄像头自清洁便于设备维护。
+\n\n核心功能
+\n视频直播功能：可以通过微信、APP观看视频直播、点播，支持720p，1080p。
+\n天气信息叠加：通过天气模块采集天气信息，叠加到视频上，天气信息可通过开关控制是否显示。
+\n图片浏览功能：提供实时浏览视频图片功能，节省流量，快速浏览。
+\n后台管理系统：可通过后台系统统一管理摄像头，查看摄像头状态，配置摄像头参数，以及用户权限管理。
+\n气象要素采集：可选装气象要素采集模块，温度、相对湿度、气压、紫外线强度、风向、风速、降水量。
+        "
+        android:textColor="@color/text_color1"
+        android:textSize="@dimen/level_4"
+        android:padding="10dp"/>
+    </ScrollView>
+
+</LinearLayout>

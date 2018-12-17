@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -185,17 +186,18 @@ public class AutoUpdateUtil {
 		// 设置为可见和可管理
 		request.setVisibleInDownloadsUi(true);
 		long referneceId = dManager.enqueue(request);
+//		// 把当前下载的ID保存起来
+		SharedPreferences sPreferences = mContext.getSharedPreferences("downloadplato", 0);
+		sPreferences.edit().putLong("plato", referneceId).apply();
 		initBroadCast(mContext, referneceId, filePath);
 
 	}
-
-	private static BroadcastReceiver mReceiver;
 
 	/**
 	 * 注册广播监听系统的下载完成事件
 	 */
 	private static void initBroadCast(Context context, final long referneceId, final String filePath) {
-		mReceiver = new BroadcastReceiver() {
+		BroadcastReceiver mReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);

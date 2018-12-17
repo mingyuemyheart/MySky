@@ -24,7 +24,23 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('/Users/shawn/Desktop/打包/天气网眼/WeatherEye.keystore')
+            storePassword "123456"
+            keyAlias "weathereye"
+            keyPassword "123456"
         }
     }
 

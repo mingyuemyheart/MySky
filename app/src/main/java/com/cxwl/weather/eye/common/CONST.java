@@ -1,12 +1,5 @@
 package com.cxwl.weather.eye.common;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import android.app.Activity;
-
-
 public class CONST {
 	
 	//广播标示
@@ -22,26 +15,5 @@ public class CONST {
 	public static final int color2 = android.R.color.holo_red_light;
 	public static final int color3 = android.R.color.holo_red_dark;
 	public static final int color4 = android.R.color.holo_red_light;
-	
-	//销毁登录状态前的activity
-	private static Map<String,Activity> destoryMap = new HashMap<String, Activity>();
-
-    /**
-     * 添加到销毁队列
-     * @param activity 要销毁的activity
-     */
-    public static void addDestoryActivity(Activity activity,String activityName) {
-        destoryMap.put(activityName,activity);
-    }
-    
-	/**
-	*销毁指定Activity
-	*/
-    public static void destoryActivity(String activityName) {
-       Set<String> keySet=destoryMap.keySet();
-        for (String key:keySet){
-            destoryMap.get(key).finish();
-        }
-    }
 	
 }
