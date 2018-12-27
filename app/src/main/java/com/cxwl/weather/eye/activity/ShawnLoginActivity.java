@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,15 +24,13 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
  * 登录界面
  */
-public class ShawnLoginActivity extends BaseActivity implements OnClickListener{
+public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private EditText etUserName,etPwd;
@@ -50,6 +51,17 @@ public class ShawnLoginActivity extends BaseActivity implements OnClickListener{
 		etPwd = findViewById(R.id.etPwd);
 		TextView tvLogin = findViewById(R.id.tvLogin);
 		tvLogin.setOnClickListener(this);
+		ImageView ivLogo = findViewById(R.id.ivLogo);
+		TextView tvRegister = findViewById(R.id.tvRegister);
+		tvRegister.setOnClickListener(this);
+
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		int width = dm.widthPixels;
+
+		ViewGroup.LayoutParams params = ivLogo.getLayoutParams();
+		params.width = width*2/3;
+		ivLogo.setLayoutParams(params);
 		
 		etUserName.setText(MyApplication.USERNAME);
 		etPwd.setText(MyApplication.PASSWORD);
@@ -73,7 +85,7 @@ public class ShawnLoginActivity extends BaseActivity implements OnClickListener{
 	 */
 	private boolean checkInfo() {
 		if (TextUtils.isEmpty(etUserName.getText().toString())) {
-			Toast.makeText(mContext, "请输入用户名", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "请输入手机号", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		if (TextUtils.isEmpty(etPwd.getText().toString())) {
@@ -87,15 +99,11 @@ public class ShawnLoginActivity extends BaseActivity implements OnClickListener{
 	 * 登录
 	 */
 	private void OkHttpLogin() {
-		final String url = "https://tqwy.tianqi.cn/tianqixy/logininfo?";
-		FormBody.Builder builder = new FormBody.Builder();
-		builder.add("UserNo", etUserName.getText().toString());
-		builder.add("UserPwd", etPwd.getText().toString());
-		final RequestBody body = builder.build();
+		final String url = String.format("https://tqwy.tianqi.cn/tianqixy/sjdl?user=%s&pwd=%s", etUserName.getText().toString(), etPwd.getText().toString());
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
 					}
@@ -111,59 +119,17 @@ public class ShawnLoginActivity extends BaseActivity implements OnClickListener{
 								if (!TextUtils.isEmpty(result)) {
 									try {
 										JSONObject object = new JSONObject(result);
-										if (!object.isNull("code")) {
-											String code  = object.getString("code");
-											if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-												if (!object.isNull("list")) {
-													JSONObject obj = new JSONObject(object.getString("list"));
-													if (!obj.isNull("Userid")) {
-														MyApplication.UID = obj.getString("Userid");
-													}
+										String type = object.getString("type");//1为决策用户
+										if (!object.isNull("meaning")) {
+											String code  = object.getString("meaning");
+											if (TextUtils.equals(code, "200")) {//成功
+												MyApplication.USERNAME = etUserName.getText().toString();
+												MyApplication.PASSWORD = etPwd.getText().toString();
+												MyApplication.USERTYPE = type;
+												MyApplication.saveUserInfo(mContext);
 
-													if (!obj.isNull("UserAuthority")) {//0(标识管理员) 1 （组长） 2（普通）
-														MyApplication.AUTHORITY = obj.getString("UserAuthority");
-													}
-
-													if (!obj.isNull("UserAgent")) {//设备操作权限（0为拥有操作权限 1没有）
-														MyApplication.USERAGENT = obj.getString("UserAgent");
-													}
-
-													if (!obj.isNull("UserName")) {
-														MyApplication.NICKNAME = obj.getString("UserName");
-													}
-
-													if (!obj.isNull("UserMail")) {
-														MyApplication.MAIL = obj.getString("UserMail");
-													}
-
-													if (!obj.isNull("UserPhone")) {
-														MyApplication.PHONE = obj.getString("UserPhone");
-													}
-
-													MyApplication.USERNAME = etUserName.getText().toString();
-													MyApplication.PASSWORD = etPwd.getText().toString();
-													MyApplication.saveUserInfo(mContext);
-
-													startActivity(new Intent(mContext, ShawnMainActivity.class));
-													finish();
-												}
-											}else if (TextUtils.equals(code, "100")) {//录入人员
-												if (!object.isNull("list")) {
-													MyApplication.USERNAME = etUserName.getText().toString();
-													MyApplication.PASSWORD = etPwd.getText().toString();
-													MyApplication.saveUserInfo(mContext);
-
-													startActivity(new Intent(mContext, WriteParametersActivity.class));
-													finish();
-												}
-											}else {
-												//失败
-												if (!object.isNull("reason")) {
-													String reason = object.getString("reason");
-													if (!TextUtils.isEmpty(reason)) {
-														Toast.makeText(mContext, reason, Toast.LENGTH_SHORT).show();
-													}
-												}
+												startActivity(new Intent(mContext, ShawnMainActivity.class));
+												finish();
 											}
 										}
 									} catch (JSONException e) {
@@ -182,12 +148,34 @@ public class ShawnLoginActivity extends BaseActivity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tvLogin:
-			doLogin();
-			break;
+			case R.id.tvLogin:
+				doLogin();
+				break;
+			case R.id.tvRegister:
+				startActivityForResult(new Intent(this, ShawnRegisterActivity.class), 1001);
+				break;
 
 		default:
 			break;
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+				case 1001:
+					etUserName.setText(MyApplication.USERNAME);
+					etPwd.setText(MyApplication.PASSWORD);
+
+					if (!TextUtils.isEmpty(etUserName.getText().toString()) && !TextUtils.isEmpty(etPwd.getText().toString())) {
+						etUserName.setSelection(etUserName.getText().toString().length());
+						etPwd.setSelection(etPwd.getText().toString().length());
+						doLogin();
+					}
+					break;
+			}
 		}
 	}
 }

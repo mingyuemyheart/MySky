@@ -3,6 +3,7 @@ package com.cxwl.weather.eye.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.activity.VideoDetailActivity;
-import com.cxwl.weather.eye.adapter.VideoListAdapter;
+import com.cxwl.weather.eye.activity.ShawnCityActivity;
+import com.cxwl.weather.eye.activity.ShawnVideoDetailActivity;
+import com.cxwl.weather.eye.adapter.ShawnMainListAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
@@ -39,9 +42,10 @@ import static com.cxwl.weather.eye.common.MyApplication.USERNAME;
 /**
  * 主界面-列表
  */
-public class ShawnMainListFragment extends Fragment {
-	
-	private VideoListAdapter videoAdapter;
+public class ShawnMainListFragment extends Fragment implements View.OnClickListener {
+
+	private TextView tvAll,tvCount;
+	private ShawnMainListAdapter mAdapter;
 	private List<EyeDto> dataList = new ArrayList<>();
 	private SwipeRefreshLayout refreshLayout;//下拉刷新布局
 
@@ -65,7 +69,7 @@ public class ShawnMainListFragment extends Fragment {
 	private void initRefreshLayout(View view) {
         refreshLayout = view.findViewById(R.id.refreshLayout);
         refreshLayout.setColorSchemeResources(CONST.color1, CONST.color2, CONST.color3, CONST.color4);
-        refreshLayout.setProgressViewEndTarget(true, 300);
+        refreshLayout.setProgressViewEndTarget(true, 400);
         refreshLayout.setRefreshing(true);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -81,18 +85,22 @@ public class ShawnMainListFragment extends Fragment {
 	}
 	
 	private void initWidget(View view) {
+		tvAll = view.findViewById(R.id.tvAll);
+		tvAll.setOnClickListener(this);
+		tvCount = view.findViewById(R.id.tvCount);
+
 		refresh();
 	}
 	
 	private void initListView(View view) {
-		GridView gridView = view.findViewById(R.id.gridView);
-		videoAdapter = new VideoListAdapter(getActivity(), dataList);
-		gridView.setAdapter(videoAdapter);
-		gridView.setOnItemClickListener(new OnItemClickListener() {
+		ListView listView = view.findViewById(R.id.listView);
+		mAdapter = new ShawnMainListAdapter(getActivity(), dataList);
+		listView.setAdapter(mAdapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				EyeDto dto = dataList.get(arg2);
-				Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
+				Intent intent = new Intent(getActivity(), ShawnVideoDetailActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putParcelable("data", dto);
 				intent.putExtras(bundle);
@@ -153,8 +161,17 @@ public class ShawnMainListFragment extends Fragment {
 														if (!itemObj.isNull("FacilityIP")) {
 															dto.fGroupIp = itemObj.getString("FacilityIP");
 														}
+														if (!itemObj.isNull("Province")) {
+															dto.provinceName = itemObj.getString("Province");
+														}
+														if (!itemObj.isNull("City")) {
+															dto.cityName = itemObj.getString("City");
+														}
+														if (!itemObj.isNull("County")) {
+															dto.disName = itemObj.getString("County");
+														}
 														if (!itemObj.isNull("Location")) {
-															dto.location = itemObj.getString("Location");
+															dto.location = itemObj.getString("Location").trim();
 														}
 														if (!itemObj.isNull("StatusUrl")) {
 															dto.StatusUrl = itemObj.getString("StatusUrl");
@@ -180,11 +197,20 @@ public class ShawnMainListFragment extends Fragment {
                                                         if (!itemObj.isNull("FacilityUrlTes")) {
                                                             dto.facilityUrlTes = itemObj.getString("FacilityUrlTes");
                                                         }
+														if (!itemObj.isNull("ErectTime")) {
+															dto.erectTime = itemObj.getString("ErectTime");
+														}
 														dataList.add(dto);
 													}
 
-													if (videoAdapter != null) {
-														videoAdapter.notifyDataSetChanged();
+													if (dataList.size() > 0) {
+														tvAll.setVisibility(View.VISIBLE);
+														tvCount.setText("共有实景"+dataList.size()+"个");
+													}else {
+														tvAll.setVisibility(View.INVISIBLE);
+													}
+													if (mAdapter != null) {
+														mAdapter.notifyDataSetChanged();
 													}
 												}
 											}else {
@@ -197,11 +223,12 @@ public class ShawnMainListFragment extends Fragment {
 												}
 											}
 										}
-										refreshLayout.setRefreshing(false);
 									} catch (JSONException e) {
 										e.printStackTrace();
 									}
 								}
+
+								refreshLayout.setRefreshing(false);
 							}
 						});
 					}
@@ -209,5 +236,18 @@ public class ShawnMainListFragment extends Fragment {
 			}
 		}).start();
 	}
-	
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.tvAll:
+				Intent intent = new Intent(getActivity(), ShawnCityActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
+				intent.putExtras(bundle);
+				startActivity(intent);
+				break;
+		}
+	}
+
 }

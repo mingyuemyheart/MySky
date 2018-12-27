@@ -28,10 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -43,7 +41,7 @@ import okhttp3.Response;
 /**
  * 数据采集
  */
-public class SelectWeatherActivity extends BaseActivity implements OnClickListener{
+public class SelectWeatherActivity extends ShawnBaseActivity implements OnClickListener{
 	
 	private Context mContext = null;
 	private TextView tvTitle = null;
@@ -73,7 +71,7 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 		llBack = (LinearLayout) findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
 		ivBack = (ImageView) findViewById(R.id.ivBack);
-		ivBack.setImageResource(R.drawable.eye_btn_close);
+		ivBack.setImageResource(R.drawable.shawn_icon_close);
 		tvTemp = (TextView) findViewById(R.id.tvTemp);
 		tvHumidity = (TextView) findViewById(R.id.tvHumidity);
 		tvRain = (TextView) findViewById(R.id.tvRain);
@@ -370,7 +368,7 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			finish();
-	        overridePendingTransition(R.anim.in_uptodown, R.anim.out_uptodown);
+	        overridePendingTransition(R.anim.shawn_in_uptodown, R.anim.shawn_out_uptodown);
 		}
 		return false;
 	}
@@ -380,7 +378,7 @@ public class SelectWeatherActivity extends BaseActivity implements OnClickListen
 		switch (v.getId()) {
 		case R.id.llBack:
 			finish();
-			overridePendingTransition(R.anim.in_uptodown, R.anim.out_uptodown);
+			overridePendingTransition(R.anim.shawn_in_uptodown, R.anim.shawn_out_uptodown);
 			break;
 
 		default:

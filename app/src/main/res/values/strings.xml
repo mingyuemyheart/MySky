@@ -19,4 +19,74 @@
     <string name="update_later">以后再说</string>
     <string name="already_new_version">已经是最新版本！</string>
 
+    <!-- 天气表 -->
+    <string name="weather0">晴</string>
+    <string name="weather1">多云</string>
+    <string name="weather2">阴</string>
+    <string name="weather3">阵雨</string>
+    <string name="weather4">雷阵雨</string>
+    <string name="weather5">雨夹冰雹</string>
+    <string name="weather6">雨夹雪</string>
+    <string name="weather7">小雨</string>
+    <string name="weather8">中雨</string>
+    <string name="weather9">大雨</string>
+    <string name="weather10">暴雨</string>
+    <string name="weather11">大暴雨</string>
+    <string name="weather12">特大暴雨</string>
+    <string name="weather13">阵雪</string>
+    <string name="weather14">小雪</string>
+    <string name="weather15">中雪</string>
+    <string name="weather16">大雪</string>
+    <string name="weather17">暴雪</string>
+    <string name="weather18">雾</string>
+    <string name="weather19">冻雨</string>
+    <string name="weather20">沙尘暴</string>
+    <string name="weather21">小雨-中雨</string>
+    <string name="weather22">中雨-大雨</string>
+    <string name="weather23">大雨-暴雨</string>
+    <string name="weather24">暴雨-大暴雨</string>
+    <string name="weather25">大暴雨-特大暴雨</string>
+    <string name="weather26">小雪-中雪</string>
+    <string name="weather27">中雪-大雪</string>
+    <string name="weather28">大雪-暴雪</string>
+    <string name="weather29">浮尘</string>
+    <string name="weather30">扬沙</string>
+    <string name="weather31">强沙尘暴</string>
+    <string name="weather32">浓雾</string>
+    <string name="weather33">雪</string>
+    <string name="weather49">强浓雾</string>
+    <string name="weather53">霾</string>
+    <string name="weather54">中度霾</string>
+    <string name="weather55">重度霾</string>
+    <string name="weather56">严重霾</string>
+    <string name="weather57">大雾</string>
+    <string name="weather58">特强浓雾</string>
+
+    <!-- 风向表 -->
+    <string name="wind_dir0"></string>
+    <string name="wind_dir1">东北风</string>
+    <string name="wind_dir2">东风</string>
+    <string name="wind_dir3">东南风</string>
+    <string name="wind_dir4">南风</string>
+    <string name="wind_dir5">西南风</string>
+    <string name="wind_dir6">西风</string>
+    <string name="wind_dir7">西北风</string>
+    <string name="wind_dir8">北风</string>
+    <string name="wind_dir9">旋转风</string>
+
+    <!-- 风力表 -->
+    <string name="wind_force0">微风</string>
+    <string name="wind_force1">1级</string>
+    <string name="wind_force2">2级</string>
+    <string name="wind_force3">3级</string>
+    <string name="wind_force4">4级</string>
+    <string name="wind_force5">5级</string>
+    <string name="wind_force6">6级</string>
+    <string name="wind_force7">7级</string>
+    <string name="wind_force8">8级</string>
+    <string name="wind_force9">9级</string>
+    <string name="wind_force10">10级</string>
+    <string name="wind_force11">11级</string>
+    <string name="wind_force12">12级</string>
+
 </resources>

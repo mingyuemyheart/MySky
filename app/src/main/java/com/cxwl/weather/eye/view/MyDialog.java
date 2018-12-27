@@ -29,7 +29,7 @@ public class MyDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 		setStyle(Window.FEATURE_NO_TITLE);
 		getWindow().setBackgroundDrawableResource(R.color.transparent);
-		setContentView(R.layout.layout_loading);
+		setContentView(R.layout.shawn_layout_loading);
 		
 		ImageView ivLoading = findViewById(R.id.ivLoading);
 		AnimationDrawable animationDrawable = (AnimationDrawable) ivLoading.getDrawable();

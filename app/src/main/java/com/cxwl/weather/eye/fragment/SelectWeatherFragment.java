@@ -1,7 +1,6 @@
 package com.cxwl.weather.eye.fragment;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import android.app.Fragment;
@@ -19,7 +18,6 @@ import com.cxwl.weather.eye.view.PressureView;
 import com.cxwl.weather.eye.view.QualityView;
 import com.cxwl.weather.eye.view.RainLevelView;
 import com.cxwl.weather.eye.view.RainView;
-import com.cxwl.weather.eye.view.TemperatureView;
 import com.cxwl.weather.eye.view.UltravioletView;
 import com.cxwl.weather.eye.view.WindView;
 
@@ -56,10 +54,10 @@ public class SelectWeatherFragment extends Fragment{
 		int width = dm.widthPixels;
 		
 		if (index == 0) {//温度
-			TemperatureView temperatureView = new TemperatureView(getActivity());
-			temperatureView.setData(weatherList);
-			llContainer.removeAllViews();
-			llContainer.addView(temperatureView, width*2, LinearLayout.LayoutParams.MATCH_PARENT);
+//			TemperatureView temperatureView = new TemperatureView(getActivity());
+//			temperatureView.setData(weatherList);
+//			llContainer.removeAllViews();
+//			llContainer.addView(temperatureView, width*2, LinearLayout.LayoutParams.MATCH_PARENT);
 		}else if (index == 1) {//湿度
 			HumidityView humidityView = new HumidityView(getActivity());
 			humidityView.setData(weatherList);

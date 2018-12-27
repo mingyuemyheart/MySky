@@ -34,8 +34,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CommonUtil {
 
@@ -314,23 +319,44 @@ public class CommonUtil {
 			canvas = null;
 		}
     }
+
+	/**
+	 * 分享功能
+	 * @param activity
+	 */
+	public static void share(final Activity activity, final Bitmap bitmap) {
+		ShareAction panelAction = new ShareAction(activity);
+		panelAction.setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE);
+		panelAction.setShareboardclickCallback(new ShareBoardlistener() {
+			@Override
+			public void onclick(SnsPlatform arg0, SHARE_MEDIA arg1) {
+				ShareAction shareAction = new ShareAction(activity);
+				shareAction.setPlatform(arg1);
+				if (bitmap != null) {
+					shareAction.withMedia(new UMImage(activity, bitmap));
+				}
+				shareAction.share();
+			}
+		});
+		panelAction.open();
+	}
     
     /**
      * 分享功能
      * @param activity
      */
-    public static void share(final Activity activity) {
+    public static void share(final Activity activity, final String title, final String content, final String dataUrl) {
     	ShareAction panelAction = new ShareAction(activity);
-		panelAction.setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.SMS);
+		panelAction.setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE);
 		panelAction.setShareboardclickCallback(new ShareBoardlistener() {
 			@Override
 			public void onclick(SnsPlatform arg0, SHARE_MEDIA arg1) {
 				ShareAction sAction = new ShareAction(activity);
 				sAction.setPlatform(arg1);
-				UMWeb web = new UMWeb("https://www.tianqi.cn/tianqiwangyan.html");
-				web.setTitle(activity.getString(R.string.app_name));//标题
-				web.setDescription("集天气要素、图片、视频采集、存储、加工、夜彩功能于一体的实景天气软硬件整体解决方案");
-				web.setThumb(new UMImage(activity, R.drawable.eye_icon));
+				UMWeb web = new UMWeb(dataUrl);
+				web.setTitle(title);//标题
+				web.setDescription(content);
+				web.setThumb(new UMImage(activity, R.drawable.shawn_icon));
 				sAction.withMedia(web);
 				sAction.share();
 			}
@@ -435,6 +461,104 @@ public class CommonUtil {
 			return 337.5f;
 		}
 		return 0;
+	}
+
+	/**
+	 * 根据当前时间获取日期
+	 * @param i (+1为后一天，-1为前一天，0表示当天)
+	 * @return
+	 */
+	public static String getDate(String time, int i) {
+		Calendar c = Calendar.getInstance();
+
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmm", Locale.CHINA);
+		try {
+			Date date = sdf2.parse(time);
+			c.setTime(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		c.add(Calendar.DAY_OF_MONTH, i);
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
+		String date = sdf1.format(c.getTime());
+		return date;
+	}
+
+	/**
+	 * 根据当前时间获取星期几
+	 * @param i (+1为后一天，-1为前一天，0表示当天)
+	 * @return
+	 */
+	public static String getWeek(int i) {
+		String week = "";
+
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_WEEK, i);
+
+		switch (c.get(Calendar.DAY_OF_WEEK)) {
+			case Calendar.SUNDAY:
+				week = "周日";
+				break;
+			case Calendar.MONDAY:
+				week = "周一";
+				break;
+			case Calendar.TUESDAY:
+				week = "周二";
+				break;
+			case Calendar.WEDNESDAY:
+				week = "周三";
+				break;
+			case Calendar.THURSDAY:
+				week = "周四";
+				break;
+			case Calendar.FRIDAY:
+				week = "周五";
+				break;
+			case Calendar.SATURDAY:
+				week = "周六";
+				break;
+		}
+
+		return week;
+	}
+
+	public static String getWeek(String time) {
+		String week = "";
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(new Date(sdf1.parse(time).getTime()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		switch (c.get(Calendar.DAY_OF_WEEK)) {
+			case Calendar.SUNDAY:
+				week = "日";
+				break;
+			case Calendar.MONDAY:
+				week = "一";
+				break;
+			case Calendar.TUESDAY:
+				week = "二";
+				break;
+			case Calendar.WEDNESDAY:
+				week = "三";
+				break;
+			case Calendar.THURSDAY:
+				week = "四";
+				break;
+			case Calendar.FRIDAY:
+				week = "五";
+				break;
+			case Calendar.SATURDAY:
+				week = "六";
+				break;
+		}
+
+		return week;
 	}
     
 }

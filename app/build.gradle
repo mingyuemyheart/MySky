@@ -9,11 +9,11 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.cxwl.weather.eye"
+        applicationId "com.cxwl.weather.eye.shijing"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 12
-        versionName "1.1.2"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -37,9 +37,9 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('/Users/shawn/Desktop/打包/天气网眼/WeatherEye.keystore')
+            storeFile file('/Users/shawn/Desktop/打包/实景天气/WeatherEyeNew.keystore')
             storePassword "123456"
-            keyAlias "weathereye"
+            keyAlias "WeatherEyeNew"
             keyPassword "123456"
         }
     }
@@ -48,7 +48,7 @@ android {
     android.applicationVariants.all {
         variant ->
             variant.outputs.all {
-                outputFileName = "WeatherEye" + "_" + "${defaultConfig.versionCode}" + "_V" + "${defaultConfig.versionName}" + "_" + buildType.name + ".apk"
+                outputFileName = "WeatherEyeNew" + "_" + "${defaultConfig.versionCode}" + "_V" + "${defaultConfig.versionName}" + "_" + buildType.name + ".apk"
             }
     }
 
@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.squareup.okio:okio:1.14.1'
     implementation 'com.amap.api:3dmap:5.7.0'
-//    implementation 'com.amap.api:search:5.7.0'
+    //    implementation 'com.amap.api:search:5.7.0'
     implementation 'com.amap.api:location:3.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation files('libs/umeng-common-1.5.3.jar')
@@ -72,4 +72,5 @@ dependencies {
     implementation files('libs/umeng-share-QQ-simplify-6.9.3.jar')
     implementation files('libs/umeng-share-sms-6.9.3.jar')
     implementation files('libs/umeng-share-wechat-simplify-6.9.3.jar')
+    implementation files('libs/ChinaWeatherAPI.jar')
 }

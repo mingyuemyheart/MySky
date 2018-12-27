@@ -17,8 +17,8 @@ import android.view.ViewGroup;
  */
 public class MyPagerAdapter extends PagerAdapter {
 	
-	private Activity activity = null;
-	private List<Fragment> fragments = null;
+	private Activity activity;
+	private List<Fragment> fragments;
 	
 	public MyPagerAdapter(Activity activity, List<Fragment> fragments){
 		this.activity = activity;

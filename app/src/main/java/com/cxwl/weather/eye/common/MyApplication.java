@@ -26,9 +26,9 @@ public class MyApplication extends Application{
 	}
 	
 	private void initUmeng() {
-		UMConfigure.init(this, "58b9167e5312dd1ea90008b1", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-		PlatformConfig.setWeixin("wx907025d7235082ed", "b77e6317267a09999d585ccdf144f7cc");
-		PlatformConfig.setQQZone("1106012860", "SUwxXCjqWlTcRlb0");
+		UMConfigure.init(this, "5c21b94cb465f5278f0001b9", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+		PlatformConfig.setWeixin("wx073ab8dcab423158", "baec24d052f3a9bd8ea1f0ad153e669b");
+		PlatformConfig.setQQZone("1108069568", "Tdgxw95ccp1hraJ5");
 		UMConfigure.setLogEnabled(false);
 	}
 
@@ -58,7 +58,7 @@ public class MyApplication extends Application{
 	public static String UID = "";
 	public static String USERNAME = "";
 	public static String PASSWORD = "";
-	public static String USERAGENT = "";//设备操作权限（0为拥有操作权限 1没有）
+	public static String USERTYPE = ""; //用户类型，"1"位决策用户、"true"为会员用户
 	public static String AUTHORITY = "";//用户权限,0(标识管理员) 1 （组长） 2（普通）
 	public static String NICKNAME = "";//昵称
 	public static String MAIL = "";//邮箱
@@ -69,6 +69,7 @@ public class MyApplication extends Application{
 		private static final String uid = "uid";
 		private static final String userName = "uName";
 		private static final String passWord = "pwd";
+		private static final String userType = "userType";
 		private static final String authority = "authority";//权限
 		private static final String userAgent = "UserAgent";//操作摄像头权限
 		public static final String nickname = "nickname";//昵称
@@ -87,7 +88,7 @@ public class MyApplication extends Application{
 		UID = "";
 		USERNAME = "";
 		PASSWORD = "";
-		USERAGENT = "";
+		USERTYPE = "";
 		AUTHORITY = "";
 		NICKNAME = "";
 		MAIL = "";
@@ -103,8 +104,8 @@ public class MyApplication extends Application{
 		editor.putString(UserInfo.uid, UID);
 		editor.putString(UserInfo.userName, USERNAME);
 		editor.putString(UserInfo.passWord, PASSWORD);
+		editor.putString(UserInfo.userType, USERTYPE);
 		editor.putString(UserInfo.authority, AUTHORITY);
-		editor.putString(UserInfo.userAgent, USERAGENT);
 		editor.putString(UserInfo.nickname, NICKNAME);
 		editor.putString(UserInfo.mail, MAIL);
 		editor.putString(UserInfo.phone, PHONE);
@@ -119,8 +120,8 @@ public class MyApplication extends Application{
 		UID = sharedPreferences.getString(UserInfo.uid, "");
 		USERNAME = sharedPreferences.getString(UserInfo.userName, "");
 		PASSWORD = sharedPreferences.getString(UserInfo.passWord, "");
+		USERTYPE = sharedPreferences.getString(UserInfo.userType, "");
 		AUTHORITY = sharedPreferences.getString(UserInfo.authority, "");
-		USERAGENT = sharedPreferences.getString(UserInfo.userAgent, "");
 		NICKNAME = sharedPreferences.getString(UserInfo.nickname, "");
 		MAIL = sharedPreferences.getString(UserInfo.mail, "");
 		PHONE = sharedPreferences.getString(UserInfo.phone, "");

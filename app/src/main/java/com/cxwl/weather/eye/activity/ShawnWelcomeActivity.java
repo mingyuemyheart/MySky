@@ -18,7 +18,7 @@ import com.cxwl.weather.eye.view.MyVideoView;
 /**
  * 欢迎界面
  */
-public class ShawnWelcomeActivity extends BaseActivity implements OnClickListener{
+public class ShawnWelcomeActivity extends ShawnBaseActivity implements OnClickListener{
 
 	private MyVideoView videoView;
 

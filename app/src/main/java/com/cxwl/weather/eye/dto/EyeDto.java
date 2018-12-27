@@ -37,6 +37,13 @@ public class EyeDto implements Parcelable{
 	public float x = 0;//x轴坐标点
 	public float y = 0;//y轴坐标点
 
+	//城市
+	public String disName = null;
+	public String cityName = null;//城市名称
+	public String cityId = null;//城市id
+	public String spellName = null;//全拼名称
+	public String provinceName = null;//省份名称
+
 	public EyeDto() {
 	}
 
@@ -77,6 +84,11 @@ public class EyeDto implements Parcelable{
 		dest.writeFloat(this.ultraviolet);
 		dest.writeFloat(this.x);
 		dest.writeFloat(this.y);
+		dest.writeString(this.disName);
+		dest.writeString(this.cityName);
+		dest.writeString(this.cityId);
+		dest.writeString(this.spellName);
+		dest.writeString(this.provinceName);
 	}
 
 	protected EyeDto(Parcel in) {
@@ -110,6 +122,11 @@ public class EyeDto implements Parcelable{
 		this.ultraviolet = in.readFloat();
 		this.x = in.readFloat();
 		this.y = in.readFloat();
+		this.disName = in.readString();
+		this.cityName = in.readString();
+		this.cityId = in.readString();
+		this.spellName = in.readString();
+		this.provinceName = in.readString();
 	}
 
 	public static final Creator<EyeDto> CREATOR = new Creator<EyeDto>() {

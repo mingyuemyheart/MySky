@@ -11,7 +11,7 @@ import com.cxwl.weather.eye.R;
 /**
  * 关于我们
  */
-public class ShawnAboutActivity extends BaseActivity implements OnClickListener{
+public class ShawnAboutActivity extends ShawnBaseActivity implements OnClickListener{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -26,7 +26,7 @@ import com.cxwl.weather.eye.view.MainViewPager;
  *
  */
 
-public class ReadParametersActivity extends BaseActivity implements OnClickListener{
+public class ReadParametersActivity extends ShawnBaseActivity implements OnClickListener{
 	
 	private LinearLayout llBack = null;
 	private TextView tvTitle = null;

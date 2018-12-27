@@ -1,5 +1,7 @@
 package com.cxwl.weather.eye.common;
 
+import android.os.Environment;
+
 public class CONST {
 	
 	//广播标示
@@ -15,5 +17,9 @@ public class CONST {
 	public static final int color2 = android.R.color.holo_red_light;
 	public static final int color3 = android.R.color.holo_red_dark;
 	public static final int color4 = android.R.color.holo_red_light;
+
+	//通用
+	public static String SDCARD_PATH = Environment.getExternalStorageDirectory()+"/WeatherEyeNew";
+	public static String DOWNLOAD_ADDR = SDCARD_PATH + "/download/";//下载视频保存的路径
 	
 }
