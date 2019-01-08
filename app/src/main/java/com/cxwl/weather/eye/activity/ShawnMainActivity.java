@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
+import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.fragment.ShawnMainListFragment;
 import com.cxwl.weather.eye.fragment.ShawnMainMapFragment;
@@ -62,10 +63,11 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
 		setContentView(R.layout.shawn_activity_main);
 		mContext = this;
 		MyApplication.addDestoryActivity(this, "ShawnMainActivity");
+        OkHttpExperienceTime();
 		initWidget();
 		initViewPager();
 	}
-	
+
 	private void initWidget() {
 		AutoUpdateUtil.checkUpdate(this, mContext, "108", getString(R.string.app_name), true);
 
@@ -119,6 +121,10 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
             tvUserType.setBackgroundResource(R.drawable.eye_corner_user_normal);
         }
         OkHttpUserType();
+
+        if (CommonUtil.showExperienceTime(mContext)) {
+            CommonUtil.dialogExpericence(mContext);
+        }
 	}
 
 	private void OkHttpUserType() {
@@ -296,4 +302,42 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
 		super.onActivityResult(requestCode, resultCode, data);
 		UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 	}
+
+    /**
+     * 获取体验时间
+     */
+	private void OkHttpExperienceTime() {
+        final String url = "http://decision-admin.tianqi.cn/home/api/experienceTime";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        String result = response.body().string();
+                        if (!TextUtils.isEmpty(result)) {
+                            try {
+                                JSONObject obj = new JSONObject(result);
+                                if (!obj.isNull("total")) {
+                                    long total = obj.getLong("total");
+                                    CONST.EXPERIENCETIME = CONST.min*total;
+                                    long refresh = obj.getLong("refresh");
+                                    CONST.EXPERIENCEREFRESH = CONST.min*refresh;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
 }

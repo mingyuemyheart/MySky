@@ -29,6 +29,7 @@ import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.activity.ShawnVideoDetailActivity;
 import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.dto.EyeDto;
+import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.view.MyDialog;
 
@@ -293,15 +294,19 @@ public class ShawnMainMapFragment extends Fragment implements OnClickListener, O
 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
-		for (int i = 0; i < dataList.size(); i++) {
-			EyeDto dto = dataList.get(i);
-			if (TextUtils.equals(dto.fId, marker.getSnippet())) {
-				Intent intent = new Intent(getActivity(), ShawnVideoDetailActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable("data", dto);
-				intent.putExtras(bundle);
-				startActivity(intent);
-				break;
+		if (CommonUtil.showExperienceTime(getActivity())) {
+			CommonUtil.dialogExpericence(getActivity());
+		}else {
+			for (int i = 0; i < dataList.size(); i++) {
+				EyeDto dto = dataList.get(i);
+				if (TextUtils.equals(dto.fId, marker.getSnippet())) {
+					Intent intent = new Intent(getActivity(), ShawnVideoDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putParcelable("data", dto);
+					intent.putExtras(bundle);
+					startActivity(intent);
+					break;
+				}
 			}
 		}
 		return true;

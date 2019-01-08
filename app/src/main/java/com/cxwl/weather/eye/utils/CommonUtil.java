@@ -1,7 +1,10 @@
 package com.cxwl.weather.eye.utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -11,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Picture;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -20,8 +24,12 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.activity.ShawnMemberActivity;
+import com.cxwl.weather.eye.common.CONST;
+import com.cxwl.weather.eye.common.MyApplication;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -559,6 +567,70 @@ public class CommonUtil {
 		}
 
 		return week;
+	}
+
+	/**
+	 * 保存体验时间
+	 */
+	public static void saveExperienceTime(Context context, long time) {
+		long lastTime = readExperienceTime(context);//上一次保存的时间
+		SharedPreferences sp = context.getSharedPreferences("EXPERIECETIME", Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sp.edit();
+		editor.putLong("time", lastTime+time);
+		editor.apply();
+	}
+
+	/**
+	 * 读取体验时间
+	 */
+	private static long readExperienceTime(Context context) {
+		SharedPreferences sp = context.getSharedPreferences("EXPERIECETIME", Context.MODE_PRIVATE);
+		long lastTime = sp.getLong("time", 0);
+		return lastTime;
+	}
+
+	/**
+	 * 清除体验时间
+	 */
+	public static void clearExperienceTime(Context context) {
+		SharedPreferences sp = context.getSharedPreferences("EXPERIECETIME", Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sp.edit();
+		editor.clear();
+		editor.apply();
+	}
+
+	/**
+	 * 是否显示成为会员对框框
+	 * @return
+	 */
+	public static boolean showExperienceTime(Context context) {
+		boolean flag = false;
+		long expericenceTime = CommonUtil.readExperienceTime(context);
+		if (expericenceTime > CONST.EXPERIENCETIME && TextUtils.equals(MyApplication.USERTYPE, "0")) {
+			flag = true;
+		}
+		return flag;
+	}
+
+	/**
+	 * 体验时间提醒
+	 */
+	public static void dialogExpericence(final Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.shawn_dialog_expericence, null);
+		TextView tvPositive = view.findViewById(R.id.tvPositive);
+
+		final Dialog dialog = new Dialog(context, R.style.CustomProgressDialog);
+		dialog.setContentView(view);
+		dialog.show();
+
+		tvPositive.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+				context.startActivity(new Intent(context, ShawnMemberActivity.class));
+			}
+		});
 	}
     
 }

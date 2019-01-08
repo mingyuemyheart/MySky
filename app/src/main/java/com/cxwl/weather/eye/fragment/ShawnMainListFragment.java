@@ -21,6 +21,7 @@ import com.cxwl.weather.eye.activity.ShawnVideoDetailActivity;
 import com.cxwl.weather.eye.adapter.ShawnMainListAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
+import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 
 import org.json.JSONArray;
@@ -99,12 +100,16 @@ public class ShawnMainListFragment extends Fragment implements View.OnClickListe
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				EyeDto dto = dataList.get(arg2);
-				Intent intent = new Intent(getActivity(), ShawnVideoDetailActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable("data", dto);
-				intent.putExtras(bundle);
-				startActivity(intent);
+				if (CommonUtil.showExperienceTime(getActivity())) {
+					CommonUtil.dialogExpericence(getActivity());
+				}else {
+					EyeDto dto = dataList.get(arg2);
+					Intent intent = new Intent(getActivity(), ShawnVideoDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putParcelable("data", dto);
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 			}
 		});
 	}
@@ -241,11 +246,15 @@ public class ShawnMainListFragment extends Fragment implements View.OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.tvAll:
-				Intent intent = new Intent(getActivity(), ShawnCityActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
-				intent.putExtras(bundle);
-				startActivity(intent);
+				if (CommonUtil.showExperienceTime(getActivity())) {
+					CommonUtil.dialogExpericence(getActivity());
+				}else {
+					Intent intent = new Intent(getActivity(), ShawnCityActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 				break;
 		}
 	}

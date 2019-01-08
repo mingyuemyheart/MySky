@@ -9,7 +9,7 @@
         android:id="@+id/tvAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="全部>"
+        android:text="其它地区>"
         android:visibility="invisible"
         android:textSize="@dimen/level_4"
         android:textColor="@color/white"

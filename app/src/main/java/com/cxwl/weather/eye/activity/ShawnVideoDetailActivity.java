@@ -1,6 +1,7 @@
 package com.cxwl.weather.eye.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,6 +10,8 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.AuthorityUtil;
@@ -44,6 +48,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import cn.com.weather.api.WeatherAPI;
@@ -70,13 +76,57 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 	private TXLivePlayer mLivePlayer;
 	private LinearLayout llControl;
 	private TextView tvTemp, tvHumidity, tvQuality, tvWindSpeed, tvWindDir, tvPressure;
-	
+	private long expericenceTime;
+	private Timer timer;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shawn_activity_video_detail);
 		mContext = this;
 		initWidget();
+	}
+
+	private void initTimer() {
+		if (timer == null) {
+			timer = new Timer();
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					handler.sendEmptyMessage(10001);
+				}
+			}, 0, CONST.EXPERIENCEREFRESH);//一分钟刷新一次
+		}
+	}
+
+	@SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 10001) {
+				CommonUtil.saveExperienceTime(mContext, System.currentTimeMillis()-expericenceTime);//保存体验时间
+				if (CommonUtil.showExperienceTime(mContext)) {
+					CommonUtil.dialogExpericence(mContext);
+					resetTimer();
+					if (mLivePlayer != null) {
+						mLivePlayer.stopPlay(true);// true代表清除最后一帧画面
+						mLivePlayer = null;
+					}
+					if (mPlayerView != null) {
+						mPlayerView.onDestroy();
+						mPlayerView = null;
+					}
+				}
+			}
+		}
+	};
+
+	private void resetTimer() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
 	}
 	
 	/**
@@ -188,6 +238,8 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 				public void onPlayEvent(int arg0, Bundle arg1) {
 					if (arg0 == TXLiveConstants.PLAY_EVT_PLAY_BEGIN) {//视频播放开始
 						progressBar.setVisibility(View.GONE);
+						expericenceTime = System.currentTimeMillis();
+						initTimer();
 					}
 				}
 				
@@ -293,6 +345,8 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		resetTimer();
+
 		if (mLivePlayer != null) {
 			mLivePlayer.stopPlay(true);// true代表清除最后一帧画面
 			mLivePlayer = null;
@@ -302,7 +356,7 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 			mPlayerView = null;
 		}
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		Intent intent;
