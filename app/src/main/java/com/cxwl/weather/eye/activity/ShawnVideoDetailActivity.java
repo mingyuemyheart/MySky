@@ -20,6 +20,7 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 import com.cxwl.weather.eye.utils.SecretUrlUtil;
 import com.cxwl.weather.eye.utils.WeatherUtil;
+import com.squareup.picasso.Picasso;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
@@ -78,6 +80,7 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 	private TextView tvTemp, tvHumidity, tvQuality, tvWindSpeed, tvWindDir, tvPressure;
 	private long expericenceTime;
 	private Timer timer;
+	private ImageView ivLogo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +159,7 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 		llSetting.setOnClickListener(this);
 		TextView tvWeather = findViewById(R.id.tvWeather);
 		tvWeather.setOnClickListener(this);
+		ivLogo = findViewById(R.id.ivLogo);
 
 		tvTemp = findViewById(R.id.tvTemp);
 		tvQuality = findViewById(R.id.tvQuality);
@@ -185,6 +189,10 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 					initTXCloudVideoView(data.streamPublic);
 				}
 
+				String logoUrl = String.format("https://api.bluepi.tianqi.cn/Public/tqwy_logos/%s.png", data.facilityUrlTes);
+				if (!TextUtils.isEmpty(logoUrl)) {
+					Picasso.get().load(logoUrl).into(ivLogo);
+				}
 				checkAuthority();
 			}
 		}
@@ -301,6 +309,10 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 			params.width = width;
 			params.height = height;
 			mPlayerView.setLayoutParams(params);
+
+			ViewGroup.LayoutParams params1 = ivLogo.getLayoutParams();
+			params1.width = width/3;
+			ivLogo.setLayoutParams(params1);
 		}
 		if (mLivePlayer != null) {
 			mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);

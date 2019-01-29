@@ -1,10 +1,16 @@
 package com.cxwl.weather.eye.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -19,6 +25,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
 import com.cxwl.weather.eye.common.CONST;
@@ -26,6 +36,7 @@ import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.fragment.ShawnMainListFragment;
 import com.cxwl.weather.eye.fragment.ShawnMainMapFragment;
 import com.cxwl.weather.eye.manager.DataCleanManager;
+import com.cxwl.weather.eye.utils.AuthorityUtil;
 import com.cxwl.weather.eye.utils.AutoUpdateUtil;
 import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
@@ -44,7 +55,7 @@ import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListener, AMapLocationListener {
 	
 	private Context mContext;
 	private ImageView ivControl;
@@ -63,6 +74,7 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
 		setContentView(R.layout.shawn_activity_main);
 		mContext = this;
 		MyApplication.addDestoryActivity(this, "ShawnMainActivity");
+        checkAuthority();
         OkHttpExperienceTime();
 		initWidget();
 		initViewPager();
@@ -338,6 +350,94 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                 });
             }
         }).start();
+    }
+
+    //需要申请的所有权限
+    private String[] allPermissions = new String[] {
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
+    //拒绝的权限集合
+    public static List<String> deniedList = new ArrayList<>();
+    /**
+     * 申请定位权限
+     */
+    private void checkAuthority() {
+        if (Build.VERSION.SDK_INT < 23) {
+            startLocation();
+        }else {
+            deniedList.clear();
+            for (String permission : allPermissions) {
+                if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
+                    deniedList.add(permission);
+                }
+            }
+            if (deniedList.isEmpty()) {//所有权限都授予
+                startLocation();
+            }else {
+                String[] permissions = deniedList.toArray(new String[deniedList.size()]);//将list转成数组
+                ActivityCompat.requestPermissions(this, permissions, AuthorityUtil.AUTHOR_LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case AuthorityUtil.AUTHOR_LOCATION:
+                if (grantResults.length > 0) {
+                    boolean isAllGranted = true;//是否全部授权
+                    for (int gResult : grantResults) {
+                        if (gResult != PackageManager.PERMISSION_GRANTED) {
+                            isAllGranted = false;
+                            break;
+                        }
+                    }
+                    if (isAllGranted) {//所有权限都授予
+                        startLocation();
+                    }else {//只要有一个没有授权，就提示进入设置界面设置
+                        checkAuthority();
+                    }
+                }else {
+                    for (String permission : permissions) {
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                            checkAuthority();
+                            break;
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    /**
+     * 开始定位
+     */
+    private void startLocation() {
+        if (CommonUtil.isLocationOpen(this)) {
+            AMapLocationClientOption mLocationOption = new AMapLocationClientOption();//初始化定位参数
+            AMapLocationClient mLocationClient = new AMapLocationClient(this);//初始化定位
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+            mLocationOption.setNeedAddress(true);//设置是否返回地址信息（默认返回地址信息）
+            mLocationOption.setOnceLocation(true);//设置是否只定位一次,默认为false
+            mLocationOption.setMockEnable(false);//设置是否允许模拟位置,默认为false，不允许模拟位置
+            mLocationOption.setInterval(2000);//设置定位间隔,单位毫秒,默认为2000ms
+            mLocationClient.setLocationOption(mLocationOption);//给定位客户端对象设置定位参数
+            mLocationClient.setLocationListener(this);
+            mLocationClient.startLocation();//启动定位
+        }else {
+            CONST.locationLat = 39.084158;
+            CONST.locationLng = 117.200983;
+        }
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (amapLocation != null && amapLocation.getErrorCode() == 0) {
+            CONST.locationLat = amapLocation.getLatitude();
+            CONST.locationLng = amapLocation.getLongitude();
+        }
     }
 
 }
