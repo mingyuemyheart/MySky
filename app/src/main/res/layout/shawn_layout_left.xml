@@ -73,6 +73,7 @@
         android:background="#4a5463"/>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/llFacility"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

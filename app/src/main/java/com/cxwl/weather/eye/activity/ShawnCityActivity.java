@@ -33,6 +33,7 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 	private Context mContext;
 	private TextView tvProvinceBar,tvNationalBar;
 	private LinearLayout llGroup,llGridView;
+	private List<EyeDto> dataList = new ArrayList<>();
 
 	//搜索城市后的结果列表
 	private ListView listView;
@@ -45,7 +46,7 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 
 	//全国热门
 	private GridView nGridView;
-	private List<EyeDto> dataList = new ArrayList<>();
+	private List<EyeDto> nList = new ArrayList<>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,18 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 
 		dataList.clear();
 		dataList.addAll(getIntent().getExtras().<EyeDto>getParcelableArrayList("dataList"));
+
+		pList.clear();
+		nList.clear();
+		for (EyeDto dto : dataList) {
+			if (!TextUtils.isEmpty(dto.cityName)) {
+				if (dto.cityName.startsWith("天津")) {
+					pList.add(dto);
+				}else {
+					nList.add(dto);
+				}
+			}
+		}
 	}
 	
 	private TextWatcher watcher = new TextWatcher() {
@@ -142,12 +155,6 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 	 * 初始化省内热门gridview
 	 */
 	private void initPGridView() {
-		pList.clear();
-		for (EyeDto dto : dataList) {
-			if (!TextUtils.isEmpty(dto.cityName) && dto.cityName.startsWith("天津")) {
-				pList.add(dto);
-			}
-		}
 		pGridView = findViewById(R.id.pGridView);
 		ShawnCityNationAdapter pAdapter = new ShawnCityNationAdapter(mContext, pList);
 		pGridView.setAdapter(pAdapter);
@@ -164,12 +171,12 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 	 */
 	private void initNGridView() {
 		nGridView = findViewById(R.id.nGridView);
-		ShawnCityNationAdapter nAdapter = new ShawnCityNationAdapter(mContext, dataList);
+		ShawnCityNationAdapter nAdapter = new ShawnCityNationAdapter(mContext, nList);
 		nGridView.setAdapter(nAdapter);
 		nGridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				intentWeatherDetail(dataList.get(arg2));
+				intentWeatherDetail(nList.get(arg2));
 			}
 		});
 	}
