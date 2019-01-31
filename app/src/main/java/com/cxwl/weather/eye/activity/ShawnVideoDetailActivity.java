@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -87,6 +88,7 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shawn_activity_video_detail);
 		mContext = this;
+		Log.e("测试", "fdsfdsfds");
 		initWidget();
 	}
 
