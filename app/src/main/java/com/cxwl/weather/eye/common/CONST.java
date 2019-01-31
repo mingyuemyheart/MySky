@@ -21,5 +21,7 @@ public class CONST {
 	public static String SDCARD_PATH = Environment.getExternalStorageDirectory()+"/WeatherEyeNew";
 	public static String DOWNLOAD_ADDR = SDCARD_PATH + "/download/";//下载视频保存的路径
 	public static double locationLat = 39.084158, locationLng = 117.200983;//默认天津市中心定位点
+	public static String DECISION_USER = "1";//决策用户，"0"为非决策用户
+	public static String MEMBER_USER = "true";//会员用户，"false"为非会员用户
 	
 }

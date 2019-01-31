@@ -99,16 +99,6 @@ public class ShawnFacilityActivity extends ShawnBaseActivity implements OnClickL
 		ListView listView = findViewById(R.id.listView);
 		mAdapter = new ShawnFacilityAdapter(mContext, dataList);
 		listView.setAdapter(mAdapter);
-//		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-//			@Override
-//			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//				if (!TextUtils.equals(CONST.AUTHORITY, CONST.COMMON)) {
-//					llSelect.setVisibility(View.VISIBLE);
-//					llBottom.setVisibility(View.VISIBLE);
-//				}
-//				return false;
-//			}
-//		});
 	}
 	
 	/**

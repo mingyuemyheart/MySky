@@ -58,8 +58,8 @@ public class MyApplication extends Application{
 	public static String UID = "";
 	public static String USERNAME = "";
 	public static String PASSWORD = "";
-	public static String USERTYPE = ""; //用户类型，"1"位决策用户、"true"为会员用户
-	public static String AUTHORITY = "";//用户权限,0(标识管理员) 1 （组长） 2（普通）
+	public static String USERTYPE = "";//用户类型，"1"为决策用户、"0"为注册用户，注册用户再判断是否为会员用户
+	public static String AUTHORITY = "";//用户权限,"true"为会员用户，"false"为非会员用户
 	public static String NICKNAME = "";//昵称
 	public static String MAIL = "";//邮箱
 	public static String PHONE = "";//电话
@@ -71,7 +71,6 @@ public class MyApplication extends Application{
 		private static final String passWord = "pwd";
 		private static final String userType = "userType";
 		private static final String authority = "authority";//权限
-		private static final String userAgent = "UserAgent";//操作摄像头权限
 		public static final String nickname = "nickname";//昵称
 		public static final String mail = "mail";
 		public static final String phone = "phone";

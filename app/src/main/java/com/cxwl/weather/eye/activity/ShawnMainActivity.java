@@ -123,20 +123,23 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         TextView tvUserName = findViewById(R.id.tvUserName);
         tvUserName.setText(MyApplication.USERNAME);
         tvUserType = findViewById(R.id.tvUserType);
-        if (TextUtils.equals(MyApplication.USERTYPE, "1")) {//决策用户
+        if (TextUtils.equals(MyApplication.USERTYPE, CONST.DECISION_USER)) {//决策用户
             tvUserType.setText("决策用户");
             tvUserType.setTextColor(0xff0f0b08);
             tvUserType.setBackgroundResource(R.drawable.eye_corner_user_decision);
         }else {
-            tvUserType.setText("普通用户");
-            tvUserType.setTextColor(0xff5f6c82);
-            tvUserType.setBackgroundResource(R.drawable.eye_corner_user_normal);
+            if (TextUtils.equals(MyApplication.AUTHORITY, CONST.MEMBER_USER)) {//会员用户
+                tvUserType.setText("会员用户");
+                tvUserType.setTextColor(0xff0f0b08);
+                tvUserType.setBackgroundResource(R.drawable.eye_corner_user_member);
+            }else {
+                tvUserType.setText("普通用户");
+                tvUserType.setTextColor(0xff5f6c82);
+                tvUserType.setBackgroundResource(R.drawable.eye_corner_user_normal);
+            }
         }
-        OkHttpUserType();
 
-        if (CommonUtil.showExperienceTime(mContext)) {
-            CommonUtil.dialogExpericence(mContext);
-        }
+        OkHttpUserType();
 	}
 
 	private void OkHttpUserType() {
@@ -162,10 +165,16 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                                         JSONObject obj = new JSONObject(result);
                                         if (!obj.isNull("success")) {
                                             String success = obj.getString("success");
+                                            MyApplication.AUTHORITY = success;//"true"为会员用户，false为非会员用户
+                                            MyApplication.saveUserInfo(mContext);
                                             if (TextUtils.equals(success, "true")) {
                                                 tvUserType.setText("会员用户");
                                                 tvUserType.setTextColor(0xff0f0b08);
                                                 tvUserType.setBackgroundResource(R.drawable.eye_corner_user_member);
+                                            }
+
+                                            if (CommonUtil.showExperienceTime(mContext)) {
+                                                CommonUtil.dialogExpericence(mContext);
                                             }
                                         }
                                     } catch (JSONException e) {

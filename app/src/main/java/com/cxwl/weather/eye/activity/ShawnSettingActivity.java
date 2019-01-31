@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.common.MyApplication;
-import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
 
 /**
@@ -70,7 +69,6 @@ public class ShawnSettingActivity extends ShawnBaseActivity implements OnClickLi
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
-				CommonUtil.clearExperienceTime(mContext);
 				MyApplication.clearUserInfo(mContext);
 				OkHttpUtil.cookieMap.clear();
 				startActivity(new Intent(mContext, ShawnLoginActivity.class));

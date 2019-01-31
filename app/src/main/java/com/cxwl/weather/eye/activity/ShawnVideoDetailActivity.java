@@ -91,6 +91,9 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 	}
 
 	private void initTimer() {
+		if (TextUtils.equals(MyApplication.USERTYPE, CONST.DECISION_USER) || TextUtils.equals(MyApplication.AUTHORITY, CONST.MEMBER_USER)) {//决策用户或会员用户就不计时了
+			return;
+		}
 		if (timer == null) {
 			timer = new Timer();
 			timer.schedule(new TimerTask() {
@@ -168,7 +171,7 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 		tvWindSpeed = findViewById(R.id.tvWindSpeed);
 		tvWindDir = findViewById(R.id.tvWindDir);
 
-		if (TextUtils.equals(MyApplication.USERTYPE, "1")) {//1为决策用户有权限操作摄像头
+		if (TextUtils.equals(MyApplication.USERTYPE, CONST.DECISION_USER)) {//1为决策用户有权限操作摄像头
 			llSetting.setVisibility(View.VISIBLE);
 		}else {
 			llSetting.setVisibility(View.GONE);
