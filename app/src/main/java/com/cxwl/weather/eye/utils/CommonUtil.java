@@ -622,12 +622,19 @@ public class CommonUtil {
 	 * @return
 	 */
 	public static boolean showExperienceTime(Context context) {
-		boolean flag = false;
-		long expericenceTime = CommonUtil.readExperienceTime(context);
-		if (expericenceTime > CONST.EXPERIENCETIME && TextUtils.equals(MyApplication.USERTYPE, "0")) {
-			flag = true;
+		if (TextUtils.equals(MyApplication.USERTYPE, CONST.DECISION_USER)) {//决策用户，不用判断是否显示
+			return false;
+		}else {//非决策用户，判断是否是会员用户
+			if (TextUtils.equals(MyApplication.AUTHORITY, CONST.MEMBER_USER)) {//会员用户
+				return false;
+			}else {
+				long expericenceTime = CommonUtil.readExperienceTime(context);
+				if (expericenceTime > CONST.EXPERIENCETIME) {
+					return true;
+				}
+			}
 		}
-		return flag;
+		return false;
 	}
 
 	/**
