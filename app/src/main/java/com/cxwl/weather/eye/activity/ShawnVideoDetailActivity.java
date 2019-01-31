@@ -88,7 +88,7 @@ public class ShawnVideoDetailActivity extends ShawnBaseActivity implements OnCli
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shawn_activity_video_detail);
 		mContext = this;
-		Log.e("测试", "fdsfdsfds");
+		Log.e("测试", "sdfsd");
 		initWidget();
 	}
 
