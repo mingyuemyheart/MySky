@@ -296,7 +296,6 @@ public class CommonUtil {
 	 * @param isCover 判断是否为覆盖合成
 	 * @return
 	 */
-    @SuppressWarnings("deprecation")
 	public static Bitmap mergeBitmap(Context context, Bitmap bitmap1, Bitmap bitmap2, boolean isCover) {
     	if (bitmap1 == null || bitmap2 == null) {
 			return null;
