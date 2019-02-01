@@ -78,7 +78,7 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         OkHttpExperienceTime();
 		initWidget();
 		initViewPager();
-	}
+    }
 
 	private void initWidget() {
 		AutoUpdateUtil.checkUpdate(this, mContext, "108", getString(R.string.app_name), true);

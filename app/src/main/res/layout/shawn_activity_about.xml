@@ -14,15 +14,14 @@
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none">
-    
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="3dp"
-        android:textColor="@color/text_color1"
-        android:textSize="@dimen/level_4"
-        android:padding="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical"/>
+
     </ScrollView>
 
 </LinearLayout>
