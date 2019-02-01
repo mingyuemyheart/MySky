@@ -61,14 +61,6 @@ public class CommonUtil {
         return dpValue * scale;
     }  
   
-    /** 
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp 
-     */  
-    public static float px2dip(Context context, float pxValue) {  
-        final float scale = context.getResources().getDisplayMetrics().density;  
-        return pxValue / scale;
-    }
-
 	/**
 	 * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
 	 * @param context
