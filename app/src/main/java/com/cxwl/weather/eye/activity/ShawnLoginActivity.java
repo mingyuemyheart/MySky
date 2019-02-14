@@ -119,10 +119,10 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 								if (!TextUtils.isEmpty(result)) {
 									try {
 										JSONObject object = new JSONObject(result);
-										String type = object.getString("type");//1为决策用户
 										if (!object.isNull("meaning")) {
 											String code  = object.getString("meaning");
 											if (TextUtils.equals(code, "200")) {//成功
+												String type = object.getString("type");//1为决策用户
 												MyApplication.USERNAME = etUserName.getText().toString();
 												MyApplication.PASSWORD = etPwd.getText().toString();
 												MyApplication.USERTYPE = type;
@@ -130,6 +130,8 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 
 												startActivity(new Intent(mContext, ShawnMainActivity.class));
 												finish();
+											}else {
+												Toast.makeText(mContext, code, Toast.LENGTH_SHORT).show();
 											}
 										}
 									} catch (JSONException e) {
