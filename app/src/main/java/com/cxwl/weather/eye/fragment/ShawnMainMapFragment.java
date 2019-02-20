@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
@@ -27,25 +26,11 @@ import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.ScaleAnimation;
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.activity.ShawnVideoDetailActivity;
-import com.cxwl.weather.eye.common.MyApplication;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.CommonUtil;
-import com.cxwl.weather.eye.utils.OkHttpUtil;
-import com.cxwl.weather.eye.view.MyDialog;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Cookie;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * 主界面-地图
@@ -55,7 +40,6 @@ public class ShawnMainMapFragment extends Fragment implements OnClickListener, O
 	private MapView mMapView;
 	private AMap aMap;
 	private List<EyeDto> dataList = new ArrayList<>();
-	private MyDialog mDialog;
 	private List<Marker> markerList = new ArrayList<>();
 	private LatLng locationLatLng = new LatLng(35.926628, 105.178100);
 	private float zoom = 3.7f;
@@ -74,19 +58,6 @@ public class ShawnMainMapFragment extends Fragment implements OnClickListener, O
 		initWidget(view);
 	}
 
-	private void showDialog() {
-		if (mDialog == null) {
-			mDialog = new MyDialog(getActivity());
-		}
-		mDialog.show();
-	}
-
-	private void cancelDialog() {
-		if (mDialog != null) {
-			mDialog.dismiss();
-		}
-	}
-
 	private void initWidget(View view) {
 		ImageView ivRefresh = view.findViewById(R.id.ivRefresh);
 		ivRefresh.setOnClickListener(this);
@@ -97,7 +68,7 @@ public class ShawnMainMapFragment extends Fragment implements OnClickListener, O
 		ivLocation = view.findViewById(R.id.ivLocation);
 		ivLocation.setOnClickListener(this);
 
-		refresh();
+		getListData();
 	}
 	
 	/**
@@ -114,134 +85,13 @@ public class ShawnMainMapFragment extends Fragment implements OnClickListener, O
 		aMap.getUiSettings().setRotateGesturesEnabled(false);
 		aMap.setOnMarkerClickListener(this);
 	}
-	
-	private void refresh() {
-		OkHttpList();
+
+	private void getListData() {
+		dataList.clear();
+		dataList.addAll(getArguments().<EyeDto>getParcelableArrayList("dataList"));
+		addMarkers();
 	}
 	
-	/**
-	 * 获取地图上所有设备信息
-	 */
-	private void OkHttpList() {
-		String c = null;
-		for (String host : OkHttpUtil.cookieMap.keySet()) {
-			if (OkHttpUtil.cookieMap.containsKey(host)) {
-				List<Cookie> cookies = OkHttpUtil.cookieMap.get(host);
-				for (Cookie cookie : cookies) {
-					c = cookie.name()+":"+cookie.value();
-				}
-			}
-		}
-		final String url = String.format("https://api.bluepi.tianqi.cn/outdata/other/newselmallf/cookie/%s&UserNo=%s", c, MyApplication.USERNAME);
-//		final String url = "https://tqwy.tianqi.cn/tianqixy/userInfo/selmallf";
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
-					@Override
-					public void onFailure(Call call, IOException e) {
-					}
-					@Override
-					public void onResponse(Call call, Response response) throws IOException {
-						if (!response.isSuccessful()) {
-							return;
-						}
-						final String result = response.body().string();
-						if (isAdded()) {
-							getActivity().runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									if (!TextUtils.isEmpty(result)) {
-										try {
-											JSONObject object = new JSONObject(result);
-											if (!object.isNull("code")) {
-												String code  = object.getString("code");
-												if (TextUtils.equals(code, "200") || TextUtils.equals(code, "2000")) {//成功
-													if (!object.isNull("list")) {
-														dataList.clear();
-														JSONArray array = new JSONArray(object.getString("list"));
-														for (int i = 0; i < array.length(); i++) {
-															JSONObject itemObj = array.getJSONObject(i);
-															EyeDto dto = new EyeDto();
-															if (!itemObj.isNull("Fzid")) {
-																dto.fGroupId = itemObj.getString("Fzid");
-															}
-															if (!itemObj.isNull("Fid")) {
-																dto.fId = itemObj.getString("Fid");
-															}
-															if (!itemObj.isNull("FacilityIP")) {
-																dto.fGroupIp = itemObj.getString("FacilityIP");
-															}
-															if (!itemObj.isNull("Province")) {
-																dto.provinceName = itemObj.getString("Province");
-															}
-															if (!itemObj.isNull("City")) {
-																dto.cityName = itemObj.getString("City");
-															}
-															if (!itemObj.isNull("County")) {
-																dto.disName = itemObj.getString("County");
-															}
-															if (!itemObj.isNull("Location")) {
-																dto.location = itemObj.getString("Location").trim();
-															}
-															if (!itemObj.isNull("StatusUrl")) {
-																dto.StatusUrl = itemObj.getString("StatusUrl");
-															}
-															if (!itemObj.isNull("FacilityNumber")) {
-																dto.fNumber = itemObj.getString("FacilityNumber");
-															}
-															if (!itemObj.isNull("FacilityUrlWithin")) {
-																dto.streamPrivate = itemObj.getString("FacilityUrlWithin");
-															}
-															if (!itemObj.isNull("FacilityUrl")) {
-																dto.streamPublic = itemObj.getString("FacilityUrl");
-															}
-															if (!itemObj.isNull("Dimensionality")) {
-																dto.lat = itemObj.getString("Dimensionality");
-															}
-															if (!itemObj.isNull("Longitude")) {
-																dto.lng = itemObj.getString("Longitude");
-															}
-															if (!itemObj.isNull("small")) {
-																dto.videoThumbUrl = itemObj.getString("small");
-															}
-															if (!itemObj.isNull("FacilityUrlTes")) {
-																dto.facilityUrlTes = itemObj.getString("FacilityUrlTes");
-															}
-															if (!itemObj.isNull("ErectTime")) {
-																dto.erectTime = itemObj.getString("ErectTime");
-															}
-															dataList.add(dto);
-														}
-
-														addMarkers();
-
-													}
-												}else {
-													//失败
-													if (!object.isNull("reason")) {
-														String reason = object.getString("reason");
-														if (!TextUtils.isEmpty(reason)) {
-															Toast.makeText(getActivity(), reason, Toast.LENGTH_SHORT).show();
-														}
-													}
-												}
-											}
-										} catch (JSONException e) {
-											e.printStackTrace();
-										}
-									}
-
-									cancelDialog();
-								}
-							});
-						}
-					}
-				});
-			}
-		}).start();
-	}
-
 	private void removeMarkers() {
 		for (Marker marker : markerList) {
 			marker.remove();
@@ -316,8 +166,7 @@ public class ShawnMainMapFragment extends Fragment implements OnClickListener, O
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.ivRefresh:
-				showDialog();
-				refresh();
+				getListData();
 				break;
 			case R.id.ivZoomIn:
 				aMap.animateCamera(CameraUpdateFactory.zoomIn());

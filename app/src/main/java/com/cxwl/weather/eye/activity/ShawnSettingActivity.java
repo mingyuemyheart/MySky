@@ -36,6 +36,8 @@ public class ShawnSettingActivity extends ShawnBaseActivity implements OnClickLi
 		tvTitle.setText("设置");
 		TextView tvLogout = findViewById(R.id.tvLogout);
 		tvLogout.setOnClickListener(this);
+		LinearLayout llPwd = findViewById(R.id.llPwd);
+		llPwd.setOnClickListener(this);
 	}
 
 	/**
@@ -81,15 +83,18 @@ public class ShawnSettingActivity extends ShawnBaseActivity implements OnClickLi
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.llBack:
-			finish();
-			break;
-		case R.id.tvLogout:
-			dialogLogout("退出登录", "确定要退出登录？");
-			break;
+			case R.id.llBack:
+				finish();
+				break;
+			case R.id.llPwd:
+				startActivity(new Intent(this, ShawnModifyPwdActivity.class));
+				break;
+			case R.id.tvLogout:
+				dialogLogout("退出登录", "确定要退出登录？");
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 	

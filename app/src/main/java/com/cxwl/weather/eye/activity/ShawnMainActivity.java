@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +34,7 @@ import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.adapter.MyPagerAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.common.MyApplication;
+import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.fragment.ShawnMainListFragment;
 import com.cxwl.weather.eye.fragment.ShawnMainMapFragment;
 import com.cxwl.weather.eye.manager.DataCleanManager;
@@ -193,9 +195,17 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
 	 * 初始化viewPager
 	 */
 	private void initViewPager() {
+	    List<EyeDto> dataList = new ArrayList<>();
+	    dataList.addAll(getIntent().getExtras().<EyeDto>getParcelableArrayList("dataList"));
 		Fragment fragment1 = new ShawnMainListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
+        fragment1.setArguments(bundle);
 		fragments.add(fragment1);
 		Fragment fragment2 = new ShawnMainMapFragment();
+        bundle = new Bundle();
+        bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
+        fragment2.setArguments(bundle);
 		fragments.add(fragment2);
 			
 		viewPager = findViewById(R.id.viewPager);

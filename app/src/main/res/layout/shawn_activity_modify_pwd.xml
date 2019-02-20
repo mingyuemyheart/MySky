@@ -30,6 +30,11 @@
             android:background="@drawable/shawn_bg_corner_black"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#323137"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,11 +43,12 @@
                 android:padding="10dp">
 
                 <EditText
-                    android:id="@+id/etUserName"
+                    android:id="@+id/etOldPwd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:hint="手机号"
+                    android:hint="原始密码"
+                    android:inputType="textPassword"
                     android:singleLine="true"
                     android:textColor="@color/text_color1"
                     android:textColorHint="@color/text_color1"
@@ -62,21 +68,47 @@
                 android:padding="10dp">
 
                 <EditText
-                    android:id="@+id/etPwd"
+                    android:id="@+id/etNewPwd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:hint="密码"
+                    android:hint="新密码"
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:textColor="@color/text_color1"
                     android:textColorHint="@color/text_color1"
                     android:textSize="@dimen/level_4"/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#323137"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/etConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:hint="确认密码"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color1"
+                    android:textColorHint="@color/text_color1"
+                    android:textSize="@dimen/level_4"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvLogin"
+            android:id="@+id/tvModify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/llContent"
@@ -85,44 +117,10 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/shawn_selector_login"
             android:gravity="center"
-            android:text="登   录"
+            android:text="确   定"
             android:textColor="@color/white"
             android:textSize="@dimen/level_1"/>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我要注册"
-            android:textColor="@color/text_color4"
-            android:textSize="@dimen/level_5"/>
-
-        <TextView
-            android:layout_width="0.5dp"
-            android:layout_height="12dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/text_color4"/>
-
-        <TextView
-            android:id="@+id/tvForgot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="忘记密码"
-            android:textColor="@color/text_color4"
-            android:textSize="@dimen/level_5"/>
-
-    </LinearLayout>
 
 </RelativeLayout>

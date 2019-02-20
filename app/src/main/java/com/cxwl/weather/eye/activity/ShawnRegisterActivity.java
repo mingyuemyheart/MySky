@@ -27,7 +27,9 @@ import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -90,11 +92,14 @@ public class ShawnRegisterActivity extends ShawnBaseActivity implements OnClickL
 				}
 			}, 0, 1000);
 		}
-		final String url = "https://tqwy.tianqi.cn/tianqixy/sjdx?user="+etUserName.getText().toString();
+		final String url = "https://api.bluepi.tianqi.cn/Home/api/sendVcode";
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("user", etUserName.getText().toString());
+		final RequestBody body = builder.build();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
 					}
@@ -208,11 +213,16 @@ public class ShawnRegisterActivity extends ShawnBaseActivity implements OnClickL
 	 * 注册
 	 */
 	private void OkHttpRegister() {
-		final String url = String.format("https://tqwy.tianqi.cn/tianqixy/sjzc?user=%s&pwd=%s&num=%s", etUserName.getText().toString(), etPwd.getText().toString(), etCode.getText().toString());
+		final String url = "https://api.bluepi.tianqi.cn/Home/api/userRegist";
+		FormBody.Builder builder = new FormBody.Builder();
+		builder.add("user", etUserName.getText().toString());
+		builder.add("pwd", etPwd.getText().toString());
+		builder.add("num", etCode.getText().toString());
+		final RequestBody body = builder.build();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {
 					}
@@ -236,6 +246,8 @@ public class ShawnRegisterActivity extends ShawnBaseActivity implements OnClickL
 												MyApplication.saveUserInfo(mContext);
 												setResult(RESULT_OK);
 												finish();
+											}else {
+												Toast.makeText(mContext, code, Toast.LENGTH_SHORT).show();
 											}
 										}
 									} catch (JSONException e) {

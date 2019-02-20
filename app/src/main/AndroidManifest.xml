@@ -61,6 +61,10 @@
         <activity
             android:name="com.cxwl.weather.eye.activity.ShawnRegisterActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnModifyPwdActivity"
+            android:screenOrientation="portrait" />
         
         <activity 
             android:name="com.cxwl.weather.eye.activity.ShawnMainActivity"

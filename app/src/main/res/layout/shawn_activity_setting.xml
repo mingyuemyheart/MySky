@@ -9,6 +9,32 @@
         android:id="@+id/reTitle"
         layout="@layout/shawn_layout_title"/>
 
+    <LinearLayout
+        android:id="@+id/llPwd"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reTitle"
+        android:background="@drawable/shawn_selector_item"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="修改密码"
+            android:textColor="@color/white"
+            android:textSize="@dimen/level_4"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/shawn_icon_arrow"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvLogout"
         android:layout_width="match_parent"
