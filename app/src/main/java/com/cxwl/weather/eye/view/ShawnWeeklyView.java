@@ -34,7 +34,6 @@ public class ShawnWeeklyView extends View{
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd", Locale.CANADA);
 	private SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd", Locale.CANADA);
 	private int totalDivider = 0, itemDivider = 1;
-	private long foreDate = 0, currentDate = 0;
 
 	public ShawnWeeklyView(Context context) {
 		super(context);
@@ -68,9 +67,7 @@ public class ShawnWeeklyView extends View{
 	/**
 	 * 进行赋值
 	 */
-	public void setData(List<WeatherDto> dataList, long foreDate, long currentDate) {
-		this.foreDate = foreDate;
-		this.currentDate = currentDate;
+	public void setData(List<WeatherDto> dataList) {
 		if (!dataList.isEmpty()) {
 			tempList.addAll(dataList);
 			
@@ -85,13 +82,7 @@ public class ShawnWeeklyView extends View{
 				}
 			}
 
-			if (maxTemp > 0 && minTemp > 0) {
-				totalDivider = maxTemp-minTemp;
-			}else if (maxTemp >= 0 && minTemp <= 0) {
-				totalDivider = maxTemp-minTemp;
-			}else if (maxTemp < 0 && minTemp < 0) {
-				totalDivider = maxTemp-minTemp;
-			}
+			totalDivider = maxTemp-minTemp;
 			if (totalDivider <= 5) {
 				itemDivider = 1;
 			}else if (totalDivider <= 15) {
@@ -184,28 +175,8 @@ public class ShawnWeeklyView extends View{
 			textP.setTextSize(getResources().getDimension(R.dimen.level_5));
 
 			//绘制周几、日期、天气现象和天气现象图标
-			String week = dto.week;
-			if (currentDate > foreDate) {
-				if (i == 0) {
-					week = "昨天";
-				}else if (i == 1) {
-					week = "今天";
-				}else if (i == 2) {
-					week = "明天";
-				}else {
-					week = dto.week;
-				}
-			}else {
-				if (i == 0) {
-					week = "今天";
-				}else if (i == 1) {
-					week = "明天";
-				}else {
-					week = dto.week;
-				}
-			}
-			float weekText = textP.measureText(week);
-			canvas.drawText(week, dto.highX-weekText/2, CommonUtil.dip2px(mContext, 20), textP);
+			float weekText = textP.measureText(dto.week);
+			canvas.drawText(dto.week, dto.highX-weekText/2, CommonUtil.dip2px(mContext, 20), textP);
 
 			try {
 				String date = sdf2.format(sdf1.parse(dto.date));

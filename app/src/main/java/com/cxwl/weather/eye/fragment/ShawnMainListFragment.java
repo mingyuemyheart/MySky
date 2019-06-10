@@ -12,14 +12,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.activity.ShawnCityActivity;
 import com.cxwl.weather.eye.activity.ShawnVideoDetailActivity;
+import com.cxwl.weather.eye.activity.ShawnWebviewActivity;
 import com.cxwl.weather.eye.adapter.ShawnMainListAdapter;
 import com.cxwl.weather.eye.adapter.ShawnRecmmendAdapter;
+import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.CommonUtil;
 import com.cxwl.weather.eye.utils.OkHttpUtil;
@@ -69,6 +72,8 @@ public class ShawnMainListFragment extends Fragment implements View.OnClickListe
 		tvAll = view.findViewById(R.id.tvAll);
 		tvAll.setOnClickListener(this);
 		scrollView = view.findViewById(R.id.scrollView);
+		ImageView ivBanner = view.findViewById(R.id.ivBanner);
+		ivBanner.setOnClickListener(this);
 
 		OkHttpTJImgs();
 	}
@@ -221,11 +226,17 @@ public class ShawnMainListFragment extends Fragment implements View.OnClickListe
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.ivBanner:
+				Intent intent = new Intent(getActivity(), ShawnWebviewActivity.class);
+				intent.putExtra(CONST.ACTIVITY_NAME, "积水查询");
+				intent.putExtra(CONST.WEB_URL, "https://tianjin.welife100.com/Monitor/monitor");
+				startActivity(intent);
+				break;
 			case R.id.tvAll:
 				if (CommonUtil.showExperienceTime(getActivity())) {
 					CommonUtil.dialogExpericence(getActivity());
 				}else {
-					Intent intent = new Intent(getActivity(), ShawnCityActivity.class);
+					intent = new Intent(getActivity(), ShawnCityActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
 					intent.putExtras(bundle);

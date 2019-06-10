@@ -259,16 +259,6 @@ public class ShawnForecastActivity extends ShawnBaseActivity implements OnClickL
 											List<WeatherDto> weeklyList = new ArrayList<>();
 											JSONObject f = obj.getJSONObject("f");
 											String f0 = f.getString("f0");
-
-											long foreDate = 0,currentDate = 0;
-											try {
-												String fTime = sdf3.format(sdf1.parse(f0));
-												foreDate = sdf3.parse(fTime).getTime();
-												currentDate = sdf3.parse(sdf3.format(new Date())).getTime();
-											} catch (ParseException e) {
-												e.printStackTrace();
-											}
-
 											if (!f.isNull("f1")) {
 												JSONArray f1 = f.getJSONArray("f1");
 												for (int i = 0; i < f1.length(); i++) {
@@ -299,7 +289,7 @@ public class ShawnForecastActivity extends ShawnBaseActivity implements OnClickL
 
 											//一周预报曲线
 											ShawnWeeklyView weeklyView = new ShawnWeeklyView(mContext);
-											weeklyView.setData(weeklyList, foreDate, currentDate);
+											weeklyView.setData(weeklyList);
 											llContainer2.removeAllViews();
 											llContainer2.addView(weeklyView, width*2, (int)(CommonUtil.dip2px(mContext, 400)));
 

@@ -13,7 +13,32 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="积水查询"
+            android:textColor="@color/white"
+            android:textSize="@dimen/level_4"/>
+
+        <ImageView
+            android:id="@+id/ivBanner"
+            android:layout_below="@+id/tvCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/shawn_icon_banner"
+            android:scaleType="fitXY"/>
+
+        <TextView
             android:id="@+id/tvRecmond"
+            android:layout_below="@+id/ivBanner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="10dp"

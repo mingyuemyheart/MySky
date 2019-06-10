@@ -150,6 +150,10 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnWebviewActivity"
+            android:screenOrientation="portrait" />
+
 
         <!--umeng share-->
         <activity

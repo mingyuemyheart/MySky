@@ -17,6 +17,9 @@ public class CONST {
 	public static final int color3 = android.R.color.holo_red_dark;
 	public static final int color4 = android.R.color.holo_red_light;
 
+	public static final String ACTIVITY_NAME = "activity_name";//界面名称
+	public static final String WEB_URL = "web_Url";//网页地址的标示
+
 	//通用
 	public static String SDCARD_PATH = Environment.getExternalStorageDirectory()+"/WeatherEyeNew";
 	public static String DOWNLOAD_ADDR = SDCARD_PATH + "/download/";//下载视频保存的路径

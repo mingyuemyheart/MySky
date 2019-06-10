@@ -12,12 +12,12 @@ android {
         applicationId "com.cxwl.weather.eye.shijing"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.0.6"
+        versionCode 8
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'armeabi'
+            abiFilters 'armeabi-v7a'
         }
     }
 
@@ -37,7 +37,7 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('/Users/shawn/Desktop/打包/实景天气/WeatherEyeNew.keystore')
+            storeFile file('/Users/sunxiaoming/Downloads/创新网络/打包/实景天气/WeatherEyeNew.keystore')
             storePassword "123456"
             keyAlias "WeatherEyeNew"
             keyPassword "123456"
