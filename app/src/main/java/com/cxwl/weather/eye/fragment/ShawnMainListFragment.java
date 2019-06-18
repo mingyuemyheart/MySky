@@ -229,7 +229,7 @@ public class ShawnMainListFragment extends Fragment implements View.OnClickListe
 			case R.id.ivBanner:
 				Intent intent = new Intent(getActivity(), ShawnWebviewActivity.class);
 				intent.putExtra(CONST.ACTIVITY_NAME, "积水查询");
-				intent.putExtra(CONST.WEB_URL, "http://tianjin.welife100.com/Monitor/monitor");
+				intent.putExtra(CONST.WEB_URL, "https://tianjin.welife100.com/Monitor/monitor");
 				startActivity(intent);
 				break;
 			case R.id.tvAll:

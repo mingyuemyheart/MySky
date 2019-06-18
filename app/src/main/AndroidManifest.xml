@@ -154,6 +154,14 @@
             android:name="com.cxwl.weather.eye.activity.ShawnWebviewActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnForgetPwdActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnFindPwdActivity"
+            android:screenOrientation="portrait" />
+
 
         <!--umeng share-->
         <activity

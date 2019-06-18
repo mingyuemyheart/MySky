@@ -242,7 +242,7 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 				startActivityForResult(new Intent(this, ShawnRegisterActivity.class), 1001);
 				break;
             case R.id.tvForgot:
-
+				startActivityForResult(new Intent(this, ShawnForgetPwdActivity.class), 1002);
                 break;
 
 		default:
@@ -263,6 +263,12 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 						etPwd.setSelection(etPwd.getText().toString().length());
 						doLogin();
 					}
+					break;
+
+				case 1002:
+					etUserName.setText(MyApplication.USERNAME);
+					etPwd.setText("");
+					etPwd.requestFocus();
 					break;
 			}
 		}
