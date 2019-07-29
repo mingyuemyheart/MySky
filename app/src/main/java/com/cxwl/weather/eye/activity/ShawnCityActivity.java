@@ -88,7 +88,9 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 		for (EyeDto dto : dataList) {
 			if (!TextUtils.isEmpty(dto.cityName)) {
 				if (dto.cityName.startsWith("天津")) {
-					pList.add(dto);
+					if (dto.location.startsWith("铁塔") || dto.location.startsWith("气象频道")) {
+						pList.add(dto);
+					}
 				}else {
 					nList.add(dto);
 				}

@@ -2,11 +2,14 @@ package com.cxwl.weather.eye.activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.GeolocationPermissions;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
@@ -76,9 +79,9 @@ public class ShawnWebviewActivity extends ShawnBaseActivity implements OnClickLi
 		webSettings.setLoadWithOverviewMode(true);
 		webSettings.setDomStorageEnabled(true);
 		webSettings.setAllowFileAccessFromFileURLs(true);
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//			webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-//		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+		}
 //		webView.clearCache(true);
 		webView.loadUrl(url);
 
@@ -113,6 +116,12 @@ public class ShawnWebviewActivity extends ShawnBaseActivity implements OnClickLi
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
+			}
+
+			@Override
+			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+				super.onReceivedSslError(view, handler, error);
+				handler.proceed();
 			}
 		});
 	}
