@@ -55,10 +55,11 @@ public class MyApplication extends Application{
 	}
 
 	//本地保存用户信息参数
+	public static String TOKEN = "";
 	public static String UID = "";
 	public static String USERNAME = "";
 	public static String PASSWORD = "";
-	public static String USERTYPE = "";//用户类型，"1"为决策用户、"0"为注册用户，注册用户再判断是否为会员用户
+	public static String USERTYPE = "";//操作状态，"1"不允许操作摄像头、"0"允许
 	public static String AUTHORITY = "";//用户权限,"true"为会员用户，"false"为非会员用户
 	public static String NICKNAME = "";//昵称
 	public static String MAIL = "";//邮箱
@@ -66,6 +67,7 @@ public class MyApplication extends Application{
 
 	public static String USERINFO = "userInfo";//userInfo sharedPreferance名称
 	public static class UserInfo {
+		private static final String token = "token";
 		private static final String uid = "uid";
 		private static final String userName = "uName";
 		private static final String passWord = "pwd";
@@ -84,6 +86,7 @@ public class MyApplication extends Application{
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.clear();
 		editor.apply();
+		TOKEN = "";
 		UID = "";
 		USERNAME = "";
 		PASSWORD = "";
@@ -100,6 +103,7 @@ public class MyApplication extends Application{
 	public static void saveUserInfo(Context context) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(UserInfo.token, TOKEN);
 		editor.putString(UserInfo.uid, UID);
 		editor.putString(UserInfo.userName, USERNAME);
 		editor.putString(UserInfo.passWord, PASSWORD);
@@ -116,6 +120,7 @@ public class MyApplication extends Application{
 	 */
 	public static void getUserInfo(Context context) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(USERINFO, Context.MODE_PRIVATE);
+		UID = sharedPreferences.getString(UserInfo.token, "");
 		UID = sharedPreferences.getString(UserInfo.uid, "");
 		USERNAME = sharedPreferences.getString(UserInfo.userName, "");
 		PASSWORD = sharedPreferences.getString(UserInfo.passWord, "");

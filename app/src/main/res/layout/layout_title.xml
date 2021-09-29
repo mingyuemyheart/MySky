@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:id="@+id/llBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shawn_selector_btn_back"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/level_2"
+            android:layout_height="@dimen/level_2"
+            android:src="@drawable/icon_back" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_3"
+        app:layout_constraintBottom_toBottomOf="@+id/llBack"
+        app:layout_constraintStart_toEndOf="@+id/llBack"
+        app:layout_constraintTop_toTopOf="@+id/llBack" />
+
+    <TextView
+        android:id="@+id/tvControl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_4"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivControl"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        android:src="@drawable/shawn_icon_switch_map"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+</android.support.constraint.ConstraintLayout>
+

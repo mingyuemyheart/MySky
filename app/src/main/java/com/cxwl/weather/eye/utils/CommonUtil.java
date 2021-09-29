@@ -8,13 +8,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Picture;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +32,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.activity.ShawnMemberActivity;
+import com.cxwl.weather.eye.activity.ActivityMsgType;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.common.MyApplication;
+import com.cxwl.weather.eye.dto.EyeDto;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -39,10 +44,13 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,7 +67,17 @@ public class CommonUtil {
     public static float dip2px(Context context, float dpValue) {  
         final float scale = context.getResources().getDisplayMetrics().density;  
         return dpValue * scale;
-    }  
+    }
+
+	public static int widthPixels(Context context) {
+		DisplayMetrics dm = context.getResources().getDisplayMetrics();
+		return dm.widthPixels;
+	}
+
+	public static int heightPixels(Context context) {
+		DisplayMetrics dm = context.getResources().getDisplayMetrics();
+		return dm.heightPixels;
+	}
   
 	/**
 	 * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
@@ -241,7 +259,7 @@ public class CommonUtil {
             }
             yPos = childHeight +yPos;
         }
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         canvas.restore();
         clearCanvas(canvas);
         return bitmap;
@@ -373,7 +391,7 @@ public class CommonUtil {
 				UMWeb web = new UMWeb(dataUrl);
 				web.setTitle(title);//标题
 				web.setDescription(content);
-				web.setThumb(new UMImage(activity, R.drawable.shawn_icon));
+				web.setThumb(new UMImage(activity, R.drawable.ic_launcher));
 				sAction.withMedia(web);
 				sAction.share();
 			}
@@ -644,9 +662,85 @@ public class CommonUtil {
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
-				context.startActivity(new Intent(context, ShawnMemberActivity.class));
+				context.startActivity(new Intent(context, ActivityMsgType.class));
 			}
 		});
+	}
+
+	/**
+	 * 获取所有本地图片文件信息
+	 * @return
+	 */
+	public static List<EyeDto> getAllLocalImages(Context context) {
+		List<EyeDto> list = new ArrayList<>();
+		if (context != null) {
+			Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+					null, null,null, null);
+			if (cursor != null) {
+				while (cursor.moveToNext()) {
+					int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+					String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE));
+					String displayName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
+					String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE));
+					String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+					long fileSize = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
+
+					EyeDto dto = new EyeDto();
+					dto.imgName = title;
+					dto.pictureUrl = path;
+					dto.fileSize = fileSize;
+					list.add(0, dto);
+				}
+				cursor.close();
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * 格式化文件单位
+	 * @param size
+	 * @return
+	 */
+	public static String getFormatSize(long size) {
+		long kiloByte = size / 1024;
+		if (kiloByte < 1) {
+			return "0KB";
+		}
+
+		long megaByte = kiloByte / 1024;
+		if (megaByte < 1) {
+			BigDecimal result1 = new BigDecimal(Double.toString(kiloByte));
+			return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "KB";
+		}
+
+		long gigaByte = megaByte / 1024;
+		if (gigaByte < 1) {
+			BigDecimal result2 = new BigDecimal(Double.toString(megaByte));
+			return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "MB";
+		}
+
+		long teraBytes = gigaByte / 1024;
+		if (teraBytes < 1) {
+			BigDecimal result3 = new BigDecimal(Double.toString(gigaByte));
+			return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "GB";
+		}
+		BigDecimal result4 = new BigDecimal(teraBytes);
+		return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()+ "TB";
+	}
+
+	/**
+	 * 广播通知相册刷新
+	 * @param context
+	 * @param file
+	 */
+	public static void notifyAlbum(Context context, File file) {
+		try {
+			MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), file.getName(), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
 	}
     
 }

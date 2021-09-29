@@ -16,52 +16,39 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cxwl.weather.eye.R;
-import com.cxwl.weather.eye.common.CONST;
-import com.cxwl.weather.eye.dto.EyeDto;
 import com.cxwl.weather.eye.utils.AuthorityUtil;
 import com.cxwl.weather.eye.utils.CommonUtil;
-import com.cxwl.weather.eye.utils.OkHttpUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * 延时摄影
  */
-public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClickListener, SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class ShawnDelayActivity extends BaseActivity implements View.OnClickListener, SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
-	private RelativeLayout reTitle;
+	private ConstraintLayout reTitle;
 	private SurfaceView surfaceView;
 	private SurfaceHolder surfaceHolder;
 	private MediaPlayer mPlayer;
-	private ImageView ivPlay,ivControl;
+	private ImageView ivPlay,ivExpand;
 	private Configuration configuration;//方向监听器
 	private String videoUrl,videoName;
 	private LinearLayout llShare,llSave;
@@ -92,7 +79,7 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 	 */
 	private void showPort() {
 		reTitle.setVisibility(View.VISIBLE);
-        ivControl.setImageResource(R.drawable.shawn_icon_expand);
+		ivExpand.setImageResource(R.drawable.icon_expand);
 		fullScreen(false);
 	}
 
@@ -101,7 +88,7 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 	 */
 	private void showLand() {
 		reTitle.setVisibility(View.GONE);
-        ivControl.setImageResource(R.drawable.shawn_icon_collose);
+		ivExpand.setImageResource(R.drawable.icon_collose);
 		fullScreen(true);
 	}
 
@@ -122,19 +109,16 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 	private void initWidget() {
 		reTitle = findViewById(R.id.reTitle);
 		ImageView ivBack = findViewById(R.id.ivBack);
-		ivBack.setImageResource(R.drawable.shawn_icon_close);
+		ivBack.setImageResource(R.drawable.icon_close);
 		LinearLayout llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
 		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText("延时摄影");
 		ivPlay = findViewById(R.id.ivPlay);
 		ivPlay.setOnClickListener(this);
-        ivControl = findViewById(R.id.ivControl);
-        ivControl.setOnClickListener(this);
-        ivControl.setVisibility(View.VISIBLE);
-		ImageView ivShare = findViewById(R.id.ivShare);
-		ivShare.setOnClickListener(this);
-		ivShare.setImageResource(R.drawable.shawn_icon_share_black);
+		ivExpand = findViewById(R.id.ivControl);
+		ivExpand.setOnClickListener(this);
+		ivExpand.setVisibility(View.VISIBLE);
 		llShare = findViewById(R.id.llShare);
 		llShare.setOnClickListener(this);
 		llSave = findViewById(R.id.llSave);
@@ -142,77 +126,14 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 
 		showPort();
 
-		EyeDto data = getIntent().getParcelableExtra("data");
-		if (data != null) {
-			if (!TextUtils.isEmpty(data.facilityUrlTes)) {
-				String url = "https://api.bluepi.tianqi.cn/Outdata/other/getNetEyeVideoInfo/id/"+data.facilityUrlTes;
-				OkHttpVideo(url);
-			}
-		}
-
-	}
-
-	/**
-	 * 获取演示摄影信息
-	 * @param url
-	 */
-	private void OkHttpVideo(final String url) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
-					@Override
-					public void onFailure(Call call, IOException e) {
-					}
-					@Override
-					public void onResponse(Call call, Response response) throws IOException {
-						if (!response.isSuccessful()) {
-							return;
-						}
-						final String result = response.body().string();
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								if (!TextUtils.isEmpty(result)) {
-									try {
-										JSONArray array = new JSONArray(result);
-										if (array.length() > 0) {
-											JSONObject obj = array.getJSONObject(0);
-											if (!obj.isNull("video")) {
-												videoUrl = obj.getString("video");
-												videoName = obj.getString("city")+obj.getString("name");
-												//设置显示视频显示在SurfaceView上
-												try {
-													if (!TextUtils.isEmpty(videoUrl)) {
-														mPlayer.setDataSource(videoUrl);
-														mPlayer.prepareAsync();
-														llShare.setVisibility(View.VISIBLE);
-														llSave.setVisibility(View.VISIBLE);
-													}
-												} catch (Exception e) {
-													e.printStackTrace();
-												}
-											}
-										}
-									} catch (JSONException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-						});
-
-					}
-				});
-			}
-		}).start();
 	}
 
 	private void setSurfaceViewLayout() {
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getRealMetrics(dm);
-		int width = dm.widthPixels;
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, width*9/16);
+		int width = CommonUtil.widthPixels(this);
+		int height = width * 9 / 16;
+		ViewGroup.LayoutParams params = surfaceView.getLayoutParams();
+		params.width = width;
+		params.height = height;
 		surfaceView.setLayoutParams(params);
 	}
 
@@ -237,15 +158,20 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 		mPlayer.setDisplay(holder);
 		mPlayer.setOnPreparedListener(this);
 		mPlayer.setOnCompletionListener(this);
-//		//设置显示视频显示在SurfaceView上
-//		try {
-//			if (!TextUtils.isEmpty(videoUrl)) {
-//				mPlayer.setDataSource(videoUrl);
-//				mPlayer.prepareAsync();
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+
+		videoUrl = "https://mysky-app.weather.com.cn/sky//31010100991187545008/video/202108/2021-08-21%2020:00:01.mp4";
+		videoName = "测试";
+		//设置显示视频显示在SurfaceView上
+		try {
+			if (!TextUtils.isEmpty(videoUrl)) {
+				mPlayer.setDataSource(videoUrl);
+				mPlayer.prepareAsync();
+				llShare.setVisibility(View.VISIBLE);
+				llSave.setVisibility(View.VISIBLE);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -269,10 +195,10 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 		if (mPlayer != null) {
 			if (mPlayer.isPlaying()) {
 				mPlayer.pause();
-				ivPlay.setImageResource(R.drawable.shawn_icon_play);
+				ivPlay.setImageResource(R.drawable.icon_play);
 			}else {
 				mPlayer.start();
-				ivPlay.setImageResource(R.drawable.shawn_icon_pause);
+				ivPlay.setImageResource(R.drawable.icon_pause);
 			}
 		}
 	}
@@ -281,7 +207,7 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 	public void onCompletion(MediaPlayer arg0) {
 		handler.removeMessages(1001);
 		ivPlay.setVisibility(View.VISIBLE);
-		ivPlay.setImageResource(R.drawable.shawn_icon_play);
+		ivPlay.setImageResource(R.drawable.icon_play);
 	}
 
 	/**
@@ -315,7 +241,7 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 	 */
 	private void dialogDownload(String message, String content) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.shawn_dialog_delete, null);
+		View view = inflater.inflate(R.layout.dialog_delete, null);
 		TextView tvMessage = view.findViewById(R.id.tvMessage);
 		TextView tvContent = view.findViewById(R.id.tvContent);
 		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
@@ -356,12 +282,9 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 		DownloadManager.Request request = new DownloadManager.Request(uri);
 		// 设置下载路径和文件名
 		String filename = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);//获取文件名称
-		filename = videoName+".mp4";
-		File files = new File(CONST.DOWNLOAD_ADDR);
-		if (!files.exists()) {
-			files.mkdirs();
-		}
-		request.setDestinationInExternalPublicDir(files.getAbsolutePath(), filename);
+		String filePath = getExternalFilesDir(null).getAbsolutePath();
+		Log.e("filePath", "filePath="+filePath+",fileName="+filename);
+		request.setDestinationInExternalPublicDir(getExternalFilesDir(null).getAbsolutePath(), filename);
 		request.setDescription(filename);
 		request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 		request.setMimeType("application/vnd.android.package-archive");
@@ -369,11 +292,7 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 		request.allowScanningByMediaScanner();
 		// 设置为可见和可管理
 		request.setVisibleInDownloadsUi(true);
-		long refernece = dManager.enqueue(request);
-//		// 把当前下载的ID保存起来
-//		SharedPreferences sPreferences = mContext.getSharedPreferences("downloadplato", 0);
-//		sPreferences.edit().putLong("plato", refernece).commit();
-
+		long referneceId = dManager.enqueue(request);
 	}
 
 	private void exit() {
@@ -411,7 +330,7 @@ public class ShawnDelayActivity extends ShawnBaseActivity implements View.OnClic
 			case R.id.llBack:
 				exit();
 				break;
-			case R.id.ivControl:
+			case R.id.ivExpand:
 				if (configuration == null) {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				}else {

@@ -23,9 +23,16 @@
     <application
         android:name="com.cxwl.weather.eye.common.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/shawn_icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme" >
+
+        <!--适配9.0以上https问题-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <!-- 自动更新下载完成广播 -->
         <receiver android:name="com.cxwl.weather.eye.utils.AutoUpdateBroadcastReceiver" >
@@ -41,21 +48,19 @@
         <!-- 高德地图key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="9e932488c046da034c349833beee3f73" />
+            android:value="996122e3d26ddedd2bdca2c9dc6b8489" />
         
         <activity
-            android:name="com.cxwl.weather.eye.activity.ShawnWelcomeActivity"
-            android:theme="@style/SplashTheme"
+            android:name="com.cxwl.weather.eye.activity.ActivityWelcome"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
         <activity
-            android:name="com.cxwl.weather.eye.activity.ShawnLoginActivity"
+            android:name="com.cxwl.weather.eye.activity.ActivityLogin"
             android:screenOrientation="portrait" />
 
         <activity
@@ -67,35 +72,38 @@
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.ShawnMainActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.cxwl.weather.eye.activity.ActivityMain"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         
         <activity 
             android:name="com.cxwl.weather.eye.activity.VideoListActivity"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.ShawnVideoDetailActivity"
+            android:name="com.cxwl.weather.eye.activity.ActivityVideoDetail"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.ShawnVideoSettingActivity"
+            android:name="com.cxwl.weather.eye.activity.ActivityVideoSetting"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.ShawnPictureWallActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.cxwl.weather.eye.activity.ActivityPictureWall"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize" />
         
         <activity 
             android:name="com.cxwl.weather.eye.activity.ShawnSettingActivity"
             android:screenOrientation="portrait" />
         
         <activity 
-            android:name="com.cxwl.weather.eye.activity.ShawnAboutActivity"
+            android:name="com.cxwl.weather.eye.activity.ActivityAbout"
             android:screenOrientation="portrait" />
         
         <activity 
@@ -127,7 +135,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.cxwl.weather.eye.activity.ShawnMemberActivity"
+            android:name="com.cxwl.weather.eye.activity.ActivityMsgType"
             android:screenOrientation="portrait" />
 
         <activity
@@ -145,14 +153,10 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name="com.cxwl.weather.eye.activity.ShawnCalendarActivity"
+            android:name="com.cxwl.weather.eye.activity.ActivityVideoPreview"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name="com.cxwl.weather.eye.activity.ShawnWebviewActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.cxwl.weather.eye.activity.ShawnForgetPwdActivity"
@@ -160,6 +164,30 @@
 
         <activity
             android:name="com.cxwl.weather.eye.activity.ShawnFindPwdActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityDeviceList"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityCalendarVideo"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityHandbook"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityFeedback"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivitySelectPicture"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityDisplayPicture"
             android:screenOrientation="portrait" />
 
 

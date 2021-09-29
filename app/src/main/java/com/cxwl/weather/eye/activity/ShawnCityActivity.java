@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 城市选择
  */
-public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnCityActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private TextView tvProvinceBar,tvNationalBar;
@@ -187,7 +187,7 @@ public class ShawnCityActivity extends ShawnBaseActivity implements OnClickListe
 	 * 迁移到天气详情界面
 	 */
 	private void intentWeatherDetail(EyeDto data) {
-		Intent intent = new Intent(this, ShawnVideoDetailActivity.class);
+		Intent intent = new Intent(this, ActivityVideoDetail.class);
 		Bundle bundle = new Bundle();
 		bundle.putParcelable("data", data);
 		intent.putExtras(bundle);

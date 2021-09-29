@@ -15,7 +15,7 @@ import com.cxwl.weather.eye.common.MyApplication;
  * 个人信息
  * @author shawn_sun
  */
-public class ShawnUserinfoActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnUserinfoActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private TextView tvName,tvMail,tvPhone;

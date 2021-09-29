@@ -39,7 +39,7 @@ import okhttp3.Response;
  *
  */
 
-public class WriteParametersActivity extends ShawnBaseActivity implements OnClickListener, AMapLocationListener{
+public class WriteParametersActivity extends BaseActivity implements OnClickListener, AMapLocationListener{
 	
 	private Context mContext = null;
 	private LinearLayout llBack = null;

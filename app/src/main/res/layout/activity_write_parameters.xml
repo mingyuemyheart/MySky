@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/reTitle"
-        layout="@layout/shawn_layout_title" />
+        layout="@layout/layout_title" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -227,7 +227,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/shawn_selector_login"
+                android:background="@drawable/selector_login"
                 android:gravity="center"
                 android:text="上  传"
                 android:textColor="@android:color/white"

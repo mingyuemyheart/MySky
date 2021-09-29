@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">实景天气</string>
+    <string name="app_name">我的天空</string>
 
     <!-- 修改个人信息 -->
     <string name="modify_nickname">修改昵称</string>

@@ -31,7 +31,7 @@ import okhttp3.Response;
 /**
  * 修改密码
  */
-public class ShawnModifyPwdActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnModifyPwdActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private EditText etOldPwd,etNewPwd,etConfirm;

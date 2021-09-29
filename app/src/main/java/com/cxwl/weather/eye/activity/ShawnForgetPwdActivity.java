@@ -32,7 +32,7 @@ import okhttp3.Response;
 /**
  * 登录界面
  */
-public class ShawnForgetPwdActivity extends ShawnBaseActivity implements OnClickListener {
+public class ShawnForgetPwdActivity extends BaseActivity implements OnClickListener {
 	
 	private Context mContext;
 	private EditText etUserName,etPwd;

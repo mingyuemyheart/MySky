@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/reTitle"
-        layout="@layout/shawn_layout_title2"/>
+        layout="@layout/layout_title"/>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/reTitle">
@@ -18,15 +19,33 @@
             android:id="@+id/surfaceView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_centerInParent="true"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/ivPlay"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerInParent="true"/>
+            app:layout_constraintStart_toStartOf="@+id/surfaceView"
+            app:layout_constraintEnd_toEndOf="@+id/surfaceView"
+            app:layout_constraintTop_toTopOf="@+id/surfaceView"
+            app:layout_constraintBottom_toBottomOf="@+id/surfaceView"/>
 
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/ivExpand"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:src="@drawable/icon_expand"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/surfaceView" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

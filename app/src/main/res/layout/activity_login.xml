@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/level_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+    <EditText
+        android:id="@+id/etUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/transparent"
+        android:hint="请输入账号"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/text_color1"
+        android:textSize="@dimen/level_4"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintTop_toBottomOf="@+id/etUserName" />
+
+    <EditText
+        android:id="@+id/etPwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/transparent"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/text_color1"
+        android:textSize="@dimen/level_4"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <TextView
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintTop_toBottomOf="@+id/etPwd" />
+
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/selector_login"
+        android:gravity="center"
+        android:text="登   录"
+        android:textColor="@color/white"
+        android:textSize="@dimen/level_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    <TextView
+        android:id="@+id/tvRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="我要注册"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"
+        app:layout_constraintBottom_toBottomOf="@+id/divider1"
+        app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintTop_toTopOf="@+id/divider1" />
+
+    <TextView
+        android:id="@+id/divider1"
+        android:layout_width="0.5dp"
+        android:layout_height="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/text_color4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="忘记密码"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"
+        app:layout_constraintBottom_toBottomOf="@+id/divider1"
+        app:layout_constraintStart_toEndOf="@+id/divider1"
+        app:layout_constraintTop_toTopOf="@+id/divider1" />
+
+</android.support.constraint.ConstraintLayout>

@@ -35,7 +35,7 @@ import okhttp3.Response;
 /**
  * 注册
  */
-public class ShawnRegisterActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnRegisterActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private EditText etUserName,etCode,etPwd,etConfirm;

@@ -1,7 +1,7 @@
 package com.cxwl.weather.eye.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -48,9 +48,9 @@ public class ShawnCalendarFragment extends Fragment {
 		EyeDto data = getArguments().getParcelable("data");
 		if (data != null) {
 			if (!TextUtils.isEmpty(data.pictureUrl)) {
-				Picasso.get().load(data.pictureUrl).error(R.drawable.shawn_icon_seat_bitmap).into(imageView);
+				Picasso.get().load(data.pictureUrl).error(R.drawable.icon_seat_bitmap).into(imageView);
 			}else {
-				imageView.setImageResource(R.drawable.shawn_icon_seat_bitmap);
+				imageView.setImageResource(R.drawable.icon_seat_bitmap);
 			}
 
 			if (!TextUtils.isEmpty(data.time)) {

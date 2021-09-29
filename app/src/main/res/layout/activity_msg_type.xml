@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/layout_title2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch1"
+        android:layout_marginStart="20dp"
+        android:text="设备下线与恢复"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_4"/>
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch2"
+        app:layout_constraintBottom_toBottomOf="@+id/switch2"
+        android:layout_marginStart="20dp"
+        android:text="设备光圈与聚焦调整"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_4"/>
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch1"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch3"
+        app:layout_constraintBottom_toBottomOf="@+id/switch3"
+        android:layout_marginStart="20dp"
+        android:text="设备方向调整"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_4"/>
+
+    <Switch
+        android:id="@+id/switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch2"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch4"
+        app:layout_constraintBottom_toBottomOf="@+id/switch4"
+        android:layout_marginStart="20dp"
+        android:text="设备预设位调整"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_4"/>
+
+    <Switch
+        android:id="@+id/switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch3"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/switch5"
+        app:layout_constraintBottom_toBottomOf="@+id/switch5"
+        android:layout_marginStart="20dp"
+        android:text="延时视频合成"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_4"/>
+
+    <Switch
+        android:id="@+id/switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch4"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"/>
+
+</android.support.constraint.ConstraintLayout>

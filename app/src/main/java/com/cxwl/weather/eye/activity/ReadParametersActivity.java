@@ -1,10 +1,7 @@
 package com.cxwl.weather.eye.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -20,19 +17,18 @@ import com.cxwl.weather.eye.fragment.ReadParamentersFragment5;
 import com.cxwl.weather.eye.fragment.ReadParamentersFragment6;
 import com.cxwl.weather.eye.view.MainViewPager;
 
+import java.util.ArrayList;
+
 /**
  * 摄像头参数展示
- * @author shawn_sun
- *
  */
-
-public class ReadParametersActivity extends ShawnBaseActivity implements OnClickListener{
+public class ReadParametersActivity extends BaseFragmentActivity implements OnClickListener{
 	
 	private LinearLayout llBack = null;
 	private TextView tvTitle = null;
 	private MainViewPager viewPager = null;
 	private MyPagerAdapter pagerAdapter = null;
-	private List<Fragment> fragments = new ArrayList<>();
+	private ArrayList<Fragment> fragments = new ArrayList<>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +73,7 @@ public class ReadParametersActivity extends ShawnBaseActivity implements OnClick
 		fragments.add(fragment6);
 			
 		viewPager = (MainViewPager) findViewById(R.id.viewPager);
-		pagerAdapter = new MyPagerAdapter(ReadParametersActivity.this, fragments);
+		pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setSlipping(true);//设置ViewPager是否可以滑动
 		viewPager.setOffscreenPageLimit(fragments.size());

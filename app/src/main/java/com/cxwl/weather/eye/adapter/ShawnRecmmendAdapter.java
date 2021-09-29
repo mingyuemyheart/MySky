@@ -103,10 +103,10 @@ public class ShawnRecmmendAdapter extends BaseAdapter{
 			}
 
 			if (!TextUtils.isEmpty(dto.videoThumbUrl)) {
-				Picasso.get().load(dto.videoThumbUrl).error(R.drawable.shawn_icon_seat_bitmap).into(mHolder.imageView);
+				Picasso.get().load(dto.videoThumbUrl).error(R.drawable.icon_seat_bitmap).into(mHolder.imageView);
 			}else {
 				if (TextUtils.equals(dto.videoThumbUrl, "")) {
-					mHolder.imageView.setImageResource(R.drawable.shawn_icon_seat_bitmap);
+					mHolder.imageView.setImageResource(R.drawable.icon_seat_bitmap);
 				}else {
 					OkHttpImg(dto.facilityUrlTes, mHolder.imageView, dto);
 				}
@@ -149,7 +149,7 @@ public class ShawnRecmmendAdapter extends BaseAdapter{
 										activity.runOnUiThread(new Runnable() {
 											@Override
 											public void run() {
-												Picasso.get().load(img).error(R.drawable.shawn_icon_seat_bitmap).into(imageView);
+												Picasso.get().load(img).error(R.drawable.icon_seat_bitmap).into(imageView);
 												dto.videoThumbUrl = img;
 //												notifyDataSetChanged();
 											}

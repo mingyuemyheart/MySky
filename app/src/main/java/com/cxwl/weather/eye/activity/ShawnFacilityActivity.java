@@ -38,7 +38,7 @@ import okhttp3.Response;
  * 设备设置
  * @author shawn_sun
  */
-public class ShawnFacilityActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnFacilityActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private ShawnFacilityAdapter mAdapter;

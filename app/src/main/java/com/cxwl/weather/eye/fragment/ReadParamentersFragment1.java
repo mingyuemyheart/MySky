@@ -3,8 +3,8 @@ package com.cxwl.weather.eye.fragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +16,7 @@ import com.cxwl.weather.eye.R;
 
 /**
  * 摄像头参数展示
- * @author shawn_sun
- *
  */
-
 public class ReadParamentersFragment1 extends Fragment {
 	
 	private TextView tvVideo1, tvVideo2, tvVideo3, tvVideo4, tvVideo5, tvVideo6, tvVideo7, tvVideo8;//音视频参数

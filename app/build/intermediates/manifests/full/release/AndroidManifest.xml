@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ty.shawn.mysky"
+    android:versionCode="2"
+    android:versionName="1.0.1" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- //添加允许安装未知应用市场权限，这个权限不是动态权限，所以不用进行动态申请，否则自动更新功能失效 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:name="com.cxwl.weather.eye.common.MyApplication"
+        android:allowBackup="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true" >
+
+        <!-- 适配9.0以上https问题 -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <!-- 自动更新下载完成广播 -->
+        <receiver android:name="com.cxwl.weather.eye.utils.AutoUpdateBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <!-- 高德地图key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="996122e3d26ddedd2bdca2c9dc6b8489" />
+
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityWelcome"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityLogin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnRegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnModifyPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityMain"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.VideoListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityVideoDetail"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityVideoSetting"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityPictureWall"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityAbout"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnFacilityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnUserinfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnModifyUserinfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ZXingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.WriteParametersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ReadParametersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.SelectWeatherActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityMsgType"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnCityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnForecastActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnDelayActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityVideoPreview"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnForgetPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ShawnFindPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityDeviceList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityCalendarVideo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityHandbook"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityFeedback"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivitySelectPicture"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cxwl.weather.eye.activity.ActivityDisplayPicture"
+            android:screenOrientation="portrait" />
+
+        <!-- umeng share -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1108069568" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.cxwl.weather.eye.shijing.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- umeng -->
+
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:authorities="com.ty.shawn.mysky.com.squareup.picasso"
+            android:exported="false" />
+    </application>
+
+</manifest>

@@ -3,8 +3,8 @@ package com.cxwl.weather.eye.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +24,7 @@ import com.cxwl.weather.eye.view.WindView;
 /**
  * 数据采集
  */
-
-public class SelectWeatherFragment extends Fragment{
+public class SelectWeatherFragment extends Fragment {
 	
 	private List<EyeDto> weatherList = new ArrayList<>();
 	private LinearLayout llContainer = null;

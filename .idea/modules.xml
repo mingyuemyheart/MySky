@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WeatherEyeNew.iml" filepath="$PROJECT_DIR$/WeatherEyeNew.iml" group="WeatherEyeNew" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="WeatherEyeNew/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MySky.iml" filepath="$PROJECT_DIR$/.idea/modules/MySky.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MySky.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MySky.app.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,520 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/constraint-layout-2.0.4.aar/daee1e56fee765c839147aebcd614e56/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/e40803d2551c66ca8cc9ee18b0b0501c/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-v4-28.0.0.aar/d0dbdeec6ec59e1f101076966ae8b583/AndroidManifest.xml:17:1-22:12
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:2:1-14:12
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/743c6a39f2c6d274ac484f339ef9ff43/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/f475cfab522ed1df8e4b91402d6749cd/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/1771292944ba5226becb20691cb1aee1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/9608cf867d9fa46c9d53142c6ba9c89c/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/f8d31cbfb86961a289ad64f9b25beda0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-media-compat-28.0.0.aar/a4837de0169d33fccc60f36b50d3af76/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/3991f45446029978be154909d675ea85/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/7efb84d0af9b24de7b0ade2884172b8a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/48f0458d11e1b3d5c025712a1c201327/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/caaeea890eb908c86b9c3e548abcddb4/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/ea0d1a3ac8c5d87516f3c27e6651e93f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/d7f5ddf1f3b9699ef7f632a06695f7d7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/78b0434366218b9b817cb029b7146eb0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/6653387e6c2bcc2edc62ceb9d3b4a1e4/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/df905306d958414953c0c3ad503f9bf8/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/d5d163e9d683a84b94ab22da6f3a7b2b/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/694b318f413e8498bbc7617f363ce65a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:exifinterface:27.1.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/exifinterface-27.1.0.aar/8566e0da9b24736ea8af16d4f8be6772/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/75d676712fa0d148056b34d7a8a59432/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/0c08e45235dbe91b0bdbc9c696625009/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/510e1798167804ef493037a57a35ecf5/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/805212edd48d31e7c87218e926286017/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/b3525fb97111762cf636cf14edaf91c4/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/cd230c11f3d5f431a7b5610632802d87/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/b93564b671e24778da0bece90dd176cd/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/40322dbf3a9ba6ea018c2280b2092710/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/d776f132e80c4ab99cb0e7d50182128f/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+	package
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:3:5-35
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:1-222:12
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:5:5-67
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:5:22-64
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:6:5-81
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:6:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:7:5-80
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:7:22-77
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:8:22-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:9:22-76
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:10:5-79
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:10:22-76
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:11:5-75
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:11:22-72
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:12:5-76
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:12:22-73
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:13:5-76
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:13:22-73
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:14:5-68
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:14:22-65
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:15:5-79
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:15:22-76
+uses-permission#android.permission.VIBRATE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:16:2-63
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:16:19-60
+uses-permission#android.permission.CAMERA
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:17:5-65
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:17:22-62
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:19:5-83
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:19:22-80
+uses-feature#android.hardware.camera
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:20:5-60
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:20:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:21:5-70
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:21:19-67
+application
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:23:5-220:19
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/constraint-layout-2.0.4.aar/daee1e56fee765c839147aebcd614e56/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/constraint-layout-2.0.4.aar/daee1e56fee765c839147aebcd614e56/AndroidManifest.xml:9:5-20
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:7:5-12:19
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:7:5-12:19
+MERGED from [com.android.support:support-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/df905306d958414953c0c3ad503f9bf8/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/df905306d958414953c0c3ad503f9bf8/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/d5d163e9d683a84b94ab22da6f3a7b2b/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/d5d163e9d683a84b94ab22da6f3a7b2b/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/df905306d958414953c0c3ad503f9bf8/AndroidManifest.xml:22:18-91
+	android:label
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:27:9-41
+	android:icon
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:26:9-45
+	android:allowBackup
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:25:9-35
+	android:theme
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:30:9-40
+	android:networkSecurityConfig
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:29:9-69
+	android:usesCleartextTraffic
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:28:9-44
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:24:9-65
+uses-library#org.apache.http.legacy
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:33:9-35:40
+	android:required
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:35:13-37
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:34:13-50
+receiver#com.cxwl.weather.eye.utils.AutoUpdateBroadcastReceiver
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:38:9-43:20
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:38:19-88
+intent-filter#action:name:android.intent.action.DOWNLOAD_COMPLETE+action:name:android.intent.action.PACKAGE_INSTALL
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:39:13-42:29
+action#android.intent.action.DOWNLOAD_COMPLETE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:40:17-82
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:40:25-79
+action#android.intent.action.PACKAGE_INSTALL
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:41:17-80
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:41:25-77
+service#com.amap.api.location.APSService
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:46:9-68
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:46:18-65
+meta-data#com.amap.api.v2.apikey
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:49:9-51:64
+	android:value
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:51:13-61
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:50:13-50
+activity#com.cxwl.weather.eye.activity.ActivityWelcome
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:53:9-60:20
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:55:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:54:13-73
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:56:13-59:29
+action#android.intent.action.MAIN
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:57:17-69
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:57:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:58:17-77
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:58:27-74
+activity#com.cxwl.weather.eye.activity.ActivityLogin
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:62:9-64:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:64:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:63:13-71
+activity#com.cxwl.weather.eye.activity.ShawnRegisterActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:66:9-68:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:68:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:67:13-79
+activity#com.cxwl.weather.eye.activity.ShawnModifyPwdActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:70:9-72:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:72:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:71:13-80
+activity#com.cxwl.weather.eye.activity.ActivityMain
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:74:9-77:46
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:76:13-49
+	android:launchMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:77:13-44
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:75:13-70
+activity#com.cxwl.weather.eye.activity.VideoListActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:79:9-81:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:81:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:80:13-75
+activity#com.cxwl.weather.eye.activity.ActivityVideoDetail
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:83:9-87:58
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:85:13-49
+	android:windowSoftInputMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:87:13-55
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:86:13-83
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:84:13-77
+activity#com.cxwl.weather.eye.activity.ActivityVideoSetting
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:89:9-93:58
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:91:13-49
+	android:windowSoftInputMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:93:13-55
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:92:13-83
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:90:13-78
+activity#com.cxwl.weather.eye.activity.ActivityPictureWall
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:95:9-99:58
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:97:13-49
+	android:windowSoftInputMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:99:13-55
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:98:13-83
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:96:13-77
+activity#com.cxwl.weather.eye.activity.ShawnSettingActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:101:9-103:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:103:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:102:13-78
+activity#com.cxwl.weather.eye.activity.ActivityAbout
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:105:9-107:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:107:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:106:13-71
+activity#com.cxwl.weather.eye.activity.ShawnFacilityActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:109:9-111:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:111:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:110:13-79
+activity#com.cxwl.weather.eye.activity.ShawnUserinfoActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:113:9-115:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:115:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:114:13-79
+activity#com.cxwl.weather.eye.activity.ShawnModifyUserinfoActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:117:9-119:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:119:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:118:13-85
+activity#com.cxwl.weather.eye.activity.ZXingActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:121:9-123:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:123:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:122:13-71
+activity#com.cxwl.weather.eye.activity.WriteParametersActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:125:9-127:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:127:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:126:13-81
+activity#com.cxwl.weather.eye.activity.ReadParametersActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:129:9-131:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:131:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:130:13-80
+activity#com.cxwl.weather.eye.activity.SelectWeatherActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:133:9-135:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:135:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:134:13-79
+activity#com.cxwl.weather.eye.activity.ActivityMsgType
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:137:9-139:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:139:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:138:13-73
+activity#com.cxwl.weather.eye.activity.ShawnCityActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:141:9-143:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:143:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:142:13-75
+activity#com.cxwl.weather.eye.activity.ShawnForecastActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:145:9-147:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:147:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:146:13-79
+activity#com.cxwl.weather.eye.activity.ShawnDelayActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:149:9-153:58
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:151:13-49
+	android:windowSoftInputMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:153:13-55
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:152:13-83
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:150:13-76
+activity#com.cxwl.weather.eye.activity.ActivityVideoPreview
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:155:9-159:58
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:157:13-49
+	android:windowSoftInputMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:159:13-55
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:158:13-83
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:156:13-78
+activity#com.cxwl.weather.eye.activity.ShawnForgetPwdActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:161:9-163:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:163:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:162:13-80
+activity#com.cxwl.weather.eye.activity.ShawnFindPwdActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:165:9-167:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:167:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:166:13-78
+activity#com.cxwl.weather.eye.activity.ActivityDeviceList
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:169:9-171:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:171:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:170:13-76
+activity#com.cxwl.weather.eye.activity.ActivityCalendarVideo
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:173:9-175:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:175:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:174:13-79
+activity#com.cxwl.weather.eye.activity.ActivityHandbook
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:177:9-179:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:179:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:178:13-74
+activity#com.cxwl.weather.eye.activity.ActivityFeedback
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:181:9-183:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:183:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:182:13-74
+activity#com.cxwl.weather.eye.activity.ActivitySelectPicture
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:185:9-187:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:187:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:186:13-79
+activity#com.cxwl.weather.eye.activity.ActivityDisplayPicture
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:189:9-191:52
+	android:screenOrientation
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:191:13-49
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:190:13-80
+activity#com.tencent.tauth.AuthActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:195:9-207:20
+	android:launchMode
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:197:13-44
+	android:noHistory
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:198:13-37
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:196:13-58
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:tencent1108069568
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:199:13-206:29
+action#android.intent.action.VIEW
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:200:17-69
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:200:25-66
+category#android.intent.category.DEFAULT
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:202:17-76
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:202:27-73
+category#android.intent.category.BROWSABLE
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:203:17-78
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:203:27-75
+data
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:205:17-60
+	android:scheme
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:205:23-57
+activity#com.tencent.connect.common.AssistActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:208:9-211:76
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:211:13-74
+	android:theme
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:210:13-72
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:209:13-69
+activity#com.cxwl.weather.eye.shijing.wxapi.WXEntryActivity
+ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:213:9-217:75
+	android:exported
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:216:13-36
+	android:configChanges
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:215:13-74
+	android:theme
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:217:13-72
+	android:name
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml:214:13-58
+uses-sdk
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/constraint-layout-2.0.4.aar/daee1e56fee765c839147aebcd614e56/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/constraint-layout-2.0.4.aar/daee1e56fee765c839147aebcd614e56/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/e40803d2551c66ca8cc9ee18b0b0501c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/e40803d2551c66ca8cc9ee18b0b0501c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-v4-28.0.0.aar/d0dbdeec6ec59e1f101076966ae8b583/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-v4-28.0.0.aar/d0dbdeec6ec59e1f101076966ae8b583/AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/743c6a39f2c6d274ac484f339ef9ff43/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/743c6a39f2c6d274ac484f339ef9ff43/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/f475cfab522ed1df8e4b91402d6749cd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/f475cfab522ed1df8e4b91402d6749cd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/1771292944ba5226becb20691cb1aee1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/1771292944ba5226becb20691cb1aee1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/9608cf867d9fa46c9d53142c6ba9c89c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/9608cf867d9fa46c9d53142c6ba9c89c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/f8d31cbfb86961a289ad64f9b25beda0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/f8d31cbfb86961a289ad64f9b25beda0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-media-compat-28.0.0.aar/a4837de0169d33fccc60f36b50d3af76/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-media-compat-28.0.0.aar/a4837de0169d33fccc60f36b50d3af76/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/3991f45446029978be154909d675ea85/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/3991f45446029978be154909d675ea85/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/7efb84d0af9b24de7b0ade2884172b8a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/7efb84d0af9b24de7b0ade2884172b8a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/48f0458d11e1b3d5c025712a1c201327/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/48f0458d11e1b3d5c025712a1c201327/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/caaeea890eb908c86b9c3e548abcddb4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/caaeea890eb908c86b9c3e548abcddb4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/ea0d1a3ac8c5d87516f3c27e6651e93f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/ea0d1a3ac8c5d87516f3c27e6651e93f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/d7f5ddf1f3b9699ef7f632a06695f7d7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/d7f5ddf1f3b9699ef7f632a06695f7d7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/78b0434366218b9b817cb029b7146eb0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/78b0434366218b9b817cb029b7146eb0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/6653387e6c2bcc2edc62ceb9d3b4a1e4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/6653387e6c2bcc2edc62ceb9d3b4a1e4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/df905306d958414953c0c3ad503f9bf8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/df905306d958414953c0c3ad503f9bf8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/d5d163e9d683a84b94ab22da6f3a7b2b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/d5d163e9d683a84b94ab22da6f3a7b2b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/694b318f413e8498bbc7617f363ce65a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/694b318f413e8498bbc7617f363ce65a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:27.1.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/exifinterface-27.1.0.aar/8566e0da9b24736ea8af16d4f8be6772/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:exifinterface:27.1.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/exifinterface-27.1.0.aar/8566e0da9b24736ea8af16d4f8be6772/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/75d676712fa0d148056b34d7a8a59432/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/75d676712fa0d148056b34d7a8a59432/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/0c08e45235dbe91b0bdbc9c696625009/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/0c08e45235dbe91b0bdbc9c696625009/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/510e1798167804ef493037a57a35ecf5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/510e1798167804ef493037a57a35ecf5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/805212edd48d31e7c87218e926286017/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/805212edd48d31e7c87218e926286017/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/b3525fb97111762cf636cf14edaf91c4/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/b3525fb97111762cf636cf14edaf91c4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/cd230c11f3d5f431a7b5610632802d87/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/cd230c11f3d5f431a7b5610632802d87/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/b93564b671e24778da0bece90dd176cd/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/b93564b671e24778da0bece90dd176cd/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/40322dbf3a9ba6ea018c2280b2092710/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/40322dbf3a9ba6ea018c2280b2092710/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/d776f132e80c4ab99cb0e7d50182128f/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/d776f132e80c4ab99cb0e7d50182128f/AndroidManifest.xml:20:5-44
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		ADDED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/src/main/AndroidManifest.xml
+provider#com.squareup.picasso.PicassoProvider
+ADDED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:8:9-11:40
+	android:authorities
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:10:13-72
+	android:exported
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/sunxiaoming/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/d1fd1d1f0d54c2a827f67fcfd7384841/AndroidManifest.xml:9:13-64

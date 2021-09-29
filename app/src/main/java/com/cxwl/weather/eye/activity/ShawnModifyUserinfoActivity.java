@@ -35,7 +35,7 @@ import okhttp3.Response;
  * 修改个人信息
  * @author shawn_sun
  */
-public class ShawnModifyUserinfoActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnModifyUserinfoActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private TextView tvControl;

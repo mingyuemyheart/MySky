@@ -1,0 +1,31 @@
+#Internal package file, do not edit.
+#Wed Sep 29 10:34:49 CST 2021
+3.set=NATIVE_RESOURCE
+3.path=lib/armeabi-v7a/libAMapSDK_MAP_v6_7_0.so
+2.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/stripDebugSymbol/release/0
+0.path=classes.dex
+5.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/stripDebugSymbol/release/0
+6.baseType=DIRECTORY
+0.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/dexMerger/release/0
+3.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/stripDebugSymbol/release/0
+6.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/stripDebugSymbol/release/0
+5.path=lib/armeabi/libAMapSDK_MAP_v6_7_0.so
+3.baseType=DIRECTORY
+1.path=lib/armeabi-v7a/libtxrtmpsdk.so
+4.set=NATIVE_RESOURCE
+0.baseType=DIRECTORY
+0.set=DEX
+5.baseType=DIRECTORY
+6.set=NATIVE_RESOURCE
+4.path=lib/x86/libAMapSDK_MAP_v6_7_0.so
+count=7
+5.set=NATIVE_RESOURCE
+1.set=NATIVE_RESOURCE
+2.path=lib/arm64-v8a/libAMapSDK_MAP_v6_7_0.so
+2.baseType=DIRECTORY
+2.set=NATIVE_RESOURCE
+1.baseType=DIRECTORY
+4.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/stripDebugSymbol/release/0
+1.base=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/stripDebugSymbol/release/0
+4.baseType=DIRECTORY
+6.path=lib/x86_64/libAMapSDK_MAP_v6_7_0.so

@@ -34,10 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,7 +51,7 @@ import okhttp3.Response;
 /**
  * 未来天气
  */
-public class ShawnForecastActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnForecastActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 	private EyeDto data;

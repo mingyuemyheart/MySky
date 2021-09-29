@@ -27,7 +27,7 @@ import okhttp3.Response;
 /**
  * 修改信息
  */
-public class ShawnFindPwdActivity extends ShawnBaseActivity implements OnClickListener {
+public class ShawnFindPwdActivity extends BaseActivity implements OnClickListener {
 	
 	private Context mContext;
 	private EditText etConfirm,etPwd;

@@ -14,11 +14,8 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.cxwl.weather.eye.R;
 import com.cxwl.weather.eye.common.CONST;
@@ -26,7 +23,7 @@ import com.cxwl.weather.eye.utils.CommonUtil;
 
 public class RoundMenuView extends ImageView implements OnGestureListener {
 	
-	private Context mContext = null;
+	private Context mContext;
 	private static final int childMenuSize = 8;
 	private static final float childAngle = 360f / childMenuSize;
 	private float offsetAngle = 22.5f;
@@ -73,9 +70,9 @@ public class RoundMenuView extends ImageView implements OnGestureListener {
 		menuWidth = x*2;
 		menuHeight = y*2;
 		circleBitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), 
-				R.drawable.eye_iv_circle_menu), menuWidth, menuHeight);
+				R.drawable.eye_circle_menu), menuWidth, menuHeight);
 		dirBitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), 
-				R.drawable.eye_iv_circle_menu_dir), menuWidth/3, menuHeight/3);
+				R.drawable.eye_circle_menu_dir), menuWidth/3, menuHeight/3);
 	}
 	
 	@SuppressLint("DrawAllocation")
@@ -246,28 +243,27 @@ public class RoundMenuView extends ImageView implements OnGestureListener {
 
 	@Override
 	public boolean onDown(MotionEvent e) {
-		// TODO Auto-generated method stub
 //		Toast.makeText(mContext, ""+selectId, Toast.LENGTH_SHORT).show();
-		//操作类型 1 上，2下，3左，4右，5右上，6左上，7右下，8左下，
+		//操作类型 0 上，1右上，2右，3右下，4下，5左下，6左，7左上，方向（0-7，0代表上，顺时针方向依次对应）
 		//10变倍大，11变倍小，13聚焦近，14聚焦远，17打开光圈，18关闭光圈，19打开雨刷，
 		//20关闭雨刷，23巡航开始，24巡航关闭，30亮度，31色度，32对比度，33饱和度
 		String orderType = null;
 		if (selectId == 0) {//右下
-			orderType = "7";
-		}else if (selectId == 1) {//下
-			orderType = "2";
-		}else if (selectId == 2) {//左下
-			orderType = "8";
-		}else if (selectId == 3) {//左
 			orderType = "3";
-		}else if (selectId == 4) {//左上
-			orderType = "6";
-		}else if (selectId == 5) {//上
-			orderType = "1";
-		}else if (selectId == 6) {//右上
-			orderType = "5";
-		}else if (selectId == 7) {//右
+		}else if (selectId == 1) {//下
 			orderType = "4";
+		}else if (selectId == 2) {//左下
+			orderType = "5";
+		}else if (selectId == 3) {//左
+			orderType = "6";
+		}else if (selectId == 4) {//左上
+			orderType = "7";
+		}else if (selectId == 5) {//上
+			orderType = "0";
+		}else if (selectId == 6) {//右上
+			orderType = "1";
+		}else if (selectId == 7) {//右
+			orderType = "2";
 		}
 		if (!TextUtils.isEmpty(orderType)) {
 			Intent intent = new Intent();
@@ -280,13 +276,10 @@ public class RoundMenuView extends ImageView implements OnGestureListener {
 
 	@Override
 	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -306,19 +299,15 @@ public class RoundMenuView extends ImageView implements OnGestureListener {
 
 	@Override
 	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	/**
 	 * 计算点在那个扇形区域
-	 * 
 	 * @param X
 	 * @param Y
 	 * @param R 半径

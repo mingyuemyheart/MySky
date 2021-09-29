@@ -115,7 +115,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/shawn_selector_login"
+            android:background="@drawable/selector_login"
             android:gravity="center"
             android:text="确   定"
             android:textColor="@color/white"

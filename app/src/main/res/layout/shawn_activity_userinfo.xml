@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/reTitle"
-        layout="@layout/shawn_layout_title" />
+        layout="@layout/layout_title" />
     
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:id="@+id/llName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shawn_selector_item"
+            android:background="@drawable/selector_item"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
@@ -51,7 +51,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shawn_icon_arrow" />
+                android:background="@drawable/icon_arrow" />
         </LinearLayout>
 
         <TextView
@@ -65,7 +65,7 @@
             android:id="@+id/llMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shawn_selector_item"
+            android:background="@drawable/selector_item"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
@@ -91,7 +91,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shawn_icon_arrow" />
+                android:background="@drawable/icon_arrow" />
         </LinearLayout>
 
         <TextView
@@ -105,7 +105,7 @@
             android:id="@+id/llPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shawn_selector_item"
+            android:background="@drawable/selector_item"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
@@ -131,7 +131,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shawn_icon_arrow" />
+                android:background="@drawable/icon_arrow" />
         </LinearLayout>
 
         <TextView

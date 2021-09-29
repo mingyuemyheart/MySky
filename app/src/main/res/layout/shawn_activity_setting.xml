@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/reTitle"
-        layout="@layout/shawn_layout_title"/>
+        layout="@layout/layout_title"/>
 
     <LinearLayout
         android:id="@+id/llPwd"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/reTitle"
-        android:background="@drawable/shawn_selector_item"
+        android:background="@drawable/selector_item"
         android:gravity="center_vertical"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
@@ -32,7 +32,7 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:background="@drawable/shawn_icon_arrow"/>
+            android:background="@drawable/icon_arrow"/>
     </LinearLayout>
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/shawn_selector_login"
+        android:background="@drawable/selector_login"
         android:gravity="center"
         android:text="退  出"
         android:textColor="@color/white"

@@ -17,7 +17,7 @@ import com.cxwl.weather.eye.utils.OkHttpUtil;
 /**
  * 设置界面
  */
-public class ShawnSettingActivity extends ShawnBaseActivity implements OnClickListener{
+public class ShawnSettingActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext;
 
@@ -47,7 +47,7 @@ public class ShawnSettingActivity extends ShawnBaseActivity implements OnClickLi
 	 */
 	private void dialogLogout(String message, String content) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.shawn_dialog_delete, null);
+		View view = inflater.inflate(R.layout.dialog_delete, null);
 		TextView tvMessage = view.findViewById(R.id.tvMessage);
 		TextView tvContent = view.findViewById(R.id.tvContent);
 		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
@@ -73,7 +73,7 @@ public class ShawnSettingActivity extends ShawnBaseActivity implements OnClickLi
 				dialog.dismiss();
 				MyApplication.clearUserInfo(mContext);
 				OkHttpUtil.cookieMap.clear();
-				startActivity(new Intent(mContext, ShawnLoginActivity.class));
+				startActivity(new Intent(mContext, ActivityLogin.class));
 				finish();
 				MyApplication.destoryActivity();
 			}

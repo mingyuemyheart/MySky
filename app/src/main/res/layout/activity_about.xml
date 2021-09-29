@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/layout_title2"/>
+
+    <ImageView
+        android:id="@+id/ivQrCode"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/icon_qrcode"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle"/>
+
+    <TextView
+        android:id="@+id/tvPress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/ivQrCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="长按分享客户端"
+        android:textSize="@dimen/level_4"
+        android:textColor="@color/text_color4"/>
+
+    <TextView
+        android:id="@+id/tvVersion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tvPress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="@dimen/level_4"
+        android:textColor="@color/colorAccent"/>
+
+    <LinearLayout
+        android:id="@+id/llUse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:layout_marginTop="1dp"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvVersion">
+
+        <TextView
+            android:id="@+id/tvUse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="用户手册"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llFeedBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llUse">
+
+        <TextView
+            android:id="@+id/tvFeedback"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="意见反馈"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llIntro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llFeedBack">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="产品说明"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llProtocal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llIntro">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="用户协议"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPrivacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llProtocal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="隐私声明"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

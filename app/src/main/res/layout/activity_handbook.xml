@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/layout_title2"/>
+
+    <LinearLayout
+        android:id="@+id/llPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:layout_marginTop="1dp"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="设备预览"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llPreview">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="天气日历"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDelay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llCalendar">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="延时视频"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPush"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llDelay">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="消息推送"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPermission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/llPush">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="用户权限"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/level_4" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_arrow" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

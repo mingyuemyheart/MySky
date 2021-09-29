@@ -1,0 +1,4 @@
+#Wed Sep 29 10:34:49 CST 2021
+base.0=/Users/sunxiaoming/Downloads/AndroidStudioProjects/MySky/app/build/intermediates/transforms/dexMerger/release/0
+renamed.0=classes.dex
+path.0=classes.dex

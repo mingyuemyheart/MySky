@@ -1,10 +1,10 @@
 package com.cxwl.weather.eye.activity;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -41,7 +41,7 @@ import okhttp3.Response;
 /**
  * 数据采集
  */
-public class SelectWeatherActivity extends ShawnBaseActivity implements OnClickListener{
+public class SelectWeatherActivity extends BaseFragmentActivity implements OnClickListener{
 	
 	private Context mContext = null;
 	private TextView tvTitle = null;
@@ -53,7 +53,7 @@ public class SelectWeatherActivity extends ShawnBaseActivity implements OnClickL
 	private TextView tvBar1, tvBar2, tvBar3, tvBar4, tvBar5, tvBar6, tvBar7, tvBar8;
 	private MainViewPager viewPager = null;
 	private MyPagerAdapter pagerAdapter = null;
-	private List<Fragment> fragments = new ArrayList<>();
+	private ArrayList<Fragment> fragments = new ArrayList<>();
 	private LinearLayout llContent = null;
 	
 	@Override
@@ -71,7 +71,7 @@ public class SelectWeatherActivity extends ShawnBaseActivity implements OnClickL
 		llBack = (LinearLayout) findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
 		ivBack = (ImageView) findViewById(R.id.ivBack);
-		ivBack.setImageResource(R.drawable.shawn_icon_close);
+		ivBack.setImageResource(R.drawable.icon_close);
 		tvTemp = (TextView) findViewById(R.id.tvTemp);
 		tvHumidity = (TextView) findViewById(R.id.tvHumidity);
 		tvRain = (TextView) findViewById(R.id.tvRain);
@@ -119,7 +119,7 @@ public class SelectWeatherActivity extends ShawnBaseActivity implements OnClickL
 		}
 			
 		viewPager = (MainViewPager) findViewById(R.id.viewPager);
-		pagerAdapter = new MyPagerAdapter(SelectWeatherActivity.this, fragments);
+		pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setSlipping(true);//设置ViewPager是否可以滑动
 		viewPager.setOffscreenPageLimit(fragments.size());

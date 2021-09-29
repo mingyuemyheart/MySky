@@ -5,7 +5,13 @@ import android.os.Parcelable;
 
 public class EyeDto implements Parcelable{
 
+	public String deviceInfoId;//设备信息主键
+	public String fileType;//文件类型(0 图片,1视频)
+	public boolean isShow = true;//是否显示当前设备
 	public String videoThumbUrl;//视频列表缩略图url
+	public String videoUrl;
+	public String videoDuration;
+	public String streamStatus;//流状态，1为正常，0为异常
 	public String location;
 	public String fGroupId;//设备组id
 	public String fId;//设备id
@@ -24,6 +30,10 @@ public class EyeDto implements Parcelable{
 	public String forePosition;//预位置
 	public String facilityUrlTes;
 	public float distance;//距离
+	public int drawable;
+	public long fileSize;//文件大小
+	public boolean isSelected;
+	public String imgName;
 
 	public String time;//逐小时
 	public float temperature;//温度
@@ -55,7 +65,13 @@ public class EyeDto implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.deviceInfoId);
+		dest.writeString(this.fileType);
+		dest.writeByte((byte) (isShow ? 1 : 0));
 		dest.writeString(this.videoThumbUrl);
+		dest.writeString(this.videoUrl);
+		dest.writeString(this.videoDuration);
+		dest.writeString(this.streamStatus);
 		dest.writeString(this.location);
 		dest.writeString(this.fGroupId);
 		dest.writeString(this.fId);
@@ -74,6 +90,10 @@ public class EyeDto implements Parcelable{
 		dest.writeString(this.forePosition);
 		dest.writeString(this.facilityUrlTes);
 		dest.writeFloat(this.distance);
+		dest.writeInt(this.drawable);
+		dest.writeLong(this.fileSize);
+		dest.writeByte((byte) (isSelected ? 1 : 0));
+		dest.writeString(this.imgName);
 		dest.writeString(this.time);
 		dest.writeFloat(this.temperature);
 		dest.writeFloat(this.quality);
@@ -94,7 +114,13 @@ public class EyeDto implements Parcelable{
 	}
 
 	protected EyeDto(Parcel in) {
+		this.deviceInfoId = in.readString();
+		this.fileType = in.readString();
+		this.isShow = in.readByte() != 0;
 		this.videoThumbUrl = in.readString();
+		this.videoUrl = in.readString();
+		this.videoDuration = in.readString();
+		this.streamStatus = in.readString();
 		this.location = in.readString();
 		this.fGroupId = in.readString();
 		this.fId = in.readString();
@@ -113,6 +139,10 @@ public class EyeDto implements Parcelable{
 		this.forePosition = in.readString();
 		this.facilityUrlTes = in.readString();
 		this.distance = in.readFloat();
+		this.drawable = in.readInt();
+		this.fileSize = in.readLong();
+		this.isSelected = in.readByte() != 0;
+		this.imgName = in.readString();
 		this.time = in.readString();
 		this.temperature = in.readFloat();
 		this.quality = in.readFloat();

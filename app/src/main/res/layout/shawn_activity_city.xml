@@ -7,13 +7,13 @@
 
     <include
         android:id="@+id/reTitle"
-        layout="@layout/shawn_layout_title"/>
+        layout="@layout/layout_title"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_margin="10dp"
-        android:background="@drawable/shawn_bg_corner_edittext"
+        android:background="@drawable/bg_corner_edittext"
         android:paddingStart="10dp"
         android:paddingEnd="10dp">
 

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/layout_title2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:text="选择反馈类型"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/starType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="*"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toEndOf="@+id/tvType"
+                app:layout_constraintTop_toTopOf="@+id/tvType"
+                app:layout_constraintBottom_toBottomOf="@+id/tvType"/>
+
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rb2"
+                app:layout_constraintTop_toTopOf="@+id/rb2"
+                app:layout_constraintBottom_toBottomOf="@+id/rb2"
+                android:checked="true"
+                android:text="实时预览"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"/>
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@+id/rb1"
+                app:layout_constraintEnd_toStartOf="@+id/rb3"
+                app:layout_constraintTop_toBottomOf="@+id/tvType"
+                android:checked="false"
+                android:text="设备控制"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"/>
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintStart_toEndOf="@+id/rb2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb2"
+                app:layout_constraintBottom_toBottomOf="@+id/rb2"
+                android:checked="false"
+                android:text="天气日历"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"/>
+
+            <RadioButton
+                android:id="@+id/rb4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rb5"
+                app:layout_constraintTop_toTopOf="@+id/rb5"
+                app:layout_constraintBottom_toBottomOf="@+id/rb5"
+                android:checked="false"
+                android:text="延时视频"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"/>
+
+            <RadioButton
+                android:id="@+id/rb5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@+id/rb4"
+                app:layout_constraintEnd_toStartOf="@+id/rb6"
+                app:layout_constraintTop_toBottomOf="@+id/rb2"
+                android:checked="false"
+                android:text="消息推送"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"/>
+
+            <RadioButton
+                android:id="@+id/rb6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintStart_toEndOf="@+id/rb5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb5"
+                app:layout_constraintBottom_toBottomOf="@+id/rb5"
+                android:checked="false"
+                android:text="其它"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"/>
+
+            <TextView
+                android:id="@+id/divider1"
+                app:layout_constraintTop_toBottomOf="@+id/rb5"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="补充详情"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider1"/>
+
+            <TextView
+                android:id="@+id/starInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="*"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toEndOf="@+id/tvInfo"
+                app:layout_constraintTop_toTopOf="@+id/tvInfo"
+                app:layout_constraintBottom_toBottomOf="@+id/tvInfo"/>
+
+            <TextView
+                android:id="@+id/tvTextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="0/200"
+                app:layout_constraintTop_toTopOf="@+id/tvInfo"
+                app:layout_constraintBottom_toBottomOf="@+id/tvInfo"
+                app:layout_constraintStart_toEndOf="@+id/starInfo"
+                android:textColor="@color/text_color2"
+                android:textSize="@dimen/level_5" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_corner_edittext"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvInfo">
+
+                <EditText
+                    android:id="@+id/etContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/transparent"
+                    android:gravity="top|start"
+                    android:lineSpacingExtra="3dp"
+                    android:maxLength="200"
+                    android:minLines="5"
+                    android:padding="5dp"
+                    android:textColor="@color/text_color4"
+                    android:textColorHint="@color/text_color2"
+                    android:textSize="@dimen/level_4" />
+
+                <com.cxwl.weather.eye.view.MyGridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/etContent"
+                    android:layout_marginTop="15dp"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:fadingEdge="none"
+                    android:gravity="center"
+                    android:horizontalSpacing="10dp"
+                    android:listSelector="@android:color/transparent"
+                    android:numColumns="3"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="3dp" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/divider2"
+                app:layout_constraintTop_toBottomOf="@+id/clInfo"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="联系方式"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2"/>
+
+            <TextView
+                android:id="@+id/starMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="*"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toEndOf="@+id/tvMobile"
+                app:layout_constraintTop_toTopOf="@+id/tvMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMobile"/>
+
+            <TextView
+                android:id="@+id/strMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="手机号码/邮箱地址"
+                app:layout_constraintTop_toTopOf="@+id/tvMobile"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMobile"
+                app:layout_constraintStart_toEndOf="@+id/starMobile"
+                android:textColor="@color/text_color2"
+                android:textSize="@dimen/level_5" />
+
+            <EditText
+                android:id="@+id/etMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvMobile"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_corner_edittext"
+                android:gravity="top|start"
+                android:lineSpacingExtra="3dp"
+                android:padding="10dp"
+                android:textColor="@color/text_color4"
+                android:textColorHint="@color/text_color2"
+                android:textSize="@dimen/level_4" />
+
+            <TextView
+                android:id="@+id/tvSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/etMobile"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/selector_login"
+                android:text="提交"
+                android:textSize="@dimen/level_3"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

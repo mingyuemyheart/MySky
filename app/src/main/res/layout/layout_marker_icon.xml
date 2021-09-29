@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+    <ImageView 
+        android:id="@+id/ivMarker"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/icon_eye"/>
+    
+    <TextView 
+        android:id="@+id/tvMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:background="@drawable/bg_marker_icon"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/level_6"/>
+
+</LinearLayout>

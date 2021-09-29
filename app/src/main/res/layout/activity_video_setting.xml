@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/layout_title" />
+
+    <include
+        android:id="@+id/clVideoView"
+        layout="@layout/layout_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clVideoView">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+
+            <com.cxwl.weather.eye.view.RoundMenuView
+                android:id="@+id/roundMenuView"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/ivMenuDir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/eye_circle_menu_dir"
+                app:layout_constraintBottom_toBottomOf="@+id/roundMenuView"
+                app:layout_constraintEnd_toEndOf="@+id/roundMenuView"
+                app:layout_constraintStart_toStartOf="@+id/roundMenuView"
+                app:layout_constraintTop_toTopOf="@+id/roundMenuView" />
+
+            <android.support.constraint.ConstraintLayout
+                android:visibility="gone"
+                android:id="@+id/clSpeed"
+                android:layout_width="140dp"
+                android:layout_height="36dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/eye_bg_corner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/roundMenuView">
+
+                <ImageView
+                    android:id="@+id/ivMinuseSpeed"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/eye_selector_minuse"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.5"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivPlusSpeed"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/shawn_selector_plus"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvPrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="调节网眼移动速度"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/level_5"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clSpeed" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clGQ"
+                android:layout_width="140dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/eye_bg_corner"
+                app:layout_constraintEnd_toStartOf="@+id/clJJ"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrompt">
+
+                <ImageView
+                    android:id="@+id/ivGQOn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/eye_selector_on"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvValueGQ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="光圈"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivGQOff"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/eye_selector_off"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clJJ"
+                android:layout_width="140dp"
+                android:layout_height="36dp"
+                android:background="@drawable/eye_bg_corner"
+                app:layout_constraintBottom_toBottomOf="@+id/clGQ"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/clGQ"
+                app:layout_constraintTop_toTopOf="@+id/clGQ">
+
+                <ImageView
+                    android:id="@+id/ivMinuseJJ"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/eye_selector_minuse"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvValueJJ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="聚焦"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivPlusJJ"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/shawn_selector_plus"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clBB"
+                android:visibility="gone"
+                android:layout_width="140dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/eye_bg_corner"
+                app:layout_constraintEnd_toStartOf="@+id/clYS"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clGQ">
+
+                <ImageView
+                    android:id="@+id/ivMinuseBB"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/eye_selector_minuse"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvValueBB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="变倍"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivPlusBB"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/shawn_selector_plus"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clYS"
+                android:visibility="gone"
+                android:layout_width="140dp"
+                android:layout_height="36dp"
+                android:background="@drawable/eye_bg_corner"
+                app:layout_constraintBottom_toBottomOf="@+id/clBB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/clBB"
+                app:layout_constraintTop_toTopOf="@+id/clBB">
+
+                <ImageView
+                    android:id="@+id/ivPlusYS"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/eye_selector_on"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvValue5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="雨刷"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivMinuseYS"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/eye_selector_off"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/strLight"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="亮   度"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clBB" />
+
+            <SeekBar
+                android:visibility="gone"
+                android:id="@+id/seekBar1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:maxHeight="5dp"
+                android:minHeight="2dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/eye_seekbar_drawable"
+                android:thumb="@drawable/eye_seekbar_thumb"
+                app:layout_constraintBottom_toBottomOf="@+id/strLight"
+                app:layout_constraintEnd_toStartOf="@+id/tvSeekBar1"
+                app:layout_constraintStart_toEndOf="@+id/strLight"
+                app:layout_constraintTop_toTopOf="@+id/strLight" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvSeekBar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:text="50"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/strLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/strLight" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/strDuibi"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="对比度"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/strLight" />
+
+            <SeekBar
+                android:visibility="gone"
+                android:id="@+id/seekBar2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:maxHeight="5dp"
+                android:minHeight="2dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/eye_seekbar_drawable"
+                android:thumb="@drawable/eye_seekbar_thumb"
+                app:layout_constraintBottom_toBottomOf="@+id/strDuibi"
+                app:layout_constraintEnd_toStartOf="@+id/tvSeekBar2"
+                app:layout_constraintStart_toEndOf="@+id/strDuibi"
+                app:layout_constraintTop_toTopOf="@+id/strDuibi" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvSeekBar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:text="50"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/strDuibi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/strDuibi" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/strBaohe"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="饱和度"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/strDuibi" />
+
+            <SeekBar
+                android:visibility="gone"
+                android:id="@+id/seekBar3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="2dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/eye_seekbar_drawable"
+                android:thumb="@drawable/eye_seekbar_thumb"
+                app:layout_constraintBottom_toBottomOf="@+id/strBaohe"
+                app:layout_constraintEnd_toStartOf="@+id/tvSeekBar3"
+                app:layout_constraintStart_toEndOf="@+id/strBaohe"
+                app:layout_constraintTop_toTopOf="@+id/strBaohe" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvSeekBar3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:text="50"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/strBaohe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/strBaohe" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/strSedu"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="色   度"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/strBaohe" />
+
+            <SeekBar
+                android:visibility="gone"
+                android:id="@+id/seekBar4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:maxHeight="5dp"
+                android:minHeight="2dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/eye_seekbar_drawable"
+                android:thumb="@drawable/eye_seekbar_thumb"
+                app:layout_constraintBottom_toBottomOf="@+id/strSedu"
+                app:layout_constraintEnd_toStartOf="@+id/tvSeekBar4"
+                app:layout_constraintStart_toEndOf="@+id/strSedu"
+                app:layout_constraintTop_toTopOf="@+id/strSedu" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvSeekBar4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:text="50"
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/strSedu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/strSedu" />
+
+            <TextView
+                android:id="@+id/strPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:text="摄像机预设位："
+                android:textColor="#bdbdbd"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/strSedu" />
+
+            <TextView
+                android:id="@+id/tvForePosition"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_corner_fore_position"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="40dp"
+                android:text="1"
+                android:paddingStart="15dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/strPosition"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/strPosition"
+                app:layout_constraintTop_toTopOf="@+id/strPosition" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/layoutDelayVideo"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:layout_height="0dp"
+        android:background="#a0000000"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include
+            layout="@layout/layout_delay_video"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutDate"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#a0000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            layout="@layout/layout_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

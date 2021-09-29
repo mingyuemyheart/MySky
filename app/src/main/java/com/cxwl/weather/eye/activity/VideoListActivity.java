@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cxwl.weather.eye.R;
+import com.cxwl.weather.eye.adapter.AdapterHomeList;
 import com.cxwl.weather.eye.adapter.ShawnMainListAdapter;
 import com.cxwl.weather.eye.common.CONST;
 import com.cxwl.weather.eye.common.MyApplication;
@@ -41,14 +42,14 @@ import okhttp3.Response;
 /**
  * 视频列表
  */
-public class VideoListActivity extends ShawnBaseActivity implements OnClickListener{
+public class VideoListActivity extends BaseActivity implements OnClickListener{
 	
 	private Context mContext = null;
 	private TextView tvTitle = null;
 	private LinearLayout llBack = null;
 	private ListView listView = null;
 	private ShawnMainListAdapter videoAdapter = null;
-	private List<EyeDto> videoList = new ArrayList<>();
+	private ArrayList<EyeDto> videoList = new ArrayList<>();
 	private int page = 1;
 	private int pageCount = 20;
 	private RefreshLayout refreshLayout = null;//下拉刷新布局
@@ -128,7 +129,7 @@ public class VideoListActivity extends ShawnBaseActivity implements OnClickListe
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				EyeDto dto = videoList.get(arg2);
-				Intent intent = new Intent(mContext, ShawnVideoDetailActivity.class);
+				Intent intent = new Intent(mContext, ActivityVideoDetail.class);
 				Bundle bundle = new Bundle();
 				bundle.putParcelable("data", dto);
 				intent.putExtras(bundle);
